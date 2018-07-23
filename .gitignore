@@ -1,0 +1,8 @@
+Unity/Assets/Slua/LuaObject
+Unity/Assets/Slua/LuaObject.meta
+
+Unity/.vs/
+Unity/Library/
+Unity/Temp/
+
+*.csproj

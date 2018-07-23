@@ -1,0 +1,1 @@
+LTreeNode = LTreeNode or BaseClass
