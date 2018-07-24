@@ -31,6 +31,7 @@ require("Test/LScrollPageTest")
 require("Demo/BaseDemo")
 require("Demo/DemoManager")
 require("Demo/DemoScrollViewItem")
+require("Demo/LDemoItem")
 require("Demo/LScrollViewDemo")
 
 Tween.New()
@@ -38,7 +39,7 @@ Tween.New()
 _print = print
 print = Debug.LogError
 
-local root = GameObject.Find("UIRoot")
+DemoManager.New(GameObject.Find("UIRoot").transform)
 -- local go = root.transform:Find("List")
 -- ListViewPanel.New(go)
 
@@ -50,7 +51,7 @@ local root = GameObject.Find("UIRoot")
 -- ExpandablePanel.New(go)
 
 -- LListTest.New(root.transform:Find("LListTest").gameObject)
-LScrollViewTest.New(root.transform:Find("LScrollViewTest").gameObject)
+-- LScrollViewTest.New(root.transform:Find("LScrollViewTest").gameObject)
 -- LScrollPageTest.New(root.transform:Find("LScrollPageTest").gameObject)
 
 function Update()

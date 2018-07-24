@@ -1,12 +1,12 @@
-LTestItem = LTestItem or BaseClass(LItem)
+LDemoItem = LDemoItem or BaseClass(LItem)
 
-function LTestItem:__init()
+function LDemoItem:__init()
     local transform = self.transform
     self.transform = transform
     self.text = transform:Find("Text"):GetComponent(Text)
 end
 
-function LTestItem:SetData(data, commonData)
+function LDemoItem:SetData(data, commonData)
     self.text.text = self.index
     local sizeType = commonData.sizeType
     if sizeType == TestDefine.SizeType.fix then
@@ -35,13 +35,6 @@ function LTestItem:SetData(data, commonData)
             self.transform.sizeDelta = Vector2(20, 30)
         else
             self.transform.sizeDelta = Vector2(40, 30)
-        end
-    elseif sizeType == TestDefine.SizeType.specified3 then
-        local column = math.floor((self.index - 1) / 3)
-        if self.index % 3 == 1 then
-            self.transform.sizeDelta = Vector2(20, 50)
-        else
-            self.transform.sizeDelta = Vector2(40, 20)
         end
     end
 end

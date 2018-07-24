@@ -7,5 +7,5 @@ function DemoScrollViewItem:__init()
 end
 
 function DemoScrollViewItem:SetData(data, commonData)
-    self.text.text = data
+    self.text.text = data.name
 end

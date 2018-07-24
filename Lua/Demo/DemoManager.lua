@@ -4,44 +4,47 @@ DemoManager.Config = {
     {name = "LScrollViewDemo"},
 }
 
-function DemoManager:__init(transform)
+function DemoManager:__init(rootTrans)
     if DemoManager.Instance then
         return 
     end
     DemoManager.Instance = self
 
-    self.transform = transform
-    self.mainGo = transform.gameObject
+    self.currentIndex = nil
+
+    local transform = rootTrans
+    self.returnGo = transform:Find("ReturnButton").gameObject
+    self.returnGo:SetActive(false)
+    transform:Find("ReturnButton"):GetComponent(Button).onClick:AddListener(function() self:OnReturnClick() end)
+    self.menuGo = rootTrans:Find("Menu").gameObject
+    local scrollView = LScrollView.New(transform:Find("Menu"), DemoScrollViewItem, nil, 4)
+    scrollView:SetGap(20, 100)
+    scrollView.ItemSelectEvent:AddListener(function(index, item) self:OnItemClick(index, item) end)
+    scrollView:SetData(DemoManager.Config)
 
     self.demoList = {}
     for i = 1, #DemoManager.Config do
         local config = DemoManager.Config[i]
         local demoTrans = transform:Find(config.name)
-        local demo = _G[config.name].New(transform)
+        local demo = _G[config.name].New(demoTrans)
         demoTrans.gameObject:SetActive(false)
         table.insert(self.demoList, demo)
     end
-
-    self.returnGo = transform:Find("Return").gameObject
-    transform:Find("Return"):GetComponent(Button).onClick:AddListener(function() self:OnReturnClick() end)
-    local scrollView = LScrollView.New(transform, DemoScrollViewItem, nil, 5)
-    scrollView:SetGap(10, 10)
-    scrollView.ItemSelectEvent:AddListener(function(index, item) self:OnItemClick() end)
-    scrollView:SetData(DemoManager.Config)
 end
 
 function DemoManager:OnItemClick(index, item)
-    local config = DemoManager.Config[index]
-    local transform = self.transform:Find(config.name)
-    _G[config.name].New(transform)
+    self.currentIndex = index
+    self.returnGo:SetActive(true)
+    local demo = self.demoList[index]
+    demo:SetActive(true)
+    demo:SetData()
+    self.menuGo:SetActive(false)
 end
 
 function DemoManager:OnReturnClick()
-    self.mainGo:SetActive(true)
-    --TODO
-    for i = 1, #self.demoList do
-    end
-    self.returnButton.onClick:AddListener(function() self:OnReturnClick() end)
+    self.returnGo:SetActive(false)
+    self.menuGo:SetActive(true)
+    self.demoList[self.currentIndex]:SetActive(false)
 end
 
 

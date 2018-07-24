@@ -40,7 +40,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 47, y: 0, z: 47, w: 0}
-  spritePixelsToUnits: 1
+  spritePixelsToUnits: 100
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -76,7 +76,7 @@ TextureImporter:
     overridden: 1
   - buildTarget: Standalone
     maxTextureSize: 512
-    textureFormat: -1
+    textureFormat: 25
     textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
