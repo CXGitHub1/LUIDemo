@@ -53,6 +53,8 @@
 
 -- 14 测试SetData从有到无的情况
 
+-- 15 试过每帧只处理一个事件，结果导致创建了太多新Item
+
 --focus只能瞬移(SetData) 要缓动只能提供个固定大小的参数
 
 LScrollView = LScrollView or BaseClass()
@@ -344,26 +346,35 @@ function LScrollView:RemoveEndOutMask()
     return false
 end
 
+function LScrollView:CanAddAtStart()
+    return self.startIndex > 1 and self:ContentStartInMask()
+end
+
+function LScrollView:CanAddAtEnd()
+    return self.endIndex < #self.dataList and self:ContentEndInMask()
+end
+
 function LScrollView:OnValueChanged()
-    local left, right, top, bottom = self:GetContentBound()
-    if self:ContentContainMask() then
-        if self:RemoveEndOutMask() then
-        else
-            self:RemoveStartOutMask()
-        end
-    else
-        if self.startIndex > 1 and self:ContentStartInMask() then
-            repeat
-                self:AddAtStart()
-            until self.startIndex <= 1 or not self:ContentStartInMask()
-        elseif self:ContentEndInMask() then
-            if self.endIndex < #self.dataList then
-                repeat
-                    self:AddAtEnd()
-                until self.endIndex >= #self.dataList or not self:ContentEndInMask()
-            else
-                self.ReachBottomEvent:Fire()
+    if not self:ContentContainMask() then
+        print("ContentContainMask")
+        if self:ContentEndInMask() then
+            print("ContentEndInMask")
+            if self.endIndex == #self.dataList then
+                if self.reachBottomFire == false then
+                    self.ReachBottomEvent:Fire()
+                    self.reachBottomFire = true
+                end
             end
+        end
+        while(self:CanAddAtStart()) do
+            print("AddAtStart")
+            self:RemoveEndOutMask()
+            self:AddAtStart()
+        end
+        while(self:CanAddAtEnd()) do
+            print("AddAtEnd")
+            self:RemoveStartOutMask()
+            self:AddAtEnd()
         end
     end
 end
