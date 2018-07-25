@@ -3,7 +3,7 @@ LScrollViewDemo = LScrollViewDemo or BaseClass(BaseDemo)
 
 LScrollViewDemo.Config = {
     {column = 2, dataLength = 20, sizeType = TestDefine.SizeType.specified1},
-    {row = 3, dataLength = 1000, startIndex = 100, gapVertical = 10, gapHorizontal = 10, TestDefine.SizeType.fix},
+    {row = 3, dataLength = 10000, startIndex = 1000, gapVertical = 10, gapHorizontal = 10, sizeType = TestDefine.SizeType.specified3},
     -- {column = 3, dataLength = 20, startIndex = 2, gapVertical = 10, gapHorizontal = 10,
     --     paddingLeft = 5, paddingRight = 20, paddingTop = 40, paddingBottom = 50,
     --     sizeType = TestDefine.SizeType.specified2},

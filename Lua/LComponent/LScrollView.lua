@@ -353,10 +353,14 @@ function LScrollView:OnValueChanged()
         end
     else
         if self.startIndex > 1 and self:ContentStartInMask() then
-            self:AddAtStart()
+            repeat
+                self:AddAtStart()
+            until self.startIndex <= 1 or not self:ContentStartInMask()
         elseif self:ContentEndInMask() then
             if self.endIndex < #self.dataList then
-                self:AddAtEnd()
+                repeat
+                    self:AddAtEnd()
+                until self.endIndex >= #self.dataList or not self:ContentEndInMask()
             else
                 self.ReachBottomEvent:Fire()
             end

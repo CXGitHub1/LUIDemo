@@ -6,5 +6,6 @@ TestDefine.SizeType = {
     decrease = 3,   --越来越大
     specified = 4,   --指定
     specified1 = 5,   --指定1
-    specified6 = 6,   --指定2
+    specified2 = 6,   --指定2
+    specified3 = 7,   --指定3
 }

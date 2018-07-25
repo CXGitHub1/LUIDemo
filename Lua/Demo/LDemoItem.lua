@@ -36,5 +36,12 @@ function LDemoItem:SetData(data, commonData)
         else
             self.transform.sizeDelta = Vector2(40, 30)
         end
+    elseif sizeType == TestDefine.SizeType.specified3 then
+        local row = math.floor((self.index - 1) / 3)
+        if (row % 2) == 1 then
+            self.transform.sizeDelta = Vector2(20, 30)
+        else
+            self.transform.sizeDelta = Vector2(40, 30)
+        end
     end
 end
