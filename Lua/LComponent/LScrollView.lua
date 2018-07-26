@@ -83,9 +83,9 @@ function LScrollView:__init(transform, itemType, row, column)
     self.ReachBottomEvent = EventLib.New()
 
     self.contentTrans = transform:Find(LScrollView.MASK_NAME .."/" .. LScrollView.CONTENT_NAME)
-    self:InitMask(transform:Find(LScrollView.MASK_NAME))
-    self:InitTemplateItem()
-    self:InitScrollRect(transform)
+    self:_InitMask(transform:Find(LScrollView.MASK_NAME))
+    self:_InitTemplateItem()
+    self:_InitScrollRect(transform)
 
     self.itemDict = nil
     self.itemPoolList = {}
@@ -114,37 +114,8 @@ function LScrollView:SetPadding(paddingLeft, paddingRight, paddingTop, paddingBo
     end
 end
 
-function LScrollView:InitMask(transform)
-    local mask = transform:GetComponent(Mask)
-    self.mask = mask
-    self.maskWidth = mask.transform.sizeDelta.x
-    self.maskHeight = mask.transform.sizeDelta.y
-end
-
-function LScrollView:InitTemplateItem(transform)
-    local template = self.contentTrans:Find(LScrollView.ITEM_NAME).gameObject
-    self.template = template
-    template:SetActive(false)
-end
-
-function LScrollView:InitScrollRect(transform)
-    local scrollRect = transform:GetComponent(LScrollRect)
-    self.scrollRect = scrollRect
-    self.scrollRect.onValueChanged:AddListener(function(value) self:OnValueChanged(value) end)
-    if scrollRect.vertical then
-        self.scrollDirection = LScrollView.Direction.vertical
-    else
-        self.scrollDirection = LScrollView.Direction.horizontal
-    end
-end
-
-function LScrollView:__delete()
-    UtilsBase.FieldDeleteMe(self, "ItemSelectEvent")
-end
-
--- public function
 function LScrollView:SetStartIndex(index)
-    self.startIndex = self:GetStartIndex(index)
+    self.startIndex = self:_GetStartIndex(index)
 end
 
 function LScrollView:SetData(dataList, commonData)
@@ -157,7 +128,7 @@ function LScrollView:SetData(dataList, commonData)
     local x = self.paddingLeft
     local y = -self.paddingTop
     if not isFirst then
-        if self:IsVerticalScroll() then
+        if self:_IsVerticalScroll() then
             y = 0
         else
             x = 0
@@ -173,39 +144,85 @@ function LScrollView:SetData(dataList, commonData)
         item:SetData(self.dataList[index], commonData)
         item:SetPosition(Vector2(x, y))
         local size = item:GetSize()
-        if self:IsVerticalScroll() then
-            if self:IsColumnMax(index) then
+        if self:_IsVerticalScroll() then
+            if self:_IsColumnMax(index) then
                 y = y - (size.y + self.gapVertical)
                 x = self.paddingLeft
             else
                 x = x + size.x + self.gapHorizontal
             end
         else
-            if self:IsRowMax(index) then
+            if self:_IsRowMax(index) then
                 y = -self.paddingTop
                 x = x + size.x + self.gapHorizontal
             else
                 y = y - (size.y + self.gapVertical)
             end
         end
-        if self:EndOutMask(x, y) then
+        if self:_EndOutMask(x, y) then
             endIndex = index
             break
         end
     end
     self.startIndex = startIndex
     self.endIndex = endIndex
-    self:CalcSize()
+    self:_CalcSize()
 end
 
-function LScrollView:AddAtStart()
+function LScrollView:_InitMask(transform)
+    local mask = transform:GetComponent(Mask)
+    self.mask = mask
+    self.maskWidth = mask.transform.sizeDelta.x
+    self.maskHeight = mask.transform.sizeDelta.y
+end
+
+function LScrollView:_InitTemplateItem(transform)
+    local template = self.contentTrans:Find(LScrollView.ITEM_NAME).gameObject
+    self.template = template
+    template:SetActive(false)
+end
+
+function LScrollView:_InitScrollRect(transform)
+    local scrollRect = transform:GetComponent(LScrollRect)
+    self.scrollRect = scrollRect
+    self.scrollRect.onValueChanged:AddListener(function(value) self:_OnValueChanged(value) end)
+    if scrollRect.vertical then
+        self.scrollDirection = LScrollView.Direction.vertical
+    else
+        self.scrollDirection = LScrollView.Direction.horizontal
+    end
+end
+
+function LScrollView:__delete()
+    UtilsBase.FieldDeleteMe(self, "ItemSelectEvent")
+end
+
+function LScrollView:_OnValueChanged(value)
+    self:_FireReachBottomEvent(value)
+    if not self:_ContentContainMask() then
+        while(self:_CanAddAtStart()) do
+            self:_RemoveEndOutMask()
+            self:_AddAtStart()
+        end
+        while(self:_CanAddAtEnd()) do
+            self:_RemoveStartOutMask()
+            self:_AddAtEnd()
+        end
+    end
+end
+
+function LScrollView:_CanAddAtStart()
+    return self.startIndex > 1 and self:_ContentStartInMask()
+end
+
+function LScrollView:_AddAtStart()
     local addEndIndex = self.startIndex - 1
-    local addStartIndex = self:GetStartIndex(addEndIndex)
+    local addStartIndex = self:_GetStartIndex(addEndIndex)
     local size
     local isFirst = addStartIndex == 1
     local x = 0
     local y = 0
-    if self:IsVerticalScroll() then
+    if self:_IsVerticalScroll() then
         x = self.paddingLeft
         if isFirst then
             y = -self.paddingTop
@@ -222,7 +239,7 @@ function LScrollView:AddAtStart()
         item:SetData(self.dataList[index], self.commonData)
         item:SetPosition(Vector2(x, y))
         size = item:GetSize()
-        if not self:IsVerticalScroll() then
+        if not self:_IsVerticalScroll() then
             y = y - (size.y + self.gapVertical)
         else
             x = x + size.x + self.gapHorizontal
@@ -231,7 +248,7 @@ function LScrollView:AddAtStart()
     end
 
     local offset
-    if self:IsVerticalScroll() then
+    if self:_IsVerticalScroll() then
         local offsetY = -(size.y + self.gapVertical)
         if isFirst then
             offsetY = offsetY - self.paddingTop
@@ -252,24 +269,28 @@ function LScrollView:AddAtStart()
     self.scrollRect:ContentTranslate(-offset)
 
     self.startIndex = addStartIndex
-    self:CalcSize()
+    self:_CalcSize()
 end
 
-function LScrollView:AddAtEnd()
+function LScrollView:_CanAddAtEnd()
+    return self.endIndex < #self.dataList and self:_ContentEndInMask()
+end
+
+function LScrollView:_AddAtEnd()
     local addStartIndex = self.endIndex + 1
-    local addEndIndex = self:GetEndIndex(addStartIndex)
+    local addEndIndex = self:_GetEndIndex(addStartIndex)
     if addEndIndex > #self.dataList then
         addEndIndex = #self.dataList
     end
 
-    local endLineStartIndex = self:GetStartIndex(self.endIndex)
+    local endLineStartIndex = self:_GetStartIndex(self.endIndex)
     local endItem = self.itemDict[endLineStartIndex]
     local endPosition = endItem:GetPosition()
     local size = endItem:GetSize()
 
     local x = endPosition.x
     local y = endPosition.y
-    if self:IsVerticalScroll() then
+    if self:_IsVerticalScroll() then
         x = self.paddingLeft
         y = y - (size.y + self.gapVertical)
     else
@@ -282,7 +303,7 @@ function LScrollView:AddAtEnd()
         item:SetActive(true)
         item:SetData(self.dataList[index], self.commonData)
         item:SetPosition(Vector2(x, y))
-        if self:IsVerticalScroll() then
+        if self:_IsVerticalScroll() then
             x = x + item:GetSize().x + self.gapHorizontal
         else
             y = y - (item:GetSize().y + self.gapVertical)
@@ -290,25 +311,25 @@ function LScrollView:AddAtEnd()
         self.itemDict[index] = item
     end
     self.endIndex = addEndIndex
-    self:CalcSize()
+    self:_CalcSize()
 end
 
-function LScrollView:RemoveStartOutMask()
+function LScrollView:_RemoveStartOutMask()
     local startIndex = self.startIndex
     local startItem = self.itemDict[startIndex]
-    if self:IsOutOfView(startItem) then
-        local endIndex = self:GetEndIndex(startIndex)
+    if self:_IsOutOfView(startItem) then
+        local endIndex = self:_GetEndIndex(startIndex)
         if endIndex > #self.dataList then
             endIndex = #self.dataList
         end
         for index = startIndex, endIndex do
-            self:PushPool(index)
+            self:_PushPool(index)
         end
 
         local size = startItem:GetSize()
         local isFirst = startIndex == 1
         local offset
-        if self:IsVerticalScroll() then
+        if self:_IsVerticalScroll() then
             local y = size.y + self.gapVertical
             if isFirst then y = y + self.paddingTop end
             offset = Vector2(0, y)
@@ -324,57 +345,48 @@ function LScrollView:RemoveStartOutMask()
             item:Translate(offset)
         end
         self.scrollRect:ContentTranslate(-offset)
-        self:CalcSize()
+        self:_CalcSize()
         return true
     end
     return false
 end
 
-function LScrollView:RemoveEndOutMask()
+function LScrollView:_RemoveEndOutMask()
     local endIndex = self.endIndex
     local item = self.itemDict[endIndex]
-    if self:IsOutOfView(item) then
-        local startIndex = self:GetStartIndex(endIndex)
+    if self:_IsOutOfView(item) then
+        local startIndex = self:_GetStartIndex(endIndex)
         for index = startIndex, endIndex do
-            self:PushPool(index)
+            self:_PushPool(index)
         end
 
         self.endIndex = startIndex - 1
-        self:CalcSize()
+        self:_CalcSize()
         return true
     end
     return false
 end
 
-function LScrollView:CanAddAtStart()
-    return self.startIndex > 1 and self:ContentStartInMask()
-end
-
-function LScrollView:CanAddAtEnd()
-    return self.endIndex < #self.dataList and self:ContentEndInMask()
-end
-
-function LScrollView:OnValueChanged()
-    if not self:ContentContainMask() then
-        print("ContentContainMask")
-        if self:ContentEndInMask() then
-            print("ContentEndInMask")
-            if self.endIndex == #self.dataList then
+function LScrollView:_FireReachBottomEvent(value)
+    if self.endIndex == #self.dataList then
+        if self:_IsVerticalScroll() then
+            if value.y < -0.1 then
+                if not self.reachBottomFire then
+                    self.ReachBottomEvent:Fire()
+                    self.reachBottomFire = true
+                end
+            else
+                self.reachBottomFire = false
+            end
+        else
+            if value.x > 1.1 then
                 if self.reachBottomFire == false then
                     self.ReachBottomEvent:Fire()
                     self.reachBottomFire = true
                 end
+            else
+                self.reachBottomFire = false
             end
-        end
-        while(self:CanAddAtStart()) do
-            print("AddAtStart")
-            self:RemoveEndOutMask()
-            self:AddAtStart()
-        end
-        while(self:CanAddAtEnd()) do
-            print("AddAtEnd")
-            self:RemoveStartOutMask()
-            self:AddAtEnd()
         end
     end
 end
@@ -383,7 +395,7 @@ function LScrollView:_InitData(dataList, commonData)
     self.dataList = dataList
     self.commonData = commonData
     local length = dataList and #dataList or 0
-    if self:IsVerticalScroll() then
+    if self:_IsVerticalScroll() then
         self.columnMax = length > self.column and self.column or length
         self.rowMax = math.floor((length - 1) / self.column) + 1
     else
@@ -414,7 +426,7 @@ function LScrollView:_GetItem(index)
     return item
 end
 
-function LScrollView:CalcSize()
+function LScrollView:_CalcSize()
     if self.dataList == nil or next(self.dataList) == nil then
         self.contentTrans.sizeDelta = Vector2(0, 0)
         return
@@ -429,7 +441,7 @@ function LScrollView:CalcSize()
         left = 0
         top = 0
     else
-        if self:IsVerticalScroll() then
+        if self:_IsVerticalScroll() then
             left = left - self.paddingLeft
         else
             top = top + self.paddingTop
@@ -438,11 +450,11 @@ function LScrollView:CalcSize()
 
     local currentColumnMax
     local currentRowMax
-    if self:IsVerticalScroll() then
+    if self:_IsVerticalScroll() then
         currentColumnMax = self.columnMax
-        currentRowMax = self:GetRow(self.endIndex)
+        currentRowMax = self:_GetRow(self.endIndex)
     else
-        currentColumnMax = self:GetColumn(self.endIndex)
+        currentColumnMax = self:_GetColumn(self.endIndex)
         currentRowMax = self.rowMax
     end
 
@@ -450,18 +462,18 @@ function LScrollView:CalcSize()
         local item = self.itemDict[index]
         local position = item:GetPosition()
         local size = item:GetSize()
-        if self:GetColumn(index) == currentColumnMax then
+        if self:_GetColumn(index) == currentColumnMax then
             local padding = 0
-            if self:IsColumnMax(index) then
+            if self:_IsColumnMax(index) then
                 padding = self.paddingRight
             end
             if (position.x + size.x + padding) > right then
                 right = position.x + size.x + padding
             end
         end
-        if self:GetRow(index) == currentRowMax then
+        if self:_GetRow(index) == currentRowMax then
             local padding = 0
-            if self:IsRowMax(index) then
+            if self:_IsRowMax(index) then
                 padding = self.paddingBottom
             end
             if (position.y - size.y - padding) < bottom then
@@ -473,18 +485,18 @@ function LScrollView:CalcSize()
     self.contentTrans.sizeDelta = Vector2(right - left, top - bottom)
 end
 
-function LScrollView:IsOutOfView(item)
+function LScrollView:_IsOutOfView(item)
     local position = item:GetPosition()
-    if self:IsVerticalScroll() then
+    if self:_IsVerticalScroll() then
         local top = position.y + self.gapVertical
         local bottom = position.y - item:GetSize().y - self.gapVertical
-        if self:BelowMaskBottom(top) or self:AboveMaskTop(bottom) then
+        if self:_BelowMaskBottom(top) or self:_AboveMaskTop(bottom) then
             return true
         end
     else
         local left = position.x - self.gapHorizontal
         local right = position.x + item:GetSize().x + self.gapHorizontal
-        if self:LessThanMaskLeft(right) or self:GreaterThanMaskRight(left) then
+        if self:_LessThanMaskLeft(right) or self:_GreaterThanMaskRight(left) then
             return true
         end
     end
@@ -492,7 +504,7 @@ function LScrollView:IsOutOfView(item)
 end
 
 
-function LScrollView:PushPool(index)
+function LScrollView:_PushPool(index)
     local item = self.itemDict[index]
     if self.itemPoolList == nil then
         self.itemPoolList = {}
@@ -502,133 +514,133 @@ function LScrollView:PushPool(index)
     self.itemDict[index] = nil
 end
 
-function LScrollView:GetContentBound()
+function LScrollView:_GetContentBound()
     return 0, self.contentTrans.sizeDelta.x, 0, -self.contentTrans.sizeDelta.y
 end
 
-function LScrollView:GetMaskTop()
+function LScrollView:_GetMaskTop()
     return -self.contentTrans.anchoredPosition.y
 end
 
-function LScrollView:GetMaskLeft()
+function LScrollView:_GetMaskLeft()
     return -self.contentTrans.anchoredPosition.x
 end
 
-function LScrollView:GetMaskBottom()
+function LScrollView:_GetMaskBottom()
     return -self.contentTrans.anchoredPosition.y - self.maskHeight 
 end
 
-function LScrollView:GetMaskRight()
+function LScrollView:_GetMaskRight()
     return -self.contentTrans.anchoredPosition.x + self.maskWidth
 end
 
-function LScrollView:AboveMaskBottom(y)
-    return y >= self:GetMaskBottom()
+function LScrollView:_AboveMaskBottom(y)
+    return y >= self:_GetMaskBottom()
 end
 
-function LScrollView:GreaterThanMaskLeft(x)
-    return x >= self:GetMaskLeft()
+function LScrollView:_GreaterThanMaskLeft(x)
+    return x >= self:_GetMaskLeft()
 end
 
-function LScrollView:BelowMaskTop(y)
-    return y <= self:GetMaskTop()
+function LScrollView:_BelowMaskTop(y)
+    return y <= self:_GetMaskTop()
 end
 
-function LScrollView:LessThanMaskRight(x)
-    return x <= self:GetMaskRight()
+function LScrollView:_LessThanMaskRight(x)
+    return x <= self:_GetMaskRight()
 end
 
-function LScrollView:BelowMaskBottom(y)
-    return y < self:GetMaskBottom()
+function LScrollView:_BelowMaskBottom(y)
+    return y < self:_GetMaskBottom()
 end
 
-function LScrollView:LessThanMaskLeft(x)
-    return x < self:GetMaskLeft()
+function LScrollView:_LessThanMaskLeft(x)
+    return x < self:_GetMaskLeft()
 end
 
-function LScrollView:AboveMaskTop(y)
-    return y > self:GetMaskTop()
+function LScrollView:_AboveMaskTop(y)
+    return y > self:_GetMaskTop()
 end
 
-function LScrollView:GreaterThanMaskRight(x)
-    return x > self:GetMaskRight()
+function LScrollView:_GreaterThanMaskRight(x)
+    return x > self:_GetMaskRight()
 end
 
-function LScrollView:IsVerticalScroll()
+function LScrollView:_IsVerticalScroll()
     return self.scrollDirection == LScrollView.Direction.vertical
 end
 
-function LScrollView:ContentContainMask()
-    local left, right, top, bottom = self:GetContentBound()
-    if self:IsVerticalScroll() then
-        return self:AboveMaskTop(top) and self:BelowMaskBottom(bottom)
+function LScrollView:_ContentContainMask()
+    local left, right, top, bottom = self:_GetContentBound()
+    if self:_IsVerticalScroll() then
+        return self:_AboveMaskTop(top) and self:_BelowMaskBottom(bottom)
     else
-        return self:LessThanMaskLeft(left) and self:GreaterThanMaskRight(right)
+        return self:_LessThanMaskLeft(left) and self:_GreaterThanMaskRight(right)
     end
 end
 
-function LScrollView:ContentStartInMask()
-    local left, right, top, bottom = self:GetContentBound()
-    if self:IsVerticalScroll() then
-        return self:BelowMaskTop(top)
+function LScrollView:_ContentStartInMask()
+    local left, right, top, bottom = self:_GetContentBound()
+    if self:_IsVerticalScroll() then
+        return self:_BelowMaskTop(top)
     else
-        return self:GreaterThanMaskLeft(left)
+        return self:_GreaterThanMaskLeft(left)
     end
 end
 
-function LScrollView:ContentEndInMask()
-    local left, right, top, bottom = self:GetContentBound()
-    if self:IsVerticalScroll() then
-        return self:AboveMaskBottom(bottom)
+function LScrollView:_ContentEndInMask()
+    local left, right, top, bottom = self:_GetContentBound()
+    if self:_IsVerticalScroll() then
+        return self:_AboveMaskBottom(bottom)
     else
-        return self:LessThanMaskRight(right)
+        return self:_LessThanMaskRight(right)
     end
 end
 
-function LScrollView:EndOutMask(x, y)
-    if self:IsVerticalScroll() then
-        return self:BelowMaskBottom(y)
+function LScrollView:_EndOutMask(x, y)
+    if self:_IsVerticalScroll() then
+        return self:_BelowMaskBottom(y)
     else
-        return self:GreaterThanMaskRight(x)
+        return self:_GreaterThanMaskRight(x)
     end
 end
 
-function LScrollView:IsRowMax(index)
-    return self:GetRow(index) == self.rowMax
+function LScrollView:_IsRowMax(index)
+    return self:_GetRow(index) == self.rowMax
 end
 
-function LScrollView:IsColumnMax(index)
-    return self:GetColumn(index) == self.columnMax
+function LScrollView:_IsColumnMax(index)
+    return self:_GetColumn(index) == self.columnMax
 end
 
-function LScrollView:GetRow(index)
-    if self:IsVerticalScroll() then
+function LScrollView:_GetRow(index)
+    if self:_IsVerticalScroll() then
         return math.floor((index - 1) / self.column) + 1
     else
         return (index - 1) % self.row + 1
     end
 end
 
-function LScrollView:GetColumn(index)
-    if self:IsVerticalScroll() then
+function LScrollView:_GetColumn(index)
+    if self:_IsVerticalScroll() then
         return (index - 1) % self.column + 1
     else
         return math.floor((index - 1) / self.row) + 1
     end
 end
 
-function LScrollView:GetStartIndex(index)
-    if self:IsVerticalScroll() then
-        return (self:GetRow(index) - 1) * self.column + 1
+function LScrollView:_GetStartIndex(index)
+    if self:_IsVerticalScroll() then
+        return (self:_GetRow(index) - 1) * self.column + 1
     else
-        return (self:GetColumn(index) - 1) * self.row + 1
+        return (self:_GetColumn(index) - 1) * self.row + 1
     end
 end
 
-function LScrollView:GetEndIndex(index)
-    if self:IsVerticalScroll() then
-        return self:GetRow(index) * self.column
+function LScrollView:_GetEndIndex(index)
+    if self:_IsVerticalScroll() then
+        return self:_GetRow(index) * self.column
     else
-        return self:GetColumn(index) * self.row
+        return self:_GetColumn(index) * self.row
     end
 end
