@@ -17,6 +17,10 @@ LScrollViewTest.Config = {
 
 function LScrollViewTest:__init(gameObject)
     local transform = gameObject.transform
+    local listView = LScrollView.New(transform:Find("Test0"), LTestItem, 1, 2)
+    listView:SetData()
+    local listView = LScrollView.New(transform:Find("Test01"), LTestItem, 3, 4)
+    listView:SetData({})
     for i = 1, #LScrollViewTest.Config do
         local config = LScrollViewTest.Config[i]
         local listView = LScrollView.New(transform:Find("Test" .. i), LTestItem, config.row, config.column)

@@ -39,8 +39,7 @@ Tween.New()
 _print = print
 print = Debug.LogError
 
-local root = GameObject.Find("UIRoot")
--- DemoManager.New(GameObject.Find("UIRoot").transform)
+DemoManager.New(GameObject.Find("UIRoot").transform)
 
 -- local go = root.transform:Find("List")
 -- ListViewPanel.New(go)
@@ -52,8 +51,9 @@ local root = GameObject.Find("UIRoot")
 -- local go = root.transform:Find("NExpandableListView")
 -- ExpandablePanel.New(go)
 
+-- local root = GameObject.Find("UIRoot")
 -- LListTest.New(root.transform:Find("LListTest").gameObject)
-LScrollViewTest.New(root.transform:Find("LScrollViewTest").gameObject)
+-- LScrollViewTest.New(root.transform:Find("LScrollViewTest").gameObject)
 -- LScrollPageTest.New(root.transform:Find("LScrollPageTest").gameObject)
 
 function Update()

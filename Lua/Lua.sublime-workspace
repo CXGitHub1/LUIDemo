@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"re",
+				"reachBottomFire"
+			],
+			[
 				"mask",
 				"maskHeight"
 			],
@@ -47,6 +51,7 @@
 			"settings":
 			{
 				"buffer_size": 1525,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -72,7 +77,7 @@
 			"file": "LComponent/LScrollView.lua",
 			"settings":
 			{
-				"buffer_size": 17898,
+				"buffer_size": 18355,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -152,6 +157,64 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"OnValueChanged",
+			"_CalcSize",
+			"CalcSize",
+			"GetEndIndex",
+			"GetStartIndex",
+			"GetColumn",
+			"GetRow",
+			"_IsColumnMax",
+			"IsColumnMax",
+			"_IsRowMax",
+			"IsRowMax",
+			"_EndOutMask",
+			"EndOutMask",
+			"_ContentEndInMask",
+			"ContentEndInMask",
+			"_ContentStartInMask",
+			"ContentStartInMask",
+			"RemoveEndOutMask",
+			"ContentContainMask",
+			"_IsVerticalScroll",
+			"IsVerticalScroll",
+			"_GreaterThanMaskRight",
+			"GreaterThanMaskRight",
+			"_AboveMaskTop",
+			"AboveMaskTop",
+			"_LessThanMaskLeft",
+			"LessThanMaskLeft",
+			"_BelowMaskBottom",
+			"BelowMaskBottom",
+			"LessThanMaskRight",
+			"BelowMaskTop",
+			"GreaterThanMaskLeft",
+			"AboveMaskBottom",
+			"GetMaskRight",
+			"GetMaskBottom",
+			"GetMaskLeft",
+			"GetMaskTop",
+			"GetContentBound",
+			"_PushPool",
+			"PushPool",
+			"_IsOutOfView",
+			"IsOutOfView",
+			"_CalcSize",
+			"CalcSize",
+			"_InitData",
+			"FireReachBottomEvent",
+			"RemoveStartOutMask",
+			"AddAtEnd",
+			"CanAddAtEnd",
+			"AddAtStart",
+			"CanAddAtStart",
+			"InitScrollRect",
+			"InitTemplateItem",
+			"transform",
+			"InitMask",
+			"CanAddAtEnd",
+			"AddAtStart",
+			"OnValueChanged",
 			"RemoveEndOutMask",
 			"RemoveStartOutMask",
 			"ContentSmaller",
@@ -297,8 +360,8 @@
 						"selection":
 						[
 							[
-								1144,
-								1145
+								877,
+								877
 							]
 						],
 						"settings":
@@ -311,7 +374,7 @@
 						"translation.y": 162.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -386,15 +449,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 17898,
+						"buffer_size": 18355,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								10447,
-								10447
+								1213,
+								1213
 							]
 						],
 						"settings":
@@ -404,10 +467,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 6108.0,
+						"translation.y": 432.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -521,7 +584,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},

@@ -151,6 +151,10 @@ end
 
 function LScrollView:SetData(dataList, commonData)
     self:_InitData(dataList, commonData)
+    if dataList == nil then
+        self:_CalcSize()
+        return
+    end
     local startIndex = self.startIndex or 1
     if startIndex > #dataList then
         startIndex = 1

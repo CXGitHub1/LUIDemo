@@ -1,7 +1,7 @@
 DemoManager = DemoManager or BaseClass()
 
 DemoManager.Config = {
-    {name = "LScrollViewDemo"},
+    {name = "LScrollViewDemo"} --, name = "LScrollViewDemo1"},
 }
 
 function DemoManager:__init(rootTrans)

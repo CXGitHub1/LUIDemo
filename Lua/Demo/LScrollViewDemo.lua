@@ -1,14 +1,18 @@
---chen quan
 LScrollViewDemo = LScrollViewDemo or BaseClass(BaseDemo)
 
 LScrollViewDemo.Config = {
+    --动态大小，垂直滚动
     {column = 2, dataLength = 20, sizeType = TestDefine.SizeType.specified1},
+    --动态大小，水平滚动，初始化开始下标
     {row = 3, dataLength = 10000, startIndex = 1000, gapVertical = 10, gapHorizontal = 10, sizeType = TestDefine.SizeType.specified3},
-    -- {column = 3, dataLength = 20, startIndex = 2, gapVertical = 10, gapHorizontal = 10,
-    --     paddingLeft = 5, paddingRight = 20, paddingTop = 40, paddingBottom = 50,
-    --     sizeType = TestDefine.SizeType.specified2},
-    -- {column = 2, dataLength = 20, sizeType = TestDefine.SizeType.specified2}, --sendCallback
-    --普通应用
+    --动态大小，垂直滚动，初始化开始下标,包括gap和padding
+    {column = 3, dataLength = 200, startIndex = 2, gapVertical = 10, gapHorizontal = 10,
+        paddingLeft = 10, paddingRight = 20, paddingTop = 40, paddingBottom = 50,
+        sizeType = TestDefine.SizeType.specified4},
+    --滚动到底部动态添加数据
+    {column = 2, gapVertical = 5, dataLength = 20, bottomData = 40, sizeType = TestDefine.SizeType.specified1},
+    --多次SetData效果
+    {column = 2, gapVertical = 5, dataLength = 20, sizeType = TestDefine.SizeType.specified1},
     --游戏应用
     --成就界面
     --无限滑动？
@@ -52,15 +56,18 @@ function LScrollViewDemo:SetData()
             table.insert(dataList, i)
         end
         listView:SetData(dataList, {sizeType = config.sizeType})
-        -- if i == 1 then
-        --     local button = transform:Find("Button12"):GetComponent(Button).onClick:AddListener(function()
-        --         local randomValue = math.random(0, 100)
-        --         local dataList = {}
-        --         for j = 1, randomValue do
-        --             table.insert(dataList, j)
-        --         end
-        --         listView:SetData(dataList, {sizeType = config.sizeType})
-        --     end)
-        -- end
+        if i == 5 then
+            local button = transform:Find("Button5"):GetComponent(Button).onClick:AddListener(function()
+                local randomValue = math.random(0, 100)
+                local dataList = {}
+                for j = 1, randomValue do
+                    table.insert(dataList, j)
+                end
+                listView:SetData(dataList, {sizeType = config.sizeType})
+            end)
+        end
     end 
+end
+
+function LScrollViewDemo:CreateDataList(num)
 end

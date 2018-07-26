@@ -25,7 +25,7 @@ function LDemoItem:SetData(data, commonData)
     elseif sizeType == TestDefine.SizeType.specified1 then
         local offset = 0
         if math.floor((self.index - 1) / 2) % 2 == 1 then
-            offset = 20
+            offset = 0
         else
             offset = 30
         end
@@ -40,6 +40,13 @@ function LDemoItem:SetData(data, commonData)
         local row = math.floor((self.index - 1) / 3)
         if (row % 2) == 1 then
             self.transform.sizeDelta = Vector2(20, 30)
+        else
+            self.transform.sizeDelta = Vector2(40, 30)
+        end
+    elseif sizeType == TestDefine.SizeType.specified4 then
+        local row = math.floor((self.index - 1) / 3)
+        if (row % 2) == 1 then
+            self.transform.sizeDelta = Vector2(40, 20)
         else
             self.transform.sizeDelta = Vector2(40, 30)
         end
