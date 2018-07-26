@@ -93,6 +93,36 @@ function LScrollView:__init(transform, itemType, row, column)
     self.endIndex = nil
 end
 
+function LScrollView:_InitMask(transform)
+    local mask = transform:GetComponent(Mask)
+    self.mask = mask
+    self.maskWidth = mask.transform.sizeDelta.x
+    self.maskHeight = mask.transform.sizeDelta.y
+end
+
+function LScrollView:_InitTemplateItem(transform)
+    local template = self.contentTrans:Find(LScrollView.ITEM_NAME).gameObject
+    self.template = template
+    template:SetActive(false)
+end
+
+function LScrollView:_InitScrollRect(transform)
+    local scrollRect = transform:GetComponent(LScrollRect)
+    self.scrollRect = scrollRect
+    self.scrollRect.onValueChanged:AddListener(function(value) self:_OnValueChanged(value) end)
+    if scrollRect.vertical then
+        self.scrollDirection = LScrollView.Direction.vertical
+    else
+        self.scrollDirection = LScrollView.Direction.horizontal
+    end
+end
+
+function LScrollView:__delete()
+    UtilsBase.FieldDeleteMe(self, "ItemSelectEvent")
+    UtilsBase.FieldDeleteMe(self, "ReachBottomEvent")
+end
+
+-- public function
 function LScrollView:SetGap(gapHorizontal, gapVertical)
     self.gapHorizontal = gapHorizontal or 0
     self.gapVertical = gapVertical or 0
@@ -114,6 +144,7 @@ function LScrollView:SetPadding(paddingLeft, paddingRight, paddingTop, paddingBo
     end
 end
 
+-- SetStartIndex之后需要调用SetData才生效
 function LScrollView:SetStartIndex(index)
     self.startIndex = self:_GetStartIndex(index)
 end
@@ -167,34 +198,6 @@ function LScrollView:SetData(dataList, commonData)
     self.startIndex = startIndex
     self.endIndex = endIndex
     self:_CalcSize()
-end
-
-function LScrollView:_InitMask(transform)
-    local mask = transform:GetComponent(Mask)
-    self.mask = mask
-    self.maskWidth = mask.transform.sizeDelta.x
-    self.maskHeight = mask.transform.sizeDelta.y
-end
-
-function LScrollView:_InitTemplateItem(transform)
-    local template = self.contentTrans:Find(LScrollView.ITEM_NAME).gameObject
-    self.template = template
-    template:SetActive(false)
-end
-
-function LScrollView:_InitScrollRect(transform)
-    local scrollRect = transform:GetComponent(LScrollRect)
-    self.scrollRect = scrollRect
-    self.scrollRect.onValueChanged:AddListener(function(value) self:_OnValueChanged(value) end)
-    if scrollRect.vertical then
-        self.scrollDirection = LScrollView.Direction.vertical
-    else
-        self.scrollDirection = LScrollView.Direction.horizontal
-    end
-end
-
-function LScrollView:__delete()
-    UtilsBase.FieldDeleteMe(self, "ItemSelectEvent")
 end
 
 function LScrollView:_OnValueChanged(value)
@@ -506,9 +509,6 @@ end
 
 function LScrollView:_PushPool(index)
     local item = self.itemDict[index]
-    if self.itemPoolList == nil then
-        self.itemPoolList = {}
-    end
     table.insert(self.itemPoolList, item)
     item:SetActive(false)
     self.itemDict[index] = nil
