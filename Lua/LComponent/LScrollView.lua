@@ -441,8 +441,10 @@ function LScrollView:_GetItem(index)
             self.ItemSelectEvent:Fire(index, item)
         end)
         if self.eventNameList then
-            local eventName = self.eventNameList[i]
-            item[eventName]:AddListener(function(...) self[eventName]:Fire(...) end)
+            for i = 1, #self.eventNameList do
+                local eventName = self.eventNameList[i]
+                item[eventName]:AddListener(function(...) self[eventName]:Fire(...) end)
+            end
         end
         item:SetIndex(index)
     end

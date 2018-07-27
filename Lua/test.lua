@@ -30,9 +30,11 @@ require("Test/LScrollPageTest")
 
 require("Demo/BaseDemo")
 require("Demo/DemoManager")
-require("Demo/DemoScrollViewItem")
+require("Demo/MenuItem")
 require("Demo/LDemoItem")
 require("Demo/LScrollViewDemo")
+require("Demo/LScrollViewDemo1")
+require("Demo/LScrollViewDemoItem1")
 
 Tween.New()
 

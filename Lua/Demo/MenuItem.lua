@@ -1,11 +1,11 @@
-DemoScrollViewItem = DemoScrollViewItem or BaseClass(LItem)
+MenuItem = MenuItem or BaseClass(LItem)
 
-function DemoScrollViewItem:__init()
+function MenuItem:__init()
     local transform = self.transform
     self.transform = transform
     self.text = transform:Find("Text"):GetComponent(Text)
 end
 
-function DemoScrollViewItem:SetData(data, commonData)
+function MenuItem:SetData(data, commonData)
     self.text.text = data.name
 end

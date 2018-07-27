@@ -14,10 +14,7 @@ LScrollViewDemo.Config = {
     --多次SetData效果
     {column = 2, gapVertical = 5, dataLength = 20, sizeType = TestDefine.SizeType.specified1},
     --多事件交互
-    {column = 2, gapVertical = 5, dataLength = 20, itemType eventName = "IconClickEvent", sizeType = TestDefine.SizeType.specified1},
-    --游戏应用
-    --成就界面
-    --无限滑动？
+    {column = 2, gapVertical = 5, dataLength = 20, eventName = "IconClickEvent", sizeType = TestDefine.SizeType.fix},
 }
 
 function LScrollViewDemo:__init(transform)
@@ -37,8 +34,17 @@ function LScrollViewDemo:SetData()
         local listView = self.list[i]
         listView:SetGap(config.gapHorizontal, config.gapVertical)
         listView:SetPadding(config.paddingLeft, config.paddingRight, config.paddingTop, config.paddingBottom)
+        listView.ItemSelectEvent:AddListener(function(index, item)
+            Debug.Log("ItemSelectEvent:" .. index)
+        end)
         if config.startIndex then
             listView:SetStartIndex(config.startIndex)
+        end
+        if config.eventName then
+            listView:AddItemEvent(config.eventName)
+            listView[config.eventName]:AddListener(function(index)
+                Debug.Log(config.eventName .. ":" .. index)
+            end)
         end
         if config.bottomData then
             local once = true
@@ -53,7 +59,9 @@ function LScrollViewDemo:SetData()
         local dataList = self:CreateDataList(config.dataLength)
         listView:SetData(dataList, {sizeType = config.sizeType})
         if i == 5 then
-            local button = transform:Find("Button5"):GetComponent(Button).onClick:AddListener(function()
+            local button = transform:Find("Button5"):GetComponent(Button)
+            button.gameObject:SetActive(true)
+            button.onClick:AddListener(function()
                 local randomValue= math.random(0, 100)
                 local dataList = self:CreateDataList(randomValue)
                 listView:SetData(dataList, {sizeType = config.sizeType})

@@ -1,7 +1,8 @@
 DemoManager = DemoManager or BaseClass()
 
 DemoManager.Config = {
-    {name = "LScrollViewDemo"} --, name = "LScrollViewDemo1"},
+    {name = "LScrollViewDemo"},
+    {name = "LScrollViewDemo1"},
 }
 
 function DemoManager:__init(rootTrans)
@@ -17,7 +18,7 @@ function DemoManager:__init(rootTrans)
     self.returnGo:SetActive(false)
     transform:Find("ReturnButton"):GetComponent(Button).onClick:AddListener(function() self:OnReturnClick() end)
     self.menuGo = rootTrans:Find("Menu").gameObject
-    local scrollView = LScrollView.New(transform:Find("Menu"), DemoScrollViewItem, nil, 4)
+    local scrollView = LScrollView.New(transform:Find("Menu"), MenuItem, nil, 4)
     scrollView:SetGap(20, 100)
     scrollView.ItemSelectEvent:AddListener(function(index, item) self:OnItemClick(index, item) end)
     scrollView:SetData(DemoManager.Config)
