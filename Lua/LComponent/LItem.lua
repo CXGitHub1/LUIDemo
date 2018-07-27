@@ -16,8 +16,8 @@ function LItem:__delete()
     UtilsBase.FieldDeleteMe(self, "ItemSelectEvent")
 end
 
-function LItem:InitStaticData(data)
-    self.staticData = data
+function LItem:InitFromCache(index)
+    self:SetIndex(index)
 end
 
 function LItem:SetActive(active)

@@ -81,11 +81,13 @@ function LScrollView:__init(transform, itemType, row, column)
     self.paddingBottom = 0
     self.ItemSelectEvent = EventLib.New()
     self.ReachBottomEvent = EventLib.New()
+    self.eventNameList = nil
 
     self.contentTrans = transform:Find(LScrollView.MASK_NAME .."/" .. LScrollView.CONTENT_NAME)
     self:_InitMask(transform:Find(LScrollView.MASK_NAME))
     self:_InitTemplateItem()
     self:_InitScrollRect(transform)
+
 
     self.itemDict = nil
     self.itemPoolList = {}
@@ -120,6 +122,7 @@ end
 function LScrollView:__delete()
     UtilsBase.FieldDeleteMe(self, "ItemSelectEvent")
     UtilsBase.FieldDeleteMe(self, "ReachBottomEvent")
+    UtilsBase.TableDeleteMe(self, "eventNameList")
 end
 
 -- public function
@@ -142,6 +145,14 @@ function LScrollView:SetPadding(paddingLeft, paddingRight, paddingTop, paddingBo
         self.paddingBottom < 0 then
         Debug.LogError("不支持padding小于0")
     end
+end
+
+function LScrollView:AddItemEvent(eventName)
+    if self.eventNameList == nil then
+        self.eventNameList = {}
+    end
+    table.insert(self.eventNameList, eventName)
+    self[eventName] = EventLib.New()
 end
 
 -- SetStartIndex之后需要调用SetData才生效
@@ -421,6 +432,7 @@ function LScrollView:_GetItem(index)
     local item
     if self.itemPoolList and #self.itemPoolList > 0 then
         item = table.remove(self.itemPoolList)
+        item:InitFromCache(index)
     else
         local go = GameObject.Instantiate(self.template)
         go.transform:SetParent(self.contentTrans, false)
@@ -428,8 +440,12 @@ function LScrollView:_GetItem(index)
         item.ItemSelectEvent:AddListener(function(index, item)
             self.ItemSelectEvent:Fire(index, item)
         end)
+        if self.eventNameList then
+            local eventName = self.eventNameList[i]
+            item[eventName]:AddListener(function(...) self[eventName]:Fire(...) end)
+        end
+        item:SetIndex(index)
     end
-    item:SetIndex(index)
     return item
 end
 

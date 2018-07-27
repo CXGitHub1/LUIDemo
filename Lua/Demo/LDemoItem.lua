@@ -4,6 +4,16 @@ function LDemoItem:__init()
     local transform = self.transform
     self.transform = transform
     self.text = transform:Find("Text"):GetComponent(Text)
+    local imageTran = transform:Find("Image")
+    if imageTran then
+        self.IconClickEvent = EventLib.New()
+        UtilsUI.AddButtonListener(transform, "Image", function()
+            self.IconClickEvent:Fire(self.index)
+        end)
+    end
+end
+
+function LDemoItem:__delete()
 end
 
 function LDemoItem:SetData(data, commonData)
@@ -39,7 +49,7 @@ function LDemoItem:SetData(data, commonData)
     elseif sizeType == TestDefine.SizeType.specified3 then
         local row = math.floor((self.index - 1) / 3)
         if (row % 2) == 1 then
-            self.transform.sizeDelta = Vector2(20, 30)
+            self.transform.sizeDelta = Vector2(80, 30)
         else
             self.transform.sizeDelta = Vector2(40, 30)
         end

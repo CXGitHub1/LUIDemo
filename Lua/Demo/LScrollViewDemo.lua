@@ -13,6 +13,8 @@ LScrollViewDemo.Config = {
     {column = 2, gapVertical = 5, dataLength = 20, bottomData = 40, sizeType = TestDefine.SizeType.specified1},
     --多次SetData效果
     {column = 2, gapVertical = 5, dataLength = 20, sizeType = TestDefine.SizeType.specified1},
+    --多事件交互
+    {column = 2, gapVertical = 5, dataLength = 20, itemType eventName = "IconClickEvent", sizeType = TestDefine.SizeType.specified1},
     --游戏应用
     --成就界面
     --无限滑动？
@@ -43,31 +45,19 @@ function LScrollViewDemo:SetData()
             listView.ReachBottomEvent:AddListener(function()
                 if once then
                     once = false
-                    local dataList = {}
-                    for i = 1, config.bottomData do
-                        table.insert(dataList, i)
-                    end
+                    local dataList = self:CreateDataList(config.bottomData)
                     listView:SetData(dataList, {sizeType = config.sizeType})
                 end
             end)
         end
-        local dataList = {}
-        for i = 1, config.dataLength do
-            table.insert(dataList, i)
-        end
+        local dataList = self:CreateDataList(config.dataLength)
         listView:SetData(dataList, {sizeType = config.sizeType})
         if i == 5 then
             local button = transform:Find("Button5"):GetComponent(Button).onClick:AddListener(function()
-                local randomValue = math.random(0, 100)
-                local dataList = {}
-                for j = 1, randomValue do
-                    table.insert(dataList, j)
-                end
+                local randomValue= math.random(0, 100)
+                local dataList = self:CreateDataList(randomValue)
                 listView:SetData(dataList, {sizeType = config.sizeType})
             end)
         end
     end 
-end
-
-function LScrollViewDemo:CreateDataList(num)
 end
