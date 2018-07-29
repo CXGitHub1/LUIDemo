@@ -12,10 +12,11 @@ function LScrollViewDemoItem1:__delete()
 end
 
 function LScrollViewDemoItem1:SetData(data, commonData)
+    UtilsBase.TweenDelete(self, "tweenId")
     self.data = data
     self.text.text = self.index
     if self.index == commonData then
-        UtilsUI.SetHeight(self.transform, 200)
+        UtilsUI.SetHeight(self.transform, 150)
         self.detailTrans.gameObject:SetActive(true)
     else
         UtilsUI.SetHeight(self.transform, 100)
@@ -26,5 +27,5 @@ end
 function LScrollViewDemoItem1:PullDown()
     UtilsUI.SetY(self.detailTrans, -45)
     UtilsBase.TweenDelete(self, "tweenId")
-    self.tweenId = Tween.Instance:MoveLocalY(self.detailTrans.gameObject, -95, 2).id
+    self.tweenId = Tween.Instance:MoveLocalY(self.detailTrans.gameObject, -95, 0.5).id
 end

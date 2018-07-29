@@ -91,6 +91,7 @@ function LScrollView:__init(transform, itemType, row, column)
 
     self.itemDict = nil
     self.itemPoolList = {}
+    self.tempItemDict = {}
     self.startIndex = nil
     self.endIndex = nil
 end
@@ -164,6 +165,7 @@ function LScrollView:SetData(dataList, commonData)
     self:_InitData(dataList, commonData)
     if dataList == nil then
         self:_CalcSize()
+        self:_ClearTempItemDict()
         return
     end
     local startIndex = self.startIndex or 1
@@ -213,6 +215,7 @@ function LScrollView:SetData(dataList, commonData)
     self.startIndex = startIndex
     self.endIndex = endIndex
     self:_CalcSize()
+    self:_ClearTempItemDict()
 end
 
 function LScrollView:_OnValueChanged(value)
@@ -420,35 +423,7 @@ function LScrollView:_InitData(dataList, commonData)
         self.rowMax = length > self.row and self.row or length
         self.columnMax = math.floor((length - 1) / self.row) + 1
     end
-    if self.itemDict then
-        for _, item in pairs(self.itemDict) do
-            item:SetActive(false)
-            table.insert(self.itemPoolList, item)
-        end
-    end
-end
-
-function LScrollView:_GetItem(index)
-    local item
-    if self.itemPoolList and #self.itemPoolList > 0 then
-        item = table.remove(self.itemPoolList)
-        item:InitFromCache(index)
-    else
-        local go = GameObject.Instantiate(self.template)
-        go.transform:SetParent(self.contentTrans, false)
-        item = self.itemType.New(go)
-        item.ItemSelectEvent:AddListener(function(index, item)
-            self.ItemSelectEvent:Fire(index, item)
-        end)
-        if self.eventNameList then
-            for i = 1, #self.eventNameList do
-                local eventName = self.eventNameList[i]
-                item[eventName]:AddListener(function(...) self[eventName]:Fire(...) end)
-            end
-        end
-        item:SetIndex(index)
-    end
-    return item
+    self.tempItemDict = self.itemDict
 end
 
 function LScrollView:_CalcSize()
@@ -528,12 +503,48 @@ function LScrollView:_IsOutOfView(item)
     return false
 end
 
+function LScrollView:_GetItem(index)
+    local item
+    if self.tempItemDict and self.tempItemDict[index] then
+        item = self.tempItemDict[index]
+        self.tempItemDict[index] = nil
+        item:InitFromCache(index)
+    elseif self.itemPoolList and #self.itemPoolList > 0 then
+        item = table.remove(self.itemPoolList)
+        item:InitFromCache(index)
+    else
+        local go = GameObject.Instantiate(self.template)
+        go.transform:SetParent(self.contentTrans, false)
+        item = self.itemType.New(go)
+        item.ItemSelectEvent:AddListener(function(index, item)
+            self.ItemSelectEvent:Fire(index, item)
+        end)
+        if self.eventNameList then
+            for i = 1, #self.eventNameList do
+                local eventName = self.eventNameList[i]
+                item[eventName]:AddListener(function(...) self[eventName]:Fire(...) end)
+            end
+        end
+        item:SetIndex(index)
+    end
+    return item
+end
 
 function LScrollView:_PushPool(index)
     local item = self.itemDict[index]
     table.insert(self.itemPoolList, item)
     item:SetActive(false)
     self.itemDict[index] = nil
+end
+
+function LScrollView:_ClearTempItemDict()
+    if self.tempItemDict ~= nil then
+        for index, item in pairs(self.tempItemDict) do
+            item:SetActive(false)
+            table.insert(self.itemPoolList, item)
+        end
+        self.tempItemDict = nil
+    end
 end
 
 function LScrollView:_GetContentBound()

@@ -7,9 +7,20 @@ function LScrollViewDemo1:__init(transform)
     self.scrollView:SetGap(10, 10)
     self.selectIndex = nil
     self.scrollView.ItemSelectEvent:AddListener(function(index, item)
-        self.selectIndex = index
+        if self.selectIndex == index then
+            self.selectIndex = nil
+        else
+            self.selectIndex = index
+        end
         self:PullDown()
-        item:PullDown()
+        if self.selectIndex then
+            item:PullDown()
+        end
+        if self.selectIndex == #self.dataList then
+            local contentTrans = self.scrollView.contentTrans
+            local y = contentTrans.localPosition.y
+            UtilsUI.SetY(contentTrans, y + 50)
+        end
     end)
 end
 
