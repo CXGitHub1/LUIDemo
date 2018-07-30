@@ -12,8 +12,7 @@ end
 require("Base/BaseClass")
 require("Util/UtilsBase")
 require("Util/UtilsUI")
-require("Util/UtilsTween")
-require("Util/EventMgr")
+require("Util/EventLib")
 require("Util/Tween")
 
 require("LComponent/LItem")
