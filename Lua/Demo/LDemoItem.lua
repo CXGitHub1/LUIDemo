@@ -13,7 +13,7 @@ function LDemoItem:__init()
     end
 end
 
-function LDemoItem:__delete()
+function LDemoItem:__release()
 end
 
 function LDemoItem:SetData(data, commonData)

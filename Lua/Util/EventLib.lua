@@ -68,13 +68,6 @@ function EventLib:Fire(args1, args2, args3, args4, args5)
     end
 end
 
-function EventLib:Destroy()
+function EventLib:__release()
     self:RemoveAll()
-    for k, v in _pairs(self) do
-        self[k] = nil
-    end
-end
-
-function EventLib:__delete()
-    self:Destroy()
 end

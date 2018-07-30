@@ -120,10 +120,10 @@ function LScrollView:_InitScrollRect(transform)
     end
 end
 
-function LScrollView:__delete()
-    UtilsBase.FieldDeleteMe(self, "ItemSelectEvent")
-    UtilsBase.FieldDeleteMe(self, "ReachBottomEvent")
-    UtilsBase.TableDeleteMe(self, "eventNameList")
+function LScrollView:__release()
+    UtilsBase.FieldRelease(self, "ItemSelectEvent")
+    UtilsBase.FieldRelease(self, "ReachBottomEvent")
+    UtilsBase.TableRelease(self, "eventNameList")
 end
 
 -- public function
@@ -131,7 +131,7 @@ function LScrollView:SetGap(gapHorizontal, gapVertical)
     self.gapHorizontal = gapHorizontal or 0
     self.gapVertical = gapVertical or 0
     if self.gapHorizontal < 0 or self.gapVertical < 0 then
-        Debug.LogError("不支持gap小于0")
+        pError("不支持gap小于0")
     end
 end
 
@@ -144,7 +144,7 @@ function LScrollView:SetPadding(paddingLeft, paddingRight, paddingTop, paddingBo
         self.paddingRight < 0 or
         self.paddingTop < 0 or
         self.paddingBottom < 0 then
-        Debug.LogError("不支持padding小于0")
+        pError("不支持padding小于0")
     end
 end
 

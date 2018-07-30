@@ -134,11 +134,11 @@ function LScrollPage:InitTurnButton(transform)
     -- end)
 end
 
-function LScrollPage:__delete()
+function LScrollPage:__release()
 end
 
 function LScrollPage:OnBeginDragEvent()
-    UtilsBase.TweenDelete(self, "tweenId")
+    UtilsBase.CancelTween(self, "tweenId")
     self.beginDragPosition = self.contentTrans.anchoredPosition
 end
 

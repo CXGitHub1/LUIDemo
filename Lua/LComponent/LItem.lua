@@ -12,8 +12,8 @@ function LItem:__init(gameObject)
     end
 end
 
-function LItem:__delete()
-    UtilsBase.FieldDeleteMe(self, "ItemSelectEvent")
+function LItem:__release()
+    UtilsBase.FieldRelease(self, "ItemSelectEvent")
 end
 
 function LItem:InitFromCache(index)

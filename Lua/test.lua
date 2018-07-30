@@ -2,11 +2,9 @@ import("UnityEngine")
 import('UnityEngine.UI')
 
 function Main()
-    print("Main")
 end
 
 function Start()
-    print("Start")
 end
 
 require("Base/BaseClass")
@@ -39,6 +37,7 @@ Tween.New()
 
 _print = print
 print = Debug.LogError
+pError = Debug.LogError
 
 DemoManager.New(GameObject.Find("UIRoot").transform)
 

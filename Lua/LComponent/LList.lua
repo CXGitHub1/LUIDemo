@@ -2,6 +2,8 @@ LList = LList or BaseClass()
 
 LList.ITEM_NAME = "Item"
 
+print(11111)
+
 LList.Direction = {
     horizontal = 1,
     vertical = 2,
@@ -51,9 +53,9 @@ function LList:SetStaticData(data)
     self.staticData = data
 end
 
-function LList:__delete()
-    UtilsBase.FieldDeleteMe(self, "ItemSelectEvent")
-    UtilsBase.TableDeleteMe(self, "cacheList")
+function LList:__release()
+    UtilsBase.FieldRelease(self, "ItemSelectEvent")
+    UtilsBase.TableRelease(self, "cacheList")
 end
 
 function LList:SetData(dataList, commonData)

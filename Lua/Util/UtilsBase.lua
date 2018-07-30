@@ -3,24 +3,25 @@ UtilsBase = UtilsBase or {}
 UtilsBase.INT32_MAX = 2147483647
 UtilsBase.INT32_MIN = -2147483648
 
-function UtilsBase.FieldDeleteMe(object, name)
-    if IS_DEBUG then
-        if type(name) ~= "string" then
-            LogError("FieldDeleteMe 传入参数不为字符串")
-        end
+function UtilsBase.ReleaseField(object, name)
+    if type(name) ~= "string" then
+        pError("ReleaseField 传入参数不为字符串")
     end
 
     if object[name] ~= nil then
-        object[name]:DeleteMe()
+        object[name]:Release()
         object[name] = nil
     end
 end
 
-function UtilsBase.TableDeleteMe(object, name)
+function UtilsBase.ReleaseTable(object, name)
+    if type(name) ~= "string" then
+        pError("ReleaseTable 传入参数不为字符串")
+    end
     if object[name] ~= nil then
         for key, item in _pairs(object[name]) do
-            if item.DeleteMe then
-                item:DeleteMe()
+            if item.Release then
+                item:Release()
             end
         end
         object[name] = nil
@@ -28,30 +29,32 @@ function UtilsBase.TableDeleteMe(object, name)
 end
 
 function UtilsBase.DestroyGameObject(object, name)
+    if type(name) ~= "string" then
+        pError("DestroyGameObject 传入参数不为字符串")
+    end
     if object[name] ~= nil then
         GameObject.Destroy(object[name])
         object[name] = nil
     end
 end
 
-function UtilsBase.TweenDelete(object, name)
+function UtilsBase.CancelTween(object, name)
+    if type(name) ~= "string" then
+        pError("CancelTween 传入参数不为字符串")
+    end
     if object[name] ~= nil then
         Tween.Instance:Cancel(object[name])
         object[name] = nil
     end
 end
 
-function UtilsBase.TweenIdListDelete(object, name)
+function UtilsBase.CancelTweenIdList(object, name)
     if object[name] then
         for _, tweenId in _pairs(object[name]) do
             Tween.Instance:Cancel(tweenId)
         end
         object[name] = nil
     end
-end
-
-function UtilsBase.CancelTween(id)
-    Tween.Instance:Cancel(id)
 end
 
 -- 序列化
@@ -116,7 +119,7 @@ function UtilsBase.XPCall(func, errcb)
         if errcb then
             errcb()
         else
-            LogError("代码报错了: ".. _tostring(errinfo)..debug.force_traceback())
+            pError("代码报错了: ".. _tostring(errinfo)..debug.force_traceback())
         end
     end)
 end
