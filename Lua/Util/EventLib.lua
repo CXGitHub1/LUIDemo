@@ -56,13 +56,13 @@ end
 
 function EventLib:Fire(args1, args2, args3, args4, args5)
     if args5 ~= nil then
-        print("Fire目前不支持超过4个参数，需要在EventLib中调整")
+        pError("Fire目前不支持超过4个参数，需要在EventLib中调整")
     end
     if self.handlers then
         for _, func in _pairs(self.handlers) do
             local call = function() func(args1, args2, args3, args4) end
             _xpcall(call, function(errinfo)
-                print("EventLib:Fire出错了" .. tostring(errinfo).."\n"..debug.traceback())
+                pError("EventLib:Fire出错了" .. tostring(errinfo).."\n"..debug.traceback())
             end)
         end
     end

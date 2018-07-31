@@ -5,46 +5,26 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using SLua;
 
-[CustomLuaClass]
-public class ButtonClickedEvent : UnityEvent { }
-
-[CustomLuaClass]
+/*[CustomLuaClass]
 public class ButtonBeginDragEvent : UnityEvent {}
 
 [CustomLuaClass]
 public class ButtonDragEvent : UnityEvent {}
 
 [CustomLuaClass]
-public class ButtonEndDragEvent : UnityEvent {}
+public class ButtonEndDragEvent : UnityEvent {}*/
 
 [CustomLuaClass]
-public class CustomDragButton : Button,IBeginDragHandler, IDragHandler, IEndDragHandler
+public class DragEvent : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-
-    //private ButtonClickedEvent m_OnClick = new ButtonClickedEvent();
-
-    private ButtonBeginDragEvent m_OnBeginDrag = new ButtonBeginDragEvent();
-    private ButtonDragEvent m_OnDrag = new ButtonDragEvent();
-    private ButtonEndDragEvent m_OnEndDrag = new ButtonEndDragEvent();
-
-//    private bool isdown = false;
-//    private bool m_holdtrigger = false;
-//    private float m_stamp = Time.time;
-//    private WaitForSeconds ws = new WaitForSeconds(0.6f);
-
-    /// <summary>
-    /// 点击事件
-    /// </summary>
-//    public ButtonClickedEvent onClickCustom
-//    {
-//        get { return m_OnClick; }
-//        set { m_OnClick = value; }
-//    }
+    private UnityEvent m_OnBeginDrag = new UnityEvent();
+    private UnityEvent m_OnDrag = new UnityEvent();
+    private UnityEvent m_OnEndDrag = new UnityEvent();
 
     /// <summary>
     /// 开始拖动事件
     /// </summary>
-    public ButtonBeginDragEvent onBeginDrag
+    public UnityEvent onBeginDrag
     {
         get {return m_OnBeginDrag;}
         set {m_OnBeginDrag = value;}
@@ -53,7 +33,7 @@ public class CustomDragButton : Button,IBeginDragHandler, IDragHandler, IEndDrag
     /// <summary>
     /// 拖动ing事件
     /// </summary>
-    public ButtonDragEvent onDrag
+    public UnityEvent onDrag
     {
         get {return m_OnDrag;}
         set {m_OnDrag = value;}
@@ -62,7 +42,7 @@ public class CustomDragButton : Button,IBeginDragHandler, IDragHandler, IEndDrag
     /// <summary>
     /// 拖动结束事件
     /// </summary>
-    public ButtonEndDragEvent onEndDrag
+    public UnityEvent onEndDrag
     {
         get {return m_OnEndDrag;}
         set {m_OnEndDrag = value;}

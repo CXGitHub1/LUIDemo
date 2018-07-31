@@ -3,8 +3,6 @@
 --
 -- Prefab的格式如下(pivot和anchored都为左上角)
 -- LScrollPage(ScrollRect组件)
---      LeftButton
---      RightButton
 --      Mask(Mask组件)
 --          Content
 --              Item
@@ -45,8 +43,8 @@ LScrollPage.Direction = {
 
 function LScrollPage:__init(transform, itemType, row, column, direction)
     self.itemType = itemType
-    self.row = row
-    self.column = column
+    self.row = row or 1
+    self.column = column or 1
     self.itemLayoutDirection = direction or LScrollPage.Direction.horizontal
     self.gapHorizontal = 0
     self.gapVertical = 0
@@ -54,7 +52,7 @@ function LScrollPage:__init(transform, itemType, row, column, direction)
     self.paddingRight = 0
     self.paddingTop = 0
     self.paddingBottom = 0
-    self.perPageCount = row * column
+    self.perPageCount = self.row * self.column
 
     self.transform = transform
     self.contentTrans = transform:Find("Mask/Content")
@@ -62,7 +60,6 @@ function LScrollPage:__init(transform, itemType, row, column, direction)
     self:InitMask(transform:Find("Mask"))
     self:InitScrollRect(transform)
     self:InitScrollPageEventDispatcher(transform)
-    self:InitTurnButton(transform)
 
     self.currentPage = 1
     self.currentPageDynamic = self.currentPage
@@ -117,21 +114,10 @@ function LScrollPage:InitScrollRect(transform)
 end
 
 function LScrollPage:InitScrollPageEventDispatcher(transform)
-    local controller = transform.gameObject:AddComponent(CustomDragButton)
-    self.customDragButton = controller
-    controller.onBeginDrag:AddListener(function(value) self:OnBeginDragEvent() end)
-    controller.onEndDrag:AddListener(function(value) self:OnEndDragEvent() end)
-end
-
-function LScrollPage:InitTurnButton(transform)
-    -- self.leftButton = UtilsUI.GetButton(transform, "LeftButton")
-    -- self.leftButton.onClick:AddListener(function()
-    --     self:SetCurrentPage(self.currentPage - 1, true)
-    -- end)
-    -- self.rightButton = UtilsUI.GetButton(transform, "RightButton")
-    -- self.rightButton.onClick:AddListener(function()
-    --     self:SetCurrentPage(self.currentPage + 1, true)
-    -- end)
+    local dragEvent = transform.gameObject:AddComponent(DragEvent)
+    self.customDragButton = dragEvent
+    dragEvent.onBeginDrag:AddListener(function(value) self:OnBeginDragEvent() end)
+    dragEvent.onEndDrag:AddListener(function(value) self:OnEndDragEvent() end)
 end
 
 function LScrollPage:__release()
@@ -230,7 +216,6 @@ function LScrollPage:SetData(dataList, commonData)
     self:_hideOutRangeList()
     self:Layout()
     self:_recalculateSize()
-    self:_refreshTurnButton()
     if self:PageHorizontalLayout() then
         if (math.abs(self.contentTrans.localPosition.x)) > math.abs(self:_getTargetPosition(self.totalPage).x) then
             UtilsUI.SetAnchoredX(self.contentTrans, self:_getTargetPosition(self.totalPage).x)
@@ -348,7 +333,6 @@ function LScrollPage:_refresh()
     end
     self:_hideOutRangeList()
     self:Layout()
-    self:_refreshTurnButton()
 end
 
 function LScrollPage:_getDynamicCurrentPage()
@@ -377,11 +361,6 @@ function LScrollPage:_getItem(index)
     item:SetIndex(index)
     item.ItemSelectEvent:AddListener(function(index, item) self.ItemSelectEvent:Fire(index, item) end)
     return item, LScrollPage.GET_ITEM_WAY.new
-end
-
-function LScrollPage:_refreshTurnButton()
-    -- self.leftButton.gameObject:SetActive(self.currentPage ~= 1)
-    -- self.rightButton.gameObject:SetActive(self.currentPage ~= self.totalPage)
 end
 
 function LScrollPage:ItemHorizontalLayout()

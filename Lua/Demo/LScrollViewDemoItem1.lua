@@ -8,11 +8,11 @@ function LScrollViewDemoItem1:__init()
 end
 
 function LScrollViewDemoItem1:__release()
-    UtilsBase.Cancel(self, "tweenId")
+    UtilsBase.CancelTween(self, "tweenId")
 end
 
 function LScrollViewDemoItem1:SetData(data, commonData)
-    UtilsBase.Cancel(self, "tweenId")
+    UtilsBase.CancelTween(self, "tweenId")
     self.data = data
     self.text.text = self.index
     if self.index == commonData then
@@ -26,6 +26,6 @@ end
 
 function LScrollViewDemoItem1:PullDown()
     UtilsUI.SetY(self.detailTrans, -45)
-    UtilsBase.Cancel(self, "tweenId")
+    UtilsBase.CancelTween(self, "tweenId")
     self.tweenId = Tween.Instance:MoveLocalY(self.detailTrans.gameObject, -95, 0.5).id
 end

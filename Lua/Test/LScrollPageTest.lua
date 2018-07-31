@@ -1,7 +1,7 @@
 LScrollPageTest = LScrollPageTest or BaseClass()
 
 LScrollPageTest.Config = {
-    -- {column = 1, row = 1, direction = LScrollPage.Direction.horizontal, dataLength = 5, sizeType = TestDefine.SizeType.fix},
+    {column = 1, row = 1, direction = LScrollPage.Direction.horizontal, dataLength = 5, sizeType = TestDefine.SizeType.fix},
     -- {column = 2, row = 1, direction = LScrollPage.Direction.horizontal, dataLength = 7, sizeType = TestDefine.SizeType.fix},
     -- {column = 2, row = 1, initPage = 2, direction = LScrollPage.Direction.horizontal, dataLength = 7, sizeType = TestDefine.SizeType.fix},
     -- {column = 2, row = 2, direction = LScrollPage.Direction.horizontal, dataLength = 9, sizeType = TestDefine.SizeType.fix},
@@ -24,12 +24,12 @@ function LScrollPageTest:__init(gameObject)
     local transform = gameObject.transform
     local scrollPage = LScrollPage.New(transform:Find("Test0"), LTestItem)
     scrollPage:SetData()
-    -- local scrollPage = LScrollPage.New(transform:Find("Test01"), LTestItem)
-    -- scrollPage:SetData({})
+    local scrollPage = LScrollPage.New(transform:Find("Test01"), LTestItem)
+    scrollPage:SetData({})
     for i = 1, #LScrollPageTest.Config do
         local config = LScrollPageTest.Config[i]
-        -- local scrollPage = LScrollPage.New(transform:Find("Test" .. i), LTestItem, config.row, config.column, config.direction)
-        local scrollPage = LScrollPage.New(transform:Find("Test10"), LTestItem, config.row, config.column, config.direction)
+        local scrollPage = LScrollPage.New(transform:Find("Test" .. i), LTestItem, config.row, config.column, config.direction)
+        -- local scrollPage = LScrollPage.New(transform:Find("Test10"), LTestItem, config.row, config.column, config.direction)
         scrollPage:SetGap(config.gapHorizontal, config.gapVertical)
         scrollPage:SetPadding(config.paddingLeft, config.paddingRight, config.paddingTop, config.paddingBottom)
         if config.initPage then
