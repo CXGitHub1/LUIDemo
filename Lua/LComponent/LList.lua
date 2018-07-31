@@ -2,8 +2,6 @@ LList = LList or BaseClass()
 
 LList.ITEM_NAME = "Item"
 
-print(11111)
-
 LList.Direction = {
     horizontal = 1,
     vertical = 2,

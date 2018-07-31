@@ -18,20 +18,10 @@ LScrollViewDemo.Config = {
 }
 
 function LScrollViewDemo:__init(transform)
-    self.transform = transform
     self.list = {}
     for i = 1, #LScrollViewDemo.Config do
         local config = LScrollViewDemo.Config[i]
         local listView = LScrollView.New(transform:Find("Test" .. i), LDemoItem, config.row, config.column)
-        table.insert(self.list, listView)
-    end
-end
-
-function LScrollViewDemo:SetData()
-    local transform = self.transform
-    for i = 1, #self.list do
-        local config = LScrollViewDemo.Config[i]
-        local listView = self.list[i]
         listView:SetGap(config.gapHorizontal, config.gapVertical)
         listView:SetPadding(config.paddingLeft, config.paddingRight, config.paddingTop, config.paddingBottom)
         listView.ItemSelectEvent:AddListener(function(index, item)
@@ -56,8 +46,6 @@ function LScrollViewDemo:SetData()
                 end
             end)
         end
-        local dataList = self:CreateDataList(config.dataLength)
-        listView:SetData(dataList, {sizeType = config.sizeType})
         if i == 5 then
             local button = transform:Find("Button5"):GetComponent(Button)
             button.gameObject:SetActive(true)
@@ -67,5 +55,16 @@ function LScrollViewDemo:SetData()
                 listView:SetData(dataList, {sizeType = config.sizeType})
             end)
         end
+        table.insert(self.list, listView)
+    end
+end
+
+function LScrollViewDemo:SetData()
+    for i = 1, #self.list do
+        local config = LScrollViewDemo.Config[i]
+        local listView = self.list[i]
+        local dataList = self:CreateDataList(config.dataLength)
+        listView:SetData(dataList, {sizeType = config.sizeType})
+
     end 
 end

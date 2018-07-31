@@ -39,7 +39,7 @@ _print = print
 print = Debug.LogError
 pError = Debug.LogError
 
-DemoManager.New(GameObject.Find("UIRoot").transform)
+-- DemoManager.New(GameObject.Find("UIRoot").transform)
 
 -- local go = root.transform:Find("List")
 -- ListViewPanel.New(go)
@@ -51,10 +51,10 @@ DemoManager.New(GameObject.Find("UIRoot").transform)
 -- local go = root.transform:Find("NExpandableListView")
 -- ExpandablePanel.New(go)
 
--- local root = GameObject.Find("UIRoot")
+local root = GameObject.Find("UIRoot")
 -- LListTest.New(root.transform:Find("LListTest").gameObject)
 -- LScrollViewTest.New(root.transform:Find("LScrollViewTest").gameObject)
--- LScrollPageTest.New(root.transform:Find("LScrollPageTest").gameObject)
+LScrollPageTest.New(root.transform:Find("LScrollPageTest").gameObject)
 
 function Update()
     if Input.GetKeyDown(KeyCode.Q) and Input.GetKey(KeyCode.LeftControl) then
