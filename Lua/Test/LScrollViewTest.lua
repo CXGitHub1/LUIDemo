@@ -1,4 +1,4 @@
-LScrollViewTest = LScrollViewTest or BaseClass()
+LScrollViewTest = LScrollViewTest or BaseClass(BaseTest)
 
 LScrollViewTest.Config = {
     {column = 1, dataLength = 10, sizeType = TestDefine.SizeType.fix},

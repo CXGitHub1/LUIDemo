@@ -1,4 +1,4 @@
-LScrollPageTest = LScrollPageTest or BaseClass()
+LScrollPageTest = LScrollPageTest or BaseClass(BaseTest)
 
 LScrollPageTest.Config = {
     {column = 1, row = 1, direction = LScrollPage.Direction.horizontal, dataLength = 5, sizeType = TestDefine.SizeType.fix},

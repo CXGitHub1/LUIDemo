@@ -64,6 +64,8 @@ end
 function LScrollView:__release()
     UtilsBase.FieldRelease(self, "ItemSelectEvent")
     UtilsBase.FieldRelease(self, "ReachBottomEvent")
+    UtilsBase.TableRelease(self, "itemDict")
+    UtilsBase.TableRelease(self, "itemPoolList")
     UtilsBase.TableRelease(self, "eventNameList")
 end
 

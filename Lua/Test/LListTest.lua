@@ -1,4 +1,4 @@
-LListTest = LListTest or BaseClass()
+LListTest = LListTest or BaseClass(BaseTest)
 
 LListTest.Config = {
     {row = 1, direction = LList.Direction.horizontal, dataLength = 5, sizeType = TestDefine.SizeType.fix},
