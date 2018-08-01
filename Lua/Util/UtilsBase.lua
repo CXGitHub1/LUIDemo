@@ -98,12 +98,10 @@ function UtilsBase.serialize(obj, name, newline, depth, keytab)
     elseif _type(obj) == "boolean" then
         tmp = tmp .. (obj and "true" or "false")
     elseif _type(obj) == "function" then
-        -- tmp = tmp .. _tostring(obj)
         tmp = tmp .. "【function】"
     elseif _type(obj) == "userdata" then
         tmp = tmp .. "【userdata】"
     else
-        -- tmp = tmp .. "\"[" .. _string_format("%s", _tostring(obj)) .. "]\""
         tmp = tmp .. "\"[" .. _string_format("%s", "???") .. "]\""
     end
 

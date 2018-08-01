@@ -1,26 +1,22 @@
 ﻿using SLua;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class Test : MonoBehaviour {
-
+public class TestMain : MonoBehaviour
+{
     private LuaFunction _luaStart = null;
     private LuaFunction _luaUpdate = null;
 
-	void Awake() {
+	void Awake()
+    {
         LuaSvr svr = new LuaSvr();
         LuaSvr.mainState.loaderDelegate += ReadFile;
 
-
         svr.init(null, () =>
         {
-            svr.start("test");
+            svr.start("TestMain");
             Application.targetFrameRate = 30;
 
-            //_luaStart = LuaSvr.mainState.getFunction("Start");
             _luaUpdate = LuaSvr.mainState.getFunction("Update");
         });
 	}
@@ -31,14 +27,8 @@ public class Test : MonoBehaviour {
         return File.ReadAllBytes(path);
     }
 
-    void Start() {
-        if(_luaStart != null)
-        {
-            _luaStart.call();
-        }
-    }
-
-    void Update () {
+    void Update()
+    {
         if(_luaUpdate != null)
         {
             _luaUpdate.call();
