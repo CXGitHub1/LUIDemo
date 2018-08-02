@@ -32,7 +32,6 @@ function LScrollView:__init(transform, itemType, row, column)
 
     self.itemDict = nil
     self.itemPoolList = {}
-    self.tempItemDict = {}
     self.startIndex = nil
     self.endIndex = nil
 end
@@ -62,11 +61,11 @@ function LScrollView:_InitScrollRect(transform)
 end
 
 function LScrollView:__release()
-    UtilsBase.FieldRelease(self, "ItemSelectEvent")
-    UtilsBase.FieldRelease(self, "ReachBottomEvent")
-    UtilsBase.TableRelease(self, "itemDict")
-    UtilsBase.TableRelease(self, "itemPoolList")
-    UtilsBase.TableRelease(self, "eventNameList")
+    UtilsBase.ReleaseField(self, "ItemSelectEvent")
+    UtilsBase.ReleaseField(self, "ReachBottomEvent")
+    UtilsBase.ReleaseTable(self, "itemDict")
+    UtilsBase.ReleaseTable(self, "itemPoolList")
+    UtilsBase.ReleaseTable(self, "eventNameList")
 end
 
 -- public function
@@ -107,8 +106,8 @@ end
 function LScrollView:SetData(dataList, commonData)
     self:_InitData(dataList, commonData)
     if dataList == nil then
+        self:_ClearItemDict()
         self:_CalcSize()
-        self:_ClearTempItemDict()
         return
     end
     local startIndex = self.startIndex or 1
@@ -126,7 +125,7 @@ function LScrollView:SetData(dataList, commonData)
         end
     end
 
-    self.itemDict = {}
+    if self.itemDict == nil then self.itemDict = {} end
     local endIndex = #dataList
     for index = startIndex, #dataList do
         local item = self:_GetItem(index)
@@ -157,8 +156,12 @@ function LScrollView:SetData(dataList, commonData)
     end
     self.startIndex = startIndex
     self.endIndex = endIndex
+    for index in pairs(self.itemDict) do
+        if index < self.startIndex or index > self.endIndex then
+            self:_PushPool(index)
+        end
+    end
     self:_CalcSize()
-    self:_ClearTempItemDict()
 end
 
 function LScrollView:_OnValueChanged(value)
@@ -366,7 +369,6 @@ function LScrollView:_InitData(dataList, commonData)
         self.rowMax = length > self.row and self.row or length
         self.columnMax = math.floor((length - 1) / self.row) + 1
     end
-    self.tempItemDict = self.itemDict
 end
 
 function LScrollView:_CalcSize()
@@ -448,10 +450,8 @@ end
 
 function LScrollView:_GetItem(index)
     local item
-    if self.tempItemDict and self.tempItemDict[index] then
-        item = self.tempItemDict[index]
-        self.tempItemDict[index] = nil
-        item:InitFromCache(index)
+    if self.itemDict and self.itemDict[index] then
+        item = self.itemDict[index]
     elseif self.itemPoolList and #self.itemPoolList > 0 then
         item = table.remove(self.itemPoolList)
         item:InitFromCache(index)
@@ -480,13 +480,11 @@ function LScrollView:_PushPool(index)
     self.itemDict[index] = nil
 end
 
-function LScrollView:_ClearTempItemDict()
-    if self.tempItemDict ~= nil then
-        for index, item in pairs(self.tempItemDict) do
-            item:SetActive(false)
-            table.insert(self.itemPoolList, item)
+function LScrollView:_ClearItemDict()
+    if self.itemDict ~= nil then
+        for index in pairs(self.itemDict) do
+            self:_PushPool(index)
         end
-        self.tempItemDict = nil
     end
 end
 

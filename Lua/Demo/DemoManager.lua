@@ -34,6 +34,10 @@ function DemoManager:__init(rootTrans)
     end
 end
 
+function DemoManager:__release()
+    UtilsBase.ReleaseTable(self, "demoList")
+end
+
 function DemoManager:OnItemClick(index, item)
     self.currentIndex = index
     self.returnGo:SetActive(true)

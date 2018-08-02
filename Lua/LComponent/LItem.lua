@@ -13,7 +13,7 @@ function LItem:__init(gameObject)
 end
 
 function LItem:__release()
-    UtilsBase.FieldRelease(self, "ItemSelectEvent")
+    UtilsBase.ReleaseField(self, "ItemSelectEvent")
 end
 
 function LItem:InitFromCache(index)

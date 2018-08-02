@@ -50,13 +50,17 @@ function LScrollViewDemo:__init(transform)
             local button = transform:Find("Button5"):GetComponent(Button)
             button.gameObject:SetActive(true)
             button.onClick:AddListener(function()
-                local randomValue= math.random(0, 100)
+                local randomValue= math.random(20, 30)
                 local dataList = self:CreateDataList(randomValue)
                 listView:SetData(dataList, {sizeType = config.sizeType})
             end)
         end
         table.insert(self.list, listView)
     end
+end
+
+function LScrollViewDemo:__release()
+    UtilsBase.ReleaseTable(self, "list")
 end
 
 function LScrollViewDemo:SetData()

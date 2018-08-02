@@ -3,6 +3,8 @@ UtilsBase = UtilsBase or {}
 UtilsBase.INT32_MAX = 2147483647
 UtilsBase.INT32_MIN = -2147483648
 
+local _pairs = pairs
+
 function UtilsBase.ReleaseField(object, name)
     if type(name) ~= "string" then
         pError("ReleaseField 传入参数不为字符串")
