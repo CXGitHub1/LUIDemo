@@ -30,10 +30,6 @@ function LListTest:__init(gameObject)
         -- local list = LList.New(transform:Find("Test2"), LTestItem, config.row, config.column, config.direction)
         list:SetGap(config.gapHorizontal, config.gapVertical)
         list:SetPadding(config.paddingLeft, config.paddingRight, config.paddingTop, config.paddingBottom)
-        local dataList = {}
-        for i = 1, config.dataLength do
-            table.insert(dataList, i)
-        end
-        list:SetData(dataList, {sizeType = config.sizeType})
+        list:SetData(self:CreateDataList(config.dataLength), {sizeType = config.sizeType})
     end
 end

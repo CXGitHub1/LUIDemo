@@ -1,5 +1,12 @@
 require("CommonRequire")
 
+require("Test/TestDefine")
+require("Test/BaseTest")
+require("Test/LTestItem")
+require("Test/LListTest")
+require("Test/LScrollViewTest")
+require("Test/LScrollPageTest")
+
 local root = GameObject.Find("UIRoot")
 LListTest.New(root.transform:Find("LListTest").gameObject)
 -- LScrollViewTest.New(root.transform:Find("LScrollViewTest").gameObject)
@@ -13,4 +20,3 @@ function Update()
     end
 end
 
-Application.Quit();

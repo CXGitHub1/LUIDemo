@@ -1,5 +1,16 @@
 require("CommonRequire")
 
+require("Test/TestDefine")
+
+require("Demo/BaseDemo")
+require("Demo/DemoManager")
+require("Demo/MenuItem")
+require("Demo/LDemoItem")
+require("Demo/LListDemo")
+require("Demo/LScrollViewDemo")
+require("Demo/LScrollViewDemo1")
+require("Demo/LScrollViewDemoItem1")
+
 DemoManager.New(GameObject.Find("UIRoot").transform)
 
 function Update()

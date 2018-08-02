@@ -35,11 +35,7 @@ function LScrollPageTest:__init(gameObject)
         if config.initPage then
             scrollPage:InitCurrentPage(config.initPage)
         end
-        local dataList = {}
-        for i = 1, config.dataLength do
-            table.insert(dataList, i)
-        end
-        scrollPage:SetData(dataList, {sizeType = config.sizeType})
+        scrollPage:SetData(self:CreateDataList(config.dataLength), {sizeType = config.sizeType})
         if config.initPage then
             scrollPage:SetCurrentPage(config.initPage)
         end

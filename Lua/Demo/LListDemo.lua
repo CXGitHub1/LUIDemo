@@ -1,21 +1,26 @@
 LListDemo = LListDemo or BaseClass(BaseDemo)
 
 LListDemo.Config = {
-    {row = 1, direction = LList.Direction.horizontal, dataLength = 5, sizeType = TestDefine.SizeType.fix},
-    {column = 3, direction = LList.Direction.horizontal, dataLength = 5, sizeType = TestDefine.SizeType.fix},
-    {column = 2, direction = LList.Direction.horizontal, dataLength = 5, sizeType = TestDefine.SizeType.increase},
-    {column = 2, row = 3, gapVertical = 5, gapHorizontal = 10, direction = LList.Direction.horizontal, dataLength = 11, sizeType = TestDefine.SizeType.fix},
-    {column = 2, row = 3, gapVertical = 5, gapHorizontal = 10,
-        paddingLeft = 20, paddingRight = -20, paddingTop = 10, paddingBottom = 40,
-        direction = LList.Direction.horizontal, dataLength = 14, sizeType = TestDefine.SizeType.specified1},
-    {column = 1, row = 4, gapVertical = 5, gapHorizontal = 10, 
-        direction = LList.Direction.vertical, dataLength = 10, sizeType = TestDefine.SizeType.fix},
-    {column = 2, row = 5, gapVertical = 5, gapHorizontal = 5, 
-        paddingLeft = 5, paddingRight = 5, paddingTop = 5, paddingBottom = 5,
-        direction = LList.Direction.vertical, dataLength = 15, sizeType = TestDefine.SizeType.fix},
-    {column = 1, row = 1, gapVertical = 5, gapHorizontal = 5, 
-        paddingLeft = 5, paddingRight = 5, paddingTop = 5, paddingBottom = 5,
-        direction = LList.Direction.vertical, dataLength = 5, sizeType = TestDefine.SizeType.increase},
+    --固定大小，水平显示
+    {row = 1 direction = LList.Direction.horizontal, dataLength = 6, sizeType = TestDefine.SizeType.fix},
+    --垂直显示，包括gap和padding，动态大小
+    {column = 2, row = 4, direction = LList.Direction.horizontal,
+        gapVertical = 5, gapHorizontal = 10,
+        paddingLeft = 10, paddingRight = -10, paddingTop = 10, paddingBottom = 10,
+        dataLength = 7, sizeType = TestDefine.SizeType.specified1},
+    --水平显示，包括gap和padding，动态大小
+    {column = 2, row = 4, direction = LList.Direction.vertical,
+        gapVertical = 5, gapHorizontal = 10,
+        paddingLeft = 10, paddingRight = -10, paddingTop = 10, paddingBottom = 10,
+        dataLength = 7, sizeType = TestDefine.SizeType.specified1},
+    --翻页显示
+    {column = 2, row = 3, direction = LList.Direction.horizontal,
+        gapVertical = 5, gapHorizontal = 10,
+        dataLength = 9, sizeType = TestDefine.SizeType.specified1},
+    --多次SetData
+    {column = 2, row = 3, direction = LList.Direction.vertical,
+        gapVertical = 5, gapHorizontal = 10,
+        dataLength = 9, sizeType = TestDefine.SizeType.specified1},
 }
 
 function LListDemo:__init(gameObject)
@@ -27,6 +32,15 @@ function LListDemo:__init(gameObject)
         table.insert(self.list, list)
         list:SetGap(config.gapHorizontal, config.gapVertical)
         list:SetPadding(config.paddingLeft, config.paddingRight, config.paddingTop, config.paddingBottom)
+        if i == 5 then
+            local button = transform:Find("Button5"):GetComponent(Button)
+            button.gameObject:SetActive(true)
+            button.onClick:AddListener(function()
+                local randomValue= math.random(5, 13)
+                local dataList = self:CreateDataList(randomValue)
+                list:SetData(dataList, {sizeType = config.sizeType})
+            end)
+        end
     end
 end
 

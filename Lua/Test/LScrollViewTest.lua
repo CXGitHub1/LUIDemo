@@ -35,27 +35,15 @@ function LScrollViewTest:__init(gameObject)
             listView.ReachBottomEvent:AddListener(function()
                 if once then
                     once = false
-                    local dataList = {}
-                    for i = 1, config.bottomData do
-                        table.insert(dataList, i)
-                    end
-                    listView:SetData(dataList, {sizeType = config.sizeType})
+                    listView:SetData(self:CreateDataList(config.bottomData), {sizeType = config.sizeType})
                 end
             end)
         end
-        local dataList = {}
-        for i = 1, config.dataLength do
-            table.insert(dataList, i)
-        end
-        listView:SetData(dataList, {sizeType = config.sizeType})
+        listView:SetData(self:CreateDataList(config.dataLength), {sizeType = config.sizeType})
         if i == 12 then
             local button = transform:Find("Button12"):GetComponent(Button).onClick:AddListener(function()
                 local randomValue = math.random(0, 100)
-                local dataList = {}
-                for j = 1, randomValue do
-                    table.insert(dataList, j)
-                end
-                listView:SetData(dataList, {sizeType = config.sizeType})
+                listView:SetData(self:CreateDataList(randomValue), {sizeType = config.sizeType})
             end)
         end
     end
