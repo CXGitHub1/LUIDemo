@@ -2,6 +2,7 @@ LTreeTest = LTreeTest or BaseClass(BaseTest)
 
 LTreeTest.Config = {
     {
+        name = "总共",
         dataList =
         {
             {name = "滚动组件",
@@ -31,7 +32,9 @@ function LTreeTest:__init(gameObject)
     local transform = gameObject.transform
     for i = 1, #LTreeTest.Config do
         local config = LTreeTest.Config[i]
-        local tree = LTree.New(transform:Find("Test" .. i))
+        pError("New")
+        local tree = LTree.New(transform:Find("Test" .. i), LTreeNode)
+        pError("New End")
         -- tree:SetGap(config.gapHorizontal, config.gapVertical)
         -- tree:SetPadding(config.paddingLeft, config.paddingRight, config.paddingTop, config.paddingBottom)
         tree:SetData(config.dataList)
