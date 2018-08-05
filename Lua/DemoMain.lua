@@ -10,6 +10,7 @@ require("Demo/LListDemo")
 require("Demo/LScrollViewDemo")
 require("Demo/LScrollViewDemo1")
 require("Demo/LScrollViewDemoItem1")
+require("Demo/LScrollPageDemo")
 
 DemoManager.New(GameObject.Find("UIRoot").transform)
 

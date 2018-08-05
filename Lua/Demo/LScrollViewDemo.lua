@@ -26,6 +26,9 @@ function LScrollViewDemo:__init(transform)
         listView:SetPadding(config.paddingLeft, config.paddingRight, config.paddingTop, config.paddingBottom)
         listView.ItemSelectEvent:AddListener(function(index, item)
             Debug.Log("ItemSelectEvent:" .. index)
+            if i == 6 then
+                listView:SetData(self:CreateDataList(config.dataLength), {sizeType = config.sizeType, selectIndex = index})
+            end
         end)
         if config.startIndex then
             listView:SetStartIndex(config.startIndex)
@@ -34,6 +37,9 @@ function LScrollViewDemo:__init(transform)
             listView:AddItemEvent(config.eventName)
             listView[config.eventName]:AddListener(function(index)
                 Debug.Log(config.eventName .. ":" .. index)
+                if i == 6 then
+                    listView:SetData(self:CreateDataList(config.dataLength), {sizeType = config.sizeType, selectIndex = index})
+                end
             end)
         end
         if config.bottomData then
@@ -41,8 +47,7 @@ function LScrollViewDemo:__init(transform)
             listView.ReachBottomEvent:AddListener(function()
                 if once then
                     once = false
-                    local dataList = self:CreateDataList(config.bottomData)
-                    listView:SetData(dataList, {sizeType = config.sizeType})
+                    listView:SetData(self:CreateDataList(config.bottomData), {sizeType = config.sizeType})
                 end
             end)
         end
@@ -51,8 +56,7 @@ function LScrollViewDemo:__init(transform)
             button.gameObject:SetActive(true)
             button.onClick:AddListener(function()
                 local randomValue= math.random(20, 30)
-                local dataList = self:CreateDataList(randomValue)
-                listView:SetData(dataList, {sizeType = config.sizeType})
+                listView:SetData(self:CreateDataList(randomValue), {sizeType = config.sizeType})
             end)
         end
         table.insert(self.list, listView)
@@ -67,8 +71,6 @@ function LScrollViewDemo:SetData()
     for i = 1, #self.list do
         local config = LScrollViewDemo.Config[i]
         local listView = self.list[i]
-        local dataList = self:CreateDataList(config.dataLength)
-        listView:SetData(dataList, {sizeType = config.sizeType})
-
+        listView:SetData(self:CreateDataList(config.dataLength), {sizeType = config.sizeType})
     end 
 end

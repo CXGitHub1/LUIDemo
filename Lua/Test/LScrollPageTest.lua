@@ -13,11 +13,8 @@ LScrollPageTest.Config = {
     {column = 1, row = 1, direction = LScrollPage.Direction.vertical, dataLength = 5, sizeType = TestDefine.SizeType.fix},
     {column = 2, row = 2, direction = LScrollPage.Direction.vertical, dataLength = 10, initPage = 2, sizeType = TestDefine.SizeType.fix},
     {column = 2, row = 2, direction = LScrollPage.Direction.vertical, dataLength = 10, initPage = 2, sizeType = TestDefine.SizeType.fix},
-    -- {column = 3, row = 3, direction = LScrollPage.Direction.vertical, dataLength = 5, initPage = 1, sizeType = TestDefine.SizeType.fix},
-    -- {column = 3, row = 3, direction = LScrollPage.Direction.vertical, dataLength = 55,
-    --     gapVertical = 5, gapHorizontal = 5,
-    --     paddingLeft = 5, paddingRight = 5, paddingTop = 5, paddingBottom = 5,
-    --     initPage = 2, sizeType = TestDefine.SizeType.fix},
+    {column = 3, row = 3, direction = LScrollPage.Direction.vertical, dataLength = 9, initPage = 1, sizeType = TestDefine.SizeType.fix},
+    {column = 2, row = 2, direction = LScrollPage.Direction.horizontal, dataLength = 100, initPage = 2, sizeType = TestDefine.SizeType.fix},
 }
 
 function LScrollPageTest:__init(gameObject)
@@ -38,6 +35,18 @@ function LScrollPageTest:__init(gameObject)
         scrollPage:SetData(self:CreateDataList(config.dataLength), {sizeType = config.sizeType})
         if config.initPage then
             scrollPage:SetCurrentPage(config.initPage)
+        end
+        if i == 10 then
+            local button = transform:Find("Button10"):GetComponent(Button).onClick:AddListener(function()
+                local randomValue = math.random(0, 20)
+                scrollPage:SetData(self:CreateDataList(randomValue), {sizeType = config.sizeType})
+            end)
+        end
+        if i == 11 then
+            local button = transform:Find("Button11"):GetComponent(Button).onClick:AddListener(function()
+                local randomValue = math.random(1, 10)
+                scrollPage:SetCurrentPage(randomValue, true)
+            end)
         end
     end
 end

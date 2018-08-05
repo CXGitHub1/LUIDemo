@@ -1,32 +1,3 @@
--- @author chenquan
--- 水平滚动翻页组件
---
--- Prefab的格式如下(pivot和anchored都为左上角)
--- LScrollPage(ScrollRect组件)
---      Mask(Mask组件)
---          Content
---              Item
---
--- 主要调用以下接口
---  SetData(dataList) 设置每一页的数据
---  SetCurrentPage(pageNum, tween) 跳转到指定页
---
---  注意：ScrollPage最多生成三页的Item 即currentPage - 1, currentPage, currentPage + 1
-
--- 待测试
--- SetData为空的情况
--- SetData有数据之后又为空的情况
-
---ScrollPage参数设置
---itemType Item的基类
---row 每页显示行数
---column 每页显示列数
---gapHorizontal Item 之间的水平间隙
---gapVertical Item 之间的垂直间隙
---paddingLeft 每页左边第一个Item与Mask左边缘的偏移值
---paddingRight 每页右边第一个Item与Mask右边缘的偏移值
---paddingTop 每页上边第一个Item与Mask顶部边缘的偏移值
---paddingBottom 每页下边第一个Item与Mask底部边缘的偏移值
 LScrollPage = LScrollPage or BaseClass()
 
 LScrollPage.ITEM_NAME = "Item"
@@ -56,37 +27,25 @@ function LScrollPage:__init(transform, itemType, row, column, direction)
 
     self.transform = transform
     self.contentTrans = transform:Find("Mask/Content")
-    self:InitTemplateItem()
-    self:InitMask(transform:Find("Mask"))
-    self:InitScrollRect(transform)
-    self:InitScrollPageEventDispatcher(transform)
+    self:_InitTemplateItem()
+    self:_InitMask(transform:Find("Mask"))
+    self:_InitScrollRect(transform)
+    self:_InitDragEvent(transform)
 
+    self.itemDict = {}
+    self.itemPoolList = {}
     self.currentPage = 1
     self.currentPageDynamic = self.currentPage
     self.ItemSelectEvent = EventLib.New()
 end
 
-function LScrollPage:SetGap(gapHorizontal, gapVertical)
-    self.gapHorizontal = gapHorizontal or 0
-    self.gapVertical = gapVertical or 0
-    self:CalcMaskSize()
-end
-
-function LScrollPage:SetPadding(paddingLeft, paddingRight, paddingTop, paddingBottom)
-    self.paddingLeft = paddingLeft or 0
-    self.paddingRight = paddingRight or 0
-    self.paddingTop = paddingTop or 0
-    self.paddingBottom = paddingBottom or 0
-    self:CalcMaskSize()
-end
-
-function LScrollPage:InitMask(transform)
+function LScrollPage:_InitMask(transform)
     self.mask = transform:GetComponent(Mask)
     self.maskImage = UtilsUI.GetImage(transform)
-    self:CalcMaskSize()
+    self:_CalcMaskSize()
 end
 
-function LScrollPage:CalcMaskSize()
+function LScrollPage:_CalcMaskSize()
     local maskWidth = self.paddingLeft + self.paddingRight + self.column * self.itemWidth + (self.column - 1) * self.gapHorizontal
     local maskHeight = self.paddingTop + self.paddingBottom + self.row * self.itemHeight + (self.row - 1) * self.gapVertical
     self.maskWidth = maskWidth
@@ -94,17 +53,17 @@ function LScrollPage:CalcMaskSize()
     self.mask.transform.sizeDelta = Vector2(maskWidth, maskHeight)
 end
 
-function LScrollPage:InitTemplateItem()
+function LScrollPage:_InitTemplateItem()
     local template = self.contentTrans:Find(LScrollPage.ITEM_NAME).gameObject
     self.template = template
     self.itemWidth = template.transform.sizeDelta.x
     self.itemHeight = template.transform.sizeDelta.y
 end
 
-function LScrollPage:InitScrollRect(transform)
+function LScrollPage:_InitScrollRect(transform)
     local scrollRect = transform:GetComponent(ScrollRect)
     self.scrollRect = scrollRect
-    self.scrollRect.onValueChanged:AddListener(function() self:OnValueChanged() end)
+    self.scrollRect.onValueChanged:AddListener(function() self:_OnValueChanged() end)
     scrollRect.inertia = false
     if scrollRect.vertical then
         self.pageLayoutDirection = LScrollPage.Direction.vertical
@@ -113,25 +72,29 @@ function LScrollPage:InitScrollRect(transform)
     end
 end
 
-function LScrollPage:InitScrollPageEventDispatcher(transform)
+function LScrollPage:_InitDragEvent(transform)
     local dragEvent = transform.gameObject:AddComponent(DragEvent)
-    self.customDragButton = dragEvent
-    dragEvent.onBeginDrag:AddListener(function(value) self:OnBeginDragEvent() end)
-    dragEvent.onEndDrag:AddListener(function(value) self:OnEndDragEvent() end)
+    dragEvent.onBeginDrag:AddListener(function(value) self:_OnBeginDragEvent() end)
+    dragEvent.onEndDrag:AddListener(function(value) self:_OnEndDragEvent() end)
 end
 
 function LScrollPage:__release()
+    UtilsBase.ReleaseField(self, "ItemSelectEvent")
+    UtilsBase.ReleaseTable(self, "eventNameList")
+    UtilsBase.CancelTween(self, "tweenId")
+    UtilsBase.ReleaseTable(self, "itemDict")
+    UtilsBase.ReleaseTable(self, "itemPoolList")
 end
 
-function LScrollPage:OnBeginDragEvent()
+function LScrollPage:_OnBeginDragEvent()
     UtilsBase.CancelTween(self, "tweenId")
     self.beginDragPosition = self.contentTrans.anchoredPosition
 end
 
-function LScrollPage:OnEndDragEvent()
+function LScrollPage:_OnEndDragEvent()
     local endDragPosition = self.contentTrans.anchoredPosition
     local page
-    if self:PageHorizontalLayout() then
+    if self:_PageHorizontalLayout() then
         page = math.ceil(-endDragPosition.x / self.maskWidth)
         if endDragPosition.x < self.beginDragPosition.x then --鼠标向左拉动
             page = page + 1
@@ -144,42 +107,57 @@ function LScrollPage:OnEndDragEvent()
     end
     page = Mathf.Clamp(page, 1, self.totalPage)
     self.currentPage = page
-    self:_tweenMove(page)
+    self:_TweenMove(page)
 end
 
-function LScrollPage:OnValueChanged()
-    local dynamicCurrentPage = self:_getDynamicCurrentPage()
+function LScrollPage:_OnValueChanged()
+    local dynamicCurrentPage = self:_GetDynamicCurrentPage()
     if self.dynamicCurrentPage ~= dynamicCurrentPage then
         self.dynamicCurrentPage = dynamicCurrentPage
-        self:_refresh()
+        self:_Refresh()
     end
 end
 
 -- public function
-function LScrollPage:InitCurrentPage(page)
-    self.currentPage = page
+function LScrollPage:SetGap(gapHorizontal, gapVertical)
+    self.gapHorizontal = gapHorizontal or 0
+    self.gapVertical = gapVertical or 0
+    self:_CalcMaskSize()
 end
 
-function LScrollPage:GetPageNumByItemIndex(itemIndex)
-    return math.ceil(itemIndex / self.perPageCount)
+function LScrollPage:SetPadding(paddingLeft, paddingRight, paddingTop, paddingBottom)
+    self.paddingLeft = paddingLeft or 0
+    self.paddingRight = paddingRight or 0
+    self.paddingTop = paddingTop or 0
+    self.paddingBottom = paddingBottom or 0
+    self:_CalcMaskSize()
+end
+
+function LScrollPage:AddItemEvent(eventName)
+    if self.eventNameList == nil then
+        self.eventNameList = {}
+    end
+    table.insert(self.eventNameList, eventName)
+    self[eventName] = EventLib.New()
+end
+
+function LScrollPage:InitCurrentPage(page)
+    self.initPage = page
 end
 
 function LScrollPage:SetCurrentPage(page, tween)
     local page = Mathf.Clamp(page, 1, self.totalPage)
-    -- if page == self.currentPage then
-    --     return
-    -- end
     self.currentPage = page
     if tween then
-        self:_tweenMove(page)
+        self:_TweenMove(page)
     else
-        if self:PageHorizontalLayout() then
-            UtilsUI.SetAnchoredX(self.contentTrans, self:_getTargetPosition(page).x)
+        if self:_PageHorizontalLayout() then
+            UtilsUI.SetAnchoredX(self.contentTrans, self:_GetTargetPosition(page).x)
         else
-            UtilsUI.SetAnchoredY(self.contentTrans, self:_getTargetPosition(page).y)
+            UtilsUI.SetAnchoredY(self.contentTrans, self:_GetTargetPosition(page).y)
         end
-        self.dynamicCurrentPage = self:_getDynamicCurrentPage()
-        self:_refresh()
+        self.dynamicCurrentPage = self:_GetDynamicCurrentPage()
+        self:_Refresh()
     end
 end
 
@@ -187,59 +165,101 @@ function LScrollPage:GetTotalPage()
     return self.totalPage
 end
 
-function LScrollPage:_emptyCacheItemList()
-    if self.itemList then
-        for i = 1, #self.itemList do
-            --TODO
-        end
-    end
-end
-
 function LScrollPage:SetData(dataList, commonData)
     self.dataList = dataList
     self.commonData = commonData
-    if dataList == nil then
-        self:_emptyCacheItemList()
+    if dataList == nil or next(dataList) == nil then
+        self.initPage = nil
+        self:_EmptyCacheItemList()
+        self.contentTrans.sizeDelta = Vector2(0, 0)
         return
     end
+    local initPage = self.initPage
+    self.initPage = nil
     self.totalPage = math.ceil(#dataList / self.perPageCount)
-    local startIndex, endIndex = self:_getIndexRange(self.currentPage)
-    self:_cacheItemList(startIndex, endIndex)
-    self.itemList = {}
+    if initPage then
+        self.currentPage = initPage
+    end
+    self.currentPage = math.min(self.currentPage, self.totalPage)
+
+    local startIndex, endIndex = self:_GetIndexRange(self.currentPage)
+    self:_HideOutRangeList(startIndex, endIndex)
     for index = startIndex, endIndex do
-        local item = self:_getItem(index)
+        local item = self:_GetItem(index)
         item:SetActive(true)
         item:SetData(dataList[index], commonData)
-        table.insert(self.itemList, item)
+        self.itemDict[index] = item
     end
-    self:_setDragableComponentEnabled(#dataList > self.perPageCount)
-    self:_hideOutRangeList()
-    self:Layout()
-    self:_recalculateSize()
-    if self:PageHorizontalLayout() then
-        if (math.abs(self.contentTrans.localPosition.x)) > math.abs(self:_getTargetPosition(self.totalPage).x) then
-            UtilsUI.SetAnchoredX(self.contentTrans, self:_getTargetPosition(self.totalPage).x)
+    self:_Layout()
+    self:_RecalculateSize()
+    if initPage then
+        self:SetCurrentPage(initPage)
+    end
+    if self:_PageHorizontalLayout() then
+        if (math.abs(self.contentTrans.localPosition.x)) > math.abs(self:_GetTargetPosition(self.totalPage).x) then
+            UtilsUI.SetAnchoredX(self.contentTrans, self:_GetTargetPosition(self.totalPage).x)
         end
     else
-        if (math.abs(self.contentTrans.localPosition.y)) > math.abs(self:_getTargetPosition(self.totalPage).y) then
-            UtilsUI.SetAnchoredY(self.contentTrans, self:_getTargetPosition(self.totalPage).y)
+        if (math.abs(self.contentTrans.localPosition.y)) > math.abs(self:_GetTargetPosition(self.totalPage).y) then
+            UtilsUI.SetAnchoredY(self.contentTrans, self:_GetTargetPosition(self.totalPage).y)
         end
     end
 end
 
-function LScrollPage:Layout()
-    for _, item in ipairs(self.itemList) do
-        local index = item.index
+
+-- private function
+function LScrollPage:_TweenMove(page)
+    if self:_PageHorizontalLayout() then
+        self.tweenId = Tween.Instance:MoveLocalX(self.contentTrans.gameObject, self:_GetTargetPosition(page).x, 0.3).id
+    else
+        self.tweenId = Tween.Instance:MoveLocalY(self.contentTrans.gameObject, self:_GetTargetPosition(page).y, 0.3).id
+    end
+end
+
+function LScrollPage:_RecalculateSize()
+    if self:_PageHorizontalLayout() then
+        self.contentTrans.sizeDelta = Vector2(self.totalPage * self.maskWidth, self.maskHeight)
+    else
+        self.contentTrans.sizeDelta = Vector2(self.maskWidth, self.totalPage * self.maskHeight)
+    end
+end
+
+function LScrollPage:_GetTargetPosition(page)
+    if self:_PageHorizontalLayout() then
+        return Vector2(-(page - 1) * self.maskWidth, 0)
+    else
+        return Vector2(0, (page - 1) * self.maskHeight)
+    end
+end
+
+function LScrollPage:_HideOutRangeList(startIndex, endIndex)
+    for index, item in pairs(self.itemDict) do
+        if index < startIndex or endIndex < index then
+            item:SetActive(false)
+            self.itemDict[index] = nil
+            table.insert(self.itemPoolList, item)
+        end
+    end
+end
+
+function LScrollPage:_GetIndexRange(currentPage)
+    local startIndex = (currentPage - 2) * self.perPageCount + 1
+    local endIndex = (currentPage + 1) * self.perPageCount
+    return math.max(startIndex, 1), math.min(endIndex, #self.dataList)
+end
+
+function LScrollPage:_Layout()
+    for index, item in pairs(self.itemDict) do
         local page = math.floor((index - 1) / self.perPageCount)
         local pageIndex = (index - 1) % self.perPageCount + 1
         local x, y
         local offset
-        if self:PageHorizontalLayout() then
+        if self:_PageHorizontalLayout() then
             offset = Vector2(page * self.maskWidth, 0)
         else
             offset = Vector2(0, -page * self.maskHeight)
         end
-        if self:ItemHorizontalLayout() then
+        if self:_ItemHorizontalLayout() then
             column = (pageIndex - 1) % self.column + 1
             row = math.floor((pageIndex - 1) / self.column) + 1
         else
@@ -252,92 +272,30 @@ function LScrollPage:Layout()
     end
 end
 
--- private function
-function LScrollPage:_tweenMove(page)
-    if self:PageHorizontalLayout() then
-        self.tweenId = Tween.Instance:MoveLocalX(self.contentTrans.gameObject, self:_getTargetPosition(page).x, 0.3).id
-    else
-        self.tweenId = Tween.Instance:MoveLocalY(self.contentTrans.gameObject, self:_getTargetPosition(page).y, 0.3).id
+function LScrollPage:_EmptyCacheItemList()
+    for index, item in pairs(self.itemDict) do
+        item:SetActive(false)
+        self.itemDict[index] = nil
     end
 end
 
-function LScrollPage:_recalculateSize()
-    if self:PageHorizontalLayout() then
-        self.contentTrans.sizeDelta = Vector2(self.totalPage * self.maskWidth, self.maskHeight)
-    else
-        self.contentTrans.sizeDelta = Vector2(self.maskWidth, self.totalPage * self.maskHeight)
-    end
-end
-
-function LScrollPage:_setDragableComponentEnabled(enabled)
-    self.scrollRect.enabled = enabled
-    self.customDragButton.enabled = enabled
-    self.mask.enabled = enabled
-    self.maskImage.enabled = enabled
-end
-
-function LScrollPage:_getTargetPosition(page)
-    if self:PageHorizontalLayout() then
-        return Vector2(-(page - 1) * self.maskWidth, 0)
-    else
-        return Vector2(0, (page - 1) * self.maskHeight)
-    end
-end
-
-function LScrollPage:_hideOutRangeList()
-    if self.cacheOutRangeList then
-        for i = 1, #self.cacheOutRangeList do
-            self.cacheOutRangeList[i]:SetActive(false)
-        end
-    end
-end
-
-function LScrollPage:_getIndexRange(currentPage)
-    local startIndex = (currentPage - 2) * self.perPageCount + 1
-    local endIndex = (currentPage + 1) * self.perPageCount
-    return math.max(startIndex, 1), math.min(endIndex, #self.dataList)
-end
-
-function LScrollPage:_cacheItemList(startIndex, endIndex)
-    if self.itemList == nil then
-        return
-    end
-    for i = 1, #self.itemList do
-        local item = self.itemList[i]
-        if item.index < startIndex or endIndex < item.index then
-            if self.cacheOutRangeList == nil then
-                self.cacheOutRangeList = {}
-            end
-            table.insert(self.cacheOutRangeList, item)
-        else
-            if self.cacheInRangeDict == nil then
-                self.cacheInRangeDict = {}
-            end
-            self.cacheInRangeDict[item.index] = item
-        end
-    end
-end
-
-function LScrollPage:_refresh()
-    local dataList = self.dataList
-    local startIndex, endIndex = self:_getIndexRange(self.dynamicCurrentPage)
-    self:_cacheItemList(startIndex, endIndex)
-    self.itemList = {}
+function LScrollPage:_Refresh()
+    local startIndex, endIndex = self:_GetIndexRange(self.dynamicCurrentPage)
+    self:_HideOutRangeList(startIndex, endIndex)
     for index = startIndex, endIndex do
-        local item, getWay = self:_getItem(index)
+        local item, getWay = self:_GetItem(index)
         item:SetActive(true)
         if getWay ~= LScrollPage.GET_ITEM_WAY.exist then
-            item:SetData(dataList[index], self.commonData)
+            item:SetData(self.dataList[index], self.commonData)
         end
-        table.insert(self.itemList, item)
+        self.itemDict[index] = item
     end
-    self:_hideOutRangeList()
-    self:Layout()
+    self:_Layout()
 end
 
-function LScrollPage:_getDynamicCurrentPage()
+function LScrollPage:_GetDynamicCurrentPage()
     local page
-    if self:PageHorizontalLayout() then
+    if self:_PageHorizontalLayout() then
         page = math.ceil((-self.contentTrans.anchoredPosition.x + self.maskWidth / 2) / self.maskWidth)
     else
         page = math.ceil((self.contentTrans.anchoredPosition.y + self.maskHeight / 2) / self.maskHeight)
@@ -345,14 +303,12 @@ function LScrollPage:_getDynamicCurrentPage()
     return Mathf.Clamp(page, 1, self.totalPage)
 end
 
-function LScrollPage:_getItem(index)
-    if self.cacheInRangeDict and self.cacheInRangeDict[index] then
-        local item = self.cacheInRangeDict[index]
-        self.cacheInRangeDict[index] = nil
-        return item, LScrollPage.GET_ITEM_WAY.exist
-    elseif self.cacheOutRangeList and #self.cacheOutRangeList > 0 then
-        local item = table.remove(self.cacheOutRangeList)
-        item:SetIndex(index)
+function LScrollPage:_GetItem(index)
+    if self.itemDict[index] then
+        return self.itemDict[index], LScrollPage.GET_ITEM_WAY.exist
+    elseif self.itemPoolList and #self.itemPoolList > 0 then
+        item = table.remove(self.itemPoolList)
+        item:InitFromCache(index) 
         return item, LScrollPage.GET_ITEM_WAY.cache
     end
     local go = GameObject.Instantiate(self.template)
@@ -360,13 +316,19 @@ function LScrollPage:_getItem(index)
     local item = self.itemType.New(go)
     item:SetIndex(index)
     item.ItemSelectEvent:AddListener(function(index, item) self.ItemSelectEvent:Fire(index, item) end)
+    if self.eventNameList then
+        for i = 1, #self.eventNameList do
+            local eventName = self.eventNameList[i]
+            item[eventName]:AddListener(function(...) self[eventName]:Fire(...) end)
+        end
+    end
     return item, LScrollPage.GET_ITEM_WAY.new
 end
 
-function LScrollPage:ItemHorizontalLayout()
+function LScrollPage:_ItemHorizontalLayout()
     return self.itemLayoutDirection == LScrollPage.Direction.horizontal
 end
 
-function LScrollPage:PageHorizontalLayout()
+function LScrollPage:_PageHorizontalLayout()
     return self.pageLayoutDirection == LScrollPage.Direction.horizontal
 end

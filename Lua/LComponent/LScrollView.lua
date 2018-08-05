@@ -165,6 +165,9 @@ function LScrollView:SetData(dataList, commonData)
 end
 
 function LScrollView:_OnValueChanged(value)
+    if self.dataList == nil or next(self.dataList) == nil then
+        return
+    end
     self:_FireReachBottomEvent(value)
     if not self:_ContentContainMask() then
         while(self:_CanAddAtStart()) do

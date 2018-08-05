@@ -11,7 +11,7 @@ function LTree:__init(transform, itemType, itemTypeDict)
     -- self.rootNode = LTreeNode.New()
 
     self:_InitComponent(transform)
-    self.nodeDataList 
+    -- self.nodeDataList 
 end
 
 function LTree:_InitComponent(transform)

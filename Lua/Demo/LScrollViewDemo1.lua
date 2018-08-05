@@ -1,5 +1,3 @@
--- TODO
--- 简单的选中效果 用回调的SetData
 -- 点击下滑效果
 LScrollViewDemo1 = LScrollViewDemo1 or BaseClass(BaseDemo)
 

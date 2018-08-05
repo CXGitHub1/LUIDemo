@@ -4,6 +4,7 @@ DemoManager.Config = {
     {name = "LScrollViewDemo"},
     {name = "LScrollViewDemo1"},
     {name = "LListDemo"},
+    {name = "LScrollPageDemo"},
 }
 
 function DemoManager:__init(rootTrans)
