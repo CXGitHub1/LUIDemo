@@ -49,7 +49,7 @@ function LScrollPageDemo:__init(transform)
             button.onClick:AddListener(function()
                 local randomValue= math.random(2, 20)
                 text.text = "SetData(" .. randomValue .. ")"
-                listView:SetData(self:CreateDataList(randomValue), {sizeType = config.sizeType})
+                scrollPage:SetData(self:CreateDataList(randomValue), {sizeType = config.sizeType})
             end)
         end
         table.insert(self.list, scrollPage)
