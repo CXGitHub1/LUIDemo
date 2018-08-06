@@ -13,6 +13,7 @@ require("LComponent/LScrollView")
 require("LComponent/LScrollPage")
 require("LComponent/LTree")
 require("LComponent/LTreeNode")
+require("LComponent/LTreeNodeData")
 
 Tween.New()
 

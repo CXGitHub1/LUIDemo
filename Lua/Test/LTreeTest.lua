@@ -12,6 +12,14 @@ LTreeTest.Config = {
                     dataList =
                         {
                             {name = "测试1"},
+                            {name = "测试2"},
+                            {name = "测试3"},
+                            {name = "测试4"},
+                            {name = "测试5"},
+                            {name = "测试6"},
+                            {name = "测试7"},
+                            {name = "测试8"},
+                            {name = "测试9"},
                         }
                     },
                     {name = "LScrollView"},
@@ -32,11 +40,7 @@ function LTreeTest:__init(gameObject)
     local transform = gameObject.transform
     for i = 1, #LTreeTest.Config do
         local config = LTreeTest.Config[i]
-        pError("New")
         local tree = LTree.New(transform:Find("Test" .. i), LTreeNode)
-        pError("New End")
-        -- tree:SetGap(config.gapHorizontal, config.gapVertical)
-        -- tree:SetPadding(config.paddingLeft, config.paddingRight, config.paddingTop, config.paddingBottom)
         tree:SetData(config.dataList)
     end
 end

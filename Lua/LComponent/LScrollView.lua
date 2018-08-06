@@ -287,7 +287,7 @@ end
 function LScrollView:_RemoveStartOutMask()
     local startIndex = self.startIndex
     local startItem = self.itemDict[startIndex]
-    if self:_IsOutOfView(startItem) then
+    if self:_IsOutOfMask(startItem) then
         local endIndex = self:_GetEndIndex(startIndex)
         if endIndex > #self.dataList then
             endIndex = #self.dataList
@@ -324,7 +324,7 @@ end
 function LScrollView:_RemoveEndOutMask()
     local endIndex = self.endIndex
     local item = self.itemDict[endIndex]
-    if self:_IsOutOfView(item) then
+    if self:_IsOutOfMask(item) then
         local startIndex = self:_GetStartIndex(endIndex)
         for index = startIndex, endIndex do
             self:_PushPool(index)
@@ -433,7 +433,7 @@ function LScrollView:_CalcSize()
     self.contentTrans.sizeDelta = Vector2(right - left, top - bottom)
 end
 
-function LScrollView:_IsOutOfView(item)
+function LScrollView:_IsOutOfMask(item)
     local position = item:GetPosition()
     if self:_IsVerticalScroll() then
         local top = position.y + self.gapVertical
