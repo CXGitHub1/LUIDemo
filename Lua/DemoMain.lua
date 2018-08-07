@@ -12,6 +12,10 @@ require("Demo/LScrollViewDemo1")
 require("Demo/LScrollViewDemoItem1")
 require("Demo/LScrollPageDemo")
 
+require("Demo/LTree/LTreeDemo1")
+require("Demo/LTree/LTreeNodeDataDemo1")
+require("Demo/LTree/LTreeNodeDemo1")
+
 DemoManager.New(GameObject.Find("UIRoot").transform)
 
 function Update()

@@ -5,6 +5,8 @@ UtilsBase.INT32_MIN = -2147483648
 
 local _pairs = pairs
 local _type = type
+local _tostring = tostring
+local _string_format = string.format
 
 function UtilsBase.ReleaseField(object, name)
     if type(name) ~= "string" then
@@ -71,6 +73,10 @@ function UtilsBase.serialize(obj, name, newline, depth, keytab)
     local space = newline and "    " or ""
     newline = newline and true
     depth = depth or 0
+
+    if depth > 3 then
+        return ""
+    end
 
     local tmp = string.rep(space, depth)
 

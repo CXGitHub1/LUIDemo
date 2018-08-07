@@ -20,3 +20,5 @@ Tween.New()
 _print = print
 print = Debug.LogError
 pError = Debug.LogError
+
+string.Empty = ""

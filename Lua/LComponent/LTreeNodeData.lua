@@ -5,9 +5,14 @@ function LTreeNodeData:__init(data, depth, key)
     self.depth = depth
     self.key = key
     self.expand = true
+    self.childList = nil
 end
 
 function LTreeNodeData:__release()
+end
+
+function LTreeNodeData:GetKey()
+    return self.key
 end
 
 function LTreeNodeData:SetOrder(order)
@@ -26,7 +31,7 @@ function LTreeNodeData:AddChild(child)
 end
 
 function LTreeNodeData:HaveChild()
-    return self.childList
+    return self.childList ~= nil
 end
 
 function LTreeNodeData:GetChildList()

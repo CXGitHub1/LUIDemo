@@ -22,8 +22,8 @@ LTreeTest.Config = {
                             {name = "测试9"},
                         }
                     },
-                    {name = "LScrollView"},
-                    {name = "LScrollView"},
+                    {name = "LScrollPage"},
+                    {name = "LScrollTree"},
                 }
             },
             {name = "固定组件",
