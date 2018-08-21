@@ -1,12 +1,8 @@
 require("CommonRequire")
 
-require("Test/TestDefine")
-require("Test/BaseTest")
-require("Test/LTestItem")
-require("Test/LListTest")
-require("Test/LScrollViewTest")
-require("Test/LScrollPageTest")
-require("Test/LTreeTest")
+for i = 1, #TestFileConfig do
+	require(TestFileConfig[i])
+end
 
 local root = GameObject.Find("UIRoot")
 -- LListTest.New(root.transform:Find("LListTest").gameObject)

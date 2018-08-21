@@ -74,7 +74,7 @@ function UtilsBase.serialize(obj, name, newline, depth, keytab)
     newline = newline and true
     depth = depth or 0
 
-    if depth > 3 then
+    if depth > 4 then
         return ""
     end
 

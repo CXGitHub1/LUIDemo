@@ -13,13 +13,16 @@ end
 -- end
 
 function LTreeNodeDemo1:SetData(nodeData, commonData)
-    if nodeData.isFolder then
+    self.nodeData = nodeData
+    local data = nodeData.data
+    if data.isFolder then
         self.folderBgGo:SetActive(true)
         self.fileBgGo:SetActive(false)
     else
         self.fileBgGo:SetActive(true)
         self.folderBgGo:SetActive(false)
     end
-    self.text.text = nodeData.name
+    self.text.text = data.name
     self.selectGo:SetActive(commonData == self.key)
 end
+

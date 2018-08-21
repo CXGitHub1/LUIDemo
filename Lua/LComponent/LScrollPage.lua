@@ -114,7 +114,7 @@ function LScrollPage:_OnValueChanged()
     local dynamicCurrentPage = self:_GetDynamicCurrentPage()
     if self.dynamicCurrentPage ~= dynamicCurrentPage then
         self.dynamicCurrentPage = dynamicCurrentPage
-        self:_Refresh()
+        self:_Update()
     end
 end
 
@@ -157,7 +157,7 @@ function LScrollPage:SetCurrentPage(page, tween)
             UtilsUI.SetAnchoredY(self.contentTrans, self:_GetTargetPosition(page).y)
         end
         self.dynamicCurrentPage = self:_GetDynamicCurrentPage()
-        self:_Refresh()
+        self:_Update()
     end
 end
 
@@ -279,7 +279,7 @@ function LScrollPage:_EmptyCacheItemList()
     end
 end
 
-function LScrollPage:_Refresh()
+function LScrollPage:_Update()
     local startIndex, endIndex = self:_GetIndexRange(self.dynamicCurrentPage)
     self:_HideOutRangeList(startIndex, endIndex)
     for index = startIndex, endIndex do

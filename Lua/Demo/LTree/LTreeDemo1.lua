@@ -4,15 +4,14 @@ LTreeDemo1 = LTreeDemo1 or BaseClass(BaseDemo)
 LTreeDemo1.Config = {
     {
         name = "我的电脑",
+        isFolder = true,
         dataList =
         {
             {name = "C盘",
             isFolder = true,
             dataList = 
                 {
-                    {name = "文件夹1",
-                    isFolder = true,
-                    },
+                    {name = "文件1"},
                     {name = "文件2"},
                     {name = "文件3"},
                     {name = "文件4"},
@@ -64,15 +63,19 @@ LTreeDemo1.Config = {
 
 function LTreeDemo1:__init(transform)
     self.lTree = LTree.New(transform:Find("Test"), LTreeNodeDemo1)
-    self.lTree.ItemSelectEvent:AddListener(function(key, node)
-        self.selectKey = key
-        nodeData.expand = not nodeData.expand
-        self.lTree:SetData(rootData, self.selectKey)
+    self.lTree.NodeSelectEvent:AddListener(function(rootNodeData, key, node)
+        self.lTree:SetData(rootNodeData, key)
     end)
+    self.lTree.LeafSelectEvent:AddListener(function(rootNodeData, key, node)
+        self.lTree:SetData(rootNodeData, key)
+    end)
+    self.lTree:SetGap(20, 20)
 end
 
 function LTreeDemo1:SetData()
-    local rootData = LTree.InitTree(LTreeDemo1.Config[1], LTreeNodeDataDemo1)
+    local rootData = LTree.GetRootNodeData()
+    LTree.InitTree(rootData, LTreeDemo1.Config)
+    -- LTree.Dump(rootData)
     self.selectKey = nil
     self.lTree:SetData(rootData, self.selectKey)
 end

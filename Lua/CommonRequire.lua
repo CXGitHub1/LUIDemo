@@ -1,19 +1,11 @@
 import("UnityEngine")
 import('UnityEngine.UI')
 
-require("Base/BaseClass")
-require("Base/EventLib")
-require("Util/UtilsBase")
-require("Util/UtilsUI")
-require("Util/Tween")
+require("Config")
 
-require("LComponent/LItem")
-require("LComponent/LList")
-require("LComponent/LScrollView")
-require("LComponent/LScrollPage")
-require("LComponent/LTree")
-require("LComponent/LTreeNode")
-require("LComponent/LTreeNodeData")
+for i = 1, #CommonFileConfig do
+	require(CommonFileConfig[i])
+end
 
 Tween.New()
 
@@ -22,3 +14,7 @@ print = Debug.LogError
 pError = Debug.LogError
 
 string.Empty = ""
+
+math.round = function(value)
+	return math.floor(value + 0.5)
+end

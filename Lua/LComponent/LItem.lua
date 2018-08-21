@@ -54,7 +54,7 @@ function LItem:Translate(position)
 end
 
 function LItem:SetData(data, commonData)
-    Log.Error("需要重写SetData方法")
+    pError("需要重写SetData方法")
 end
 
 function LItem:OnClick()
