@@ -11,7 +11,16 @@ local root = GameObject.Find("UIRoot")
 LTreeTest.New(root.transform:Find("LTreeTest").gameObject)
 
 function Update()
-    if Input.GetKeyDown(KeyCode.Q) and Input.GetKey(KeyCode.LeftControl) then
+    if Input.GetKeyDown(KeyCode.H) and Input.GetKey(KeyCode.LeftControl) then
+    	for i = 1, #CommonFileConfig do
+    		package.loaded[CommonFileConfig[i]] = nil
+			require(CommonFileConfig[i])
+		end
+    	for i = 1, #TestFileConfig do
+    		package.loaded[TestFileConfig[i]] = nil
+			require(TestFileConfig[i])
+		end
+		print("热更完毕")
     end
 
     if Input.GetKeyDown(KeyCode.W) and Input.GetKey(KeyCode.LeftControl) then

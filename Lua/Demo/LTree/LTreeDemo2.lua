@@ -80,6 +80,23 @@ function LTreeDemo2:__init(transform)
     self.lTree = LTree.New(transform:Find("Test"), LTreeNodeDemo2_1, {[2] = LTreeNodeDemo2_2})
     self.lTree.NodeSelectEvent:AddListener(function(rootNodeData, key, node)
         self.lTree:SetData(rootNodeData, key)
+        local nodeData = node.nodeData
+        if nodeData.expand then
+            local childList = nodeData:GetChildList()
+            for i = 1, #childList do
+                local childNodeData = childList[i]
+                local node = self.lTree:GetNode(childNodeData:GetKey())
+                if node then
+                    node:SetActive(false)
+                    UtilsUI.SetAnchoredY(node.transform, childNodeData:GetY() - 50)
+                    local ltDescr = Tween.Instance:MoveLocalY(node.gameObject, childNodeData:GetY(), 0.1)
+                    ltDescr:setDelay((i - 1) * 0.05)
+                    ltDescr:setOnStart(function()
+                        node:SetActive(true)
+                    end)
+                end
+            end
+        end
     end)
     self.lTree.LeafSelectEvent:AddListener(function(rootNodeData, key, node)
         self.lTree:SetData(rootNodeData, key)

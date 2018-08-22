@@ -10,11 +10,12 @@ function LTree:__init(transform, defaultItemType, itemTypeDict)
     self.gapHorizontal = 0
     self.gapVertical = 0
 
-    self.onItemSelect = function(key, node) self:OnItemSelect(key, node) end
+    self.onItemSelect = function(key, node) self:_OnItemSelect(key, node) end
     self.NodeSelectEvent = EventLib.New()
     self.LeafSelectEvent = EventLib.New()
 
     self.nodeDict = {}
+    self.defaultNodePoolList = {}
     self.nodePoolListDict = {}
     self.orderList = nil
     self.nodeDataDict = nil
@@ -28,7 +29,7 @@ function LTree:__release()
 end
 
 function LTree:_InitComponent(transform)
-     local scrollRect = transform:GetComponent(LScrollRect)
+     local scrollRect = transform:GetComponent(ScrollRect)
     self.scrollRect = scrollRect
     self.scrollRect.onValueChanged:AddListener(function(value) self:_OnValueChanged(value) end)
     local maskTrans = transform:Find(LTree.MASK_NAME)
@@ -61,48 +62,15 @@ function LTree:_InitTemplate()
     end
 end
 
-function LTree:_GetNode(nodeData)
-    local key = nodeData:GetKey()
-    local depth = nodeData.depth
-    if self.nodeDict[key] then
-        local node = self.nodeDict[key]
-        return node
-    elseif self.nodePoolListDict[depth] and #self.nodePoolListDict[depth] > 0 then
-        local nodePoolList = self.nodePoolListDict[depth]
-        local node = table.remove(nodePoolList)
-        node:InitFromCache(key)
-        self.nodeDict[key] = node
-        return node
-    end
-    local template = self.defaultTemplate
-    local itemType = self.defaultItemType
-    if self.depthDict and self.depthDict[depth] then
-        template = self.depthDict[depth].template
-        itemType = self.depthDict[depth].itemType
-    end
-    local go = GameObject.Instantiate(template)
-    go.transform:SetParent(self.contentTrans, false)
-    local node = itemType.New(go, nodeData:GetKey())
-    node:SetActive(true)
-    node.ItemSelectEvent:AddListener(self.onItemSelect)
-    self.nodeDict[key] = node
-    return node
-end
-
-function LTree:_GetItemHeight(depth)
-    return self.depthDict and self.depthDict[depth] and self.depthDict[depth].height or self.defaultItemHeight
-end
-
-function LTree:_GetItemWidth(depth)
-    return self.depthDict and self.depthDict[depth] and self.depthDict[depth].width or self.defaultItemWidth
-end
-
 -- public function
 function LTree.GetRootNodeData()
     return LTreeNodeData.New(nil, 0, string.Empty)
 end
 
 function LTree.InitTree(nodeData, dataList, defaultDataType, dataTypeDict)
+    if nodeData == nil or dataList == nil then
+        return
+    end
     local depth = nodeData.depth + 1
     local key = nodeData:GetKey()
     local dataType = defaultDataType or LTreeNodeData
@@ -113,7 +81,7 @@ function LTree.InitTree(nodeData, dataList, defaultDataType, dataTypeDict)
         local data = dataList[i]
         local childKey
         if key == string.Empty then
-            childKey = i
+            childKey = tostring(i)
         else
             childKey = key .. "_" .. i
         end
@@ -145,6 +113,17 @@ function LTree:SetGap(gapHorizontal, gapVertical)
     self.gapVertical = gapVertical or 0
 end
 
+function LTree:Focus(key)
+    local nodeData = self.nodeDataDict[tostring(key)]
+    if nodeData then
+        self:_SetContentY(-nodeData:GetY())
+    end
+end
+
+function LTree:GetNode(key)
+    return self.nodeDict[key]
+end
+
 function LTree:SetData(rootNodeData, commonData)
     self.rootNodeData = rootNodeData
     self.commonData = commonData
@@ -155,11 +134,76 @@ function LTree:SetData(rootNodeData, commonData)
 
     self:_UpdateTree()
 end
+-- public function end
+
+function LTree:_OnValueChanged(value)
+    local startIndex = self:_GetIndexByY(self:_GetMaskTop())
+    local endIndex = self:_GetIndexByY(self:_GetMaskBottom())
+    if startIndex ~= self.startIndex or
+        endIndex ~= self.endIndex then
+        self:_UpdateTree()
+    end
+end
+
+function LTree:_TreeToList(nodeData, maxX, minY)
+    if nodeData:HaveChild() and nodeData.expand then
+        local childList = nodeData:GetChildList()
+        for i = 1, #childList do
+            local childNodeData = childList[i]
+            self.nodeDataDict[childNodeData:GetKey()] = childNodeData
+            table.insert(self.orderList, childNodeData)
+            childNodeData:SetOrder(#self.orderList)
+            local x = (childNodeData.depth - 1) * self.gapHorizontal
+            childNodeData:SetPosition(Vector2(x, minY))
+            minY = minY - self:_GetItemHeight(childNodeData.depth) - self.gapVertical
+            local width = x + self:_GetItemWidth(childNodeData.depth)
+            if width > maxX then
+                maxX = width
+            end
+            maxX, minY = self:_TreeToList(childNodeData, maxX, minY)
+        end
+    end
+    return maxX, minY
+end
+
+function LTree:_UpdateTree()
+    if #self.orderList > 0 then
+        self.startIndex = self:_GetIndexByY(self:_GetMaskTop())
+        self.endIndex = self:_GetIndexByY(self:_GetMaskBottom())
+        self:_PushUnUsedToPool()
+        for i = self.startIndex, self.endIndex do
+            local nodeData = self.orderList[i]
+            local node = self:_GetNode(nodeData)
+            node:SetData(nodeData, self.commonData)
+            node:SetActive(true)
+            node:SetPosition(nodeData:GetPosition())
+        end
+    else
+        for key, node in pairs(self.nodeDict) do
+            self:_PushPool(node)
+        end
+    end
+end
+
+function LTree:_PushUnUsedToPool()
+    self.usedKeyDict = {}
+    for i = self.startIndex, self.endIndex do
+        local nodeData = self.orderList[i]
+        self.usedKeyDict[nodeData:GetKey()] = true
+    end
+
+    for key, node in pairs(self.nodeDict) do
+        local nodeData = node.nodeData
+        if not self.usedKeyDict[nodeData:GetKey()] then
+            self:_PushPool(node)
+        end
+    end
+end
 
 function LTree:_GetIndexByY(y)
     local startIndex = 1
     local endIndex = #self.orderList
-    if endIndex == startIndex then
+    if endIndex <= startIndex then
         return startIndex
     end
     local result
@@ -184,59 +228,7 @@ function LTree:_GetIndexByY(y)
     return result
 end
 
-function LTree:_TreeToList(nodeData, maxX, minY)
-    if nodeData:HaveChild() and nodeData.expand then
-        local childList = nodeData:GetChildList()
-        for i = 1, #childList do
-            local childNodeData = childList[i]
-            self.nodeDataDict[childNodeData:GetKey()] = childNodeData
-            table.insert(self.orderList, childNodeData)
-            childNodeData:SetOrder(#self.orderList)
-            local x = (childNodeData.depth - 1) * self.gapHorizontal
-            childNodeData:SetPosition(Vector2(x, minY))
-            minY = minY - self:_GetItemHeight(childNodeData.depth) - self.gapVertical
-            local width = x + self:_GetItemWidth(childNodeData.depth)
-            if width > maxX then
-                maxX = width
-            end
-            maxX, minY = self:_TreeToList(childNodeData, maxX, minY)
-        end
-    end
-    return maxX, minY
-end
-
-
-function LTree:_UpdateTree()
-    local startIndex = self:_GetIndexByY(self:_GetMaskTop())
-    local endIndex = self:_GetIndexByY(self:_GetMaskBottom())
-    self.startIndex = startIndex
-    self.endIndex = endIndex
-    for i = startIndex, endIndex do
-        local nodeData = self.orderList[i]
-        local node = self:_GetNode(nodeData)
-        node:SetData(nodeData, self.commonData)
-        node:SetActive(true)
-        node:SetPosition(nodeData:GetPosition())
-    end
-
-    self:_PushUnUsedToPool()
-end
-
-
-function LTree:_PushUnUsedToPool()
-    for key, node in pairs(self.nodeDict) do
-        local nodeData = node.nodeData
-        if self.nodeDataDict[key] == nil then
-            self:_PushPool(node)
-        else
-            if nodeData.order < self.startIndex or nodeData.order > self.endIndex  then
-                self:_PushPool(node)
-            end
-        end
-    end
-end
-
-function LTree:OnItemSelect(key, node)
+function LTree:_OnItemSelect(key, node)
     local nodeData = node.nodeData
     if nodeData:HaveChild() then
         nodeData.expand = not nodeData.expand
@@ -259,47 +251,60 @@ function LTree:OnItemSelect(key, node)
     end
 end
 
-function LTree:Focus(key)
-    local nodeData = self.nodeDataDict[key]
-    if nodeData then
-        self:_SetContentY(-nodeData:GetY())
-    end
-end
-
 function LTree:_SetContentY(y)
     local sizeDelta = self.contentTrans.sizeDelta
-    UtilsUI.SetAnchoredY(self.contentTrans, math.min(y, sizeDelta.y - self.maskHeight))
+    UtilsUI.SetAnchoredY(self.contentTrans, math.max(0, math.min(y, sizeDelta.y - self.maskHeight)))
 end
 
-function LTree:_OnValueChanged(value)
-    local startIndex = self:_GetIndexByY(self:_GetMaskTop())
-    local endIndex = self:_GetIndexByY(self:_GetMaskBottom())
-    if startIndex ~= self.startIndex or
-        endIndex ~= self.endIndex then
-        self:_UpdateTree()
+function LTree:_GetNode(nodeData)
+    local key = nodeData:GetKey()
+    local depth = nodeData.depth
+    if self.nodeDict[key] then
+        local node = self.nodeDict[key]
+        return node
+    else
+        if self.depthDict and self.depthDict[depth] then
+            if self.nodePoolListDict[depth] and #self.nodePoolListDict[depth] > 0 then
+                local nodePoolList = self.nodePoolListDict[depth]
+                local node = table.remove(nodePoolList)
+                node:InitFromCache(key)
+                self.nodeDict[key] = node
+                return node
+            end
+        elseif #self.defaultNodePoolList > 0 then
+            local node = table.remove(self.defaultNodePoolList)
+            node:InitFromCache(key)
+            self.nodeDict[key] = node
+            return node
+        end
     end
-end
-
-function LTree:_GetMaskTop()
-    return -self.contentTrans.anchoredPosition.y
-end
-
-function LTree:_GetMaskBottom()
-    return -self.contentTrans.anchoredPosition.y - self.maskHeight 
-end
-
-function LTree:_BelowMaskBottom(y)
-    return y < self:_GetMaskBottom()
+    local template = self.defaultTemplate
+    local itemType = self.defaultItemType
+    if self.depthDict and self.depthDict[depth] then
+        template = self.depthDict[depth].template
+        itemType = self.depthDict[depth].itemType
+    end
+    local go = GameObject.Instantiate(template)
+    go.transform:SetParent(self.contentTrans, false)
+    local node = itemType.New(go, nodeData:GetKey())
+    node:SetActive(true)
+    node.ItemSelectEvent:AddListener(self.onItemSelect)
+    self.nodeDict[key] = node
+    return node
 end
 
 function LTree:_PushPool(node)
     self.nodeDict[node:GetKey()] = nil
     node:SetActive(false)
     local depth = node.nodeData.depth
-    if self.nodePoolListDict[depth] == nil then
-        self.nodePoolListDict[depth] = {}
+    if self.depthDict and self.depthDict[depth] then
+        if self.nodePoolListDict[depth] == nil then
+            self.nodePoolListDict[depth] = {}
+        end
+        table.insert(self.nodePoolListDict[depth], node)
+    else
+        table.insert(self.defaultNodePoolList, node)
     end
-    table.insert(self.nodePoolListDict[depth], node)
 end
 
 function LTree:_GetChildHeight(nodeData, height)
@@ -312,4 +317,24 @@ function LTree:_GetChildHeight(nodeData, height)
         end
     end
     return height
+end
+
+function LTree:_GetItemHeight(depth)
+    return self.depthDict and self.depthDict[depth] and self.depthDict[depth].height or self.defaultItemHeight
+end
+
+function LTree:_GetItemWidth(depth)
+    return self.depthDict and self.depthDict[depth] and self.depthDict[depth].width or self.defaultItemWidth
+end
+
+function LTree:_GetMaskTop()
+    return -self.contentTrans.anchoredPosition.y
+end
+
+function LTree:_GetMaskBottom()
+    return -self.contentTrans.anchoredPosition.y - self.maskHeight 
+end
+
+function LTree:_BelowMaskBottom(y)
+    return y < self:_GetMaskBottom()
 end

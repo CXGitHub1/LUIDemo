@@ -4,8 +4,76 @@
 		"selected_items":
 		[
 			[
+				"max",
+				"maxX"
+			],
+			[
+				"_GetMas",
+				"_GetMaskBottom"
+			],
+			[
+				"order",
+				"orderList"
+			],
+			[
+				"Util",
+				"UtilsBase"
+			],
+			[
 				"node",
 				"nodeData"
+			],
+			[
+				"chil",
+				"childHeight"
+			],
+			[
+				"mask",
+				"maskTop"
+			],
+			[
+				"GetMas",
+				"_GetMaskTop"
+			],
+			[
+				"nodeda",
+				"nodeData"
+			],
+			[
+				"nodeDa",
+				"nodeData"
+			],
+			[
+				"de",
+				"depthDict"
+			],
+			[
+				"_Get",
+				"_GetMaskTop"
+			],
+			[
+				"chidl",
+				"childNodeData"
+			],
+			[
+				"or",
+				"orderList"
+			],
+			[
+				"_GetI",
+				"_GetItemWidth"
+			],
+			[
+				"GetNo",
+				"_GetNodeX"
+			],
+			[
+				"siez",
+				"sizeDelta"
+			],
+			[
+				"star",
+				"startIndex"
 			],
 			[
 				"st",
@@ -14,10 +82,6 @@
 			[
 				"nodeData",
 				"nodeDataDict"
-			],
-			[
-				"star",
-				"startKey"
 			],
 			[
 				"itemT",
@@ -34,10 +98,6 @@
 			[
 				"defa",
 				"defaultItemType"
-			],
-			[
-				"de",
-				"depthDict"
 			],
 			[
 				"temp",
@@ -64,16 +124,8 @@
 				"LTreeNodeData"
 			],
 			[
-				"chil",
-				"childKey"
-			],
-			[
 				"datat",
 				"dataTypeDict"
-			],
-			[
-				"Util",
-				"UtilsUI"
 			],
 			[
 				"start",
@@ -148,10 +200,6 @@
 				"CommonFileConfig"
 			],
 			[
-				"nodeda",
-				"nodeData"
-			],
-			[
 				"ord",
 				"orderList"
 			],
@@ -192,45 +240,46 @@
 	"buffers":
 	[
 		{
+			"file": "Test/LTreeTest.lua",
+			"settings":
+			{
+				"buffer_size": 3178,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "TestMain.lua",
+			"settings":
+			{
+				"buffer_size": 850,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "DemoMain.lua",
+			"settings":
+			{
+				"buffer_size": 692,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Test/LTestItem.lua",
+			"settings":
+			{
+				"buffer_size": 1772,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "LComponent/LTree.lua",
 			"settings":
 			{
-				"buffer_size": 14328,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Demo/LTree/LTreeDemo2.lua",
-			"settings":
-			{
-				"buffer_size": 2521,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Demo/LTree/LTreeNodeDemo2_2.lua",
-			"settings":
-			{
-				"buffer_size": 537,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Demo/LTree/LTreeDemo1.lua",
-			"settings":
-			{
-				"buffer_size": 3814,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "LComponent/LTreeNodeData.lua",
-			"settings":
-			{
-				"buffer_size": 1620,
+				"buffer_size": 10415,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -278,27 +327,29 @@
 	],
 	"file_history":
 	[
-		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeNodeDemo2_1.lua",
-		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeNodeDataDemo2_2.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LTreeNodeData.lua",
-		"/D/code/unity/LUIDemo/Lua/DemoMain.lua",
-		"/D/code/unity/LUIDemo/Lua/Config.lua",
+		"/D/code/unity/LUIDemo/Lua/Test/LTreeTestItem.lua",
+		"/D/code/unity/LUIDemo/Lua/Util/UtilsUI.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeDemo1.lua",
-		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeDemo2.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LTreeNode.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LTree.lua",
-		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeNodeDemo2_2.lua",
-		"/D/code/unity/LUIDemo/Lua/Demo/DemoManager.lua",
-		"/D/code/unity/LUIDemo/Lua/Util/Tween.lua",
+		"/D/code/unity/LUIDemo/Lua/Test/LScrollViewTest.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LTreeNodeData.lua",
+		"/D/code/unity/LUIDemo/Lua/Config.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeNodeDemo1.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LScrollView.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LTree.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LTreeNode.lua",
+		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeNodeDemo2_1.lua",
+		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeNodeDemo2_2.lua",
+		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeNodeDataDemo2_2.lua",
+		"/D/code/unity/LUIDemo/Lua/DemoMain.lua",
+		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeDemo2.lua",
+		"/D/code/unity/LUIDemo/Lua/Demo/DemoManager.lua",
 		"/D/code/unity/LUIDemo/Lua/TestMain.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LScrollView.lua",
+		"/D/code/unity/LUIDemo/Lua/Util/Tween.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LItem.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeNodeDataDemo1.lua",
 		"/D/code/unity/LUIDemo/Lua/CommonRequire.lua",
 		"/D/code/unity/LUIDemo/Lua/Util/UtilsBase.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LTreeTest.lua",
-		"/D/code/unity/LUIDemo/Lua/Util/UtilsUI.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LList.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LScrollPage.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LScrollPageDemo.lua",
@@ -307,7 +358,6 @@
 		"/D/code/unity/LUIDemo/Lua/Demo/LScrollViewDemo.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LListDemo.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/TestDefine.lua",
-		"/D/code/unity/LUIDemo/Lua/Test/LScrollViewTest.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LDemoItem.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LScrollViewDemo1.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LScrollViewDemoItem1.lua",
@@ -343,6 +393,100 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"transform",
+			"DemoFileConfig",
+			"prin",
+			"_PushUnUsedToPool",
+			"_OnItemSelect",
+			"onItemSelect",
+			"OnItemSelect",
+			"_GetItemWidth",
+			"_GetItemHeight",
+			"_TreeToList",
+			"_GetChildHeight",
+			"_PushPool",
+			"_OnValueChanged",
+			"_SetContentY",
+			"_GetNodeX",
+			"_SetStartIndex",
+			"depthDict",
+			"itemType",
+			"_GetIndexByY",
+			"_UpdateTree",
+			"_GetIndexByY",
+			"orderList",
+			"_GetNode",
+			"print",
+			"_SetContentY",
+			"itemHeight",
+			"_BelowMaskBottom",
+			"childHeight",
+			"nodeDataDict",
+			"_UpdateTree",
+			"nodeData",
+			"nodeDict",
+			"_PushPool",
+			"nodeData",
+			"node",
+			"Use",
+			"_GetItemHeight",
+			"_TreeToList",
+			"_InitStartIndex",
+			"_AboveMaskTop",
+			"_BelowMaskBottom",
+			"_BelowMaskTop",
+			"_AboveMaskBottom",
+			"_GetMaskBottom",
+			"_BelowMaskBottom",
+			"_BelowMaskTop",
+			"_AboveMaskBottom",
+			"_PushPool",
+			"_IsOutOfMask",
+			"_AboveMaskTop",
+			"_GetContentBound",
+			"_ContentContainMask",
+			"_ContentStartInMask",
+			"_ContentEndInMask",
+			"_AboveMaskBottom",
+			"_IndexToNode",
+			"_PushPool",
+			"_IsOutOfMask",
+			"_GetChildHeight",
+			"_SetStartIndex",
+			"_TreeToList",
+			"depthDict",
+			"_GetItemHeight",
+			"_GetChildHeight",
+			"_GetItemHeight",
+			"OnItemSelect",
+			"_GetIndexByY",
+			"_UpdateTree",
+			"yList",
+			"childNodeData",
+			"nodeData",
+			"_TreeToList",
+			"mid",
+			"_GetIndexByY",
+			"_UpdateTree",
+			"_CalcSize",
+			"yList",
+			"_TreeToList",
+			"maxX",
+			"width",
+			"y",
+			"x",
+			"_UpdateTree",
+			"width",
+			"_TreeToList",
+			"GetItemHei",
+			"_TreeToList",
+			"_CalcSize",
+			"nodeData",
+			"_TreeToList",
+			"yList",
+			"nodeDataDict",
+			"_TreeToList",
+			"orderList",
 			"resetContent",
 			"ResetContent",
 			"resetContent",
@@ -376,101 +520,7 @@
 			"trans",
 			"templateDict",
 			"itemHeight",
-			"itemTrans",
-			"contentTrans",
-			"nodeDataDict",
-			"TreeToList",
-			"nodeDataDict",
-			"defaultItemType",
-			"itemType",
-			"transform",
-			"itemType",
-			"nodeData",
-			"childHeight",
-			"_GetChildHeight",
-			"function",
-			"i",
-			"_GetChildHeight",
-			"print",
-			"dataType",
-			"childNodeData",
-			"nodeData",
-			"dataType",
-			"nodeData",
-			"dataType",
-			"LTreeNodeData",
-			"dataType",
-			"dataList",
-			"_GetItemTemplate",
-			"e",
-			"LTreeNodeData",
-			"_GetChildHeight",
-			"_GetItemHeight",
-			"depth",
-			"parent",
-			"resetContent",
-			"ResetContent",
-			"node",
-			"startIndex",
-			"_GetChildHeight",
-			"height",
-			"_GetItemHeight",
-			"startIndex",
-			"nodeData",
-			"orderList",
-			"order",
-			"order\norder",
-			"order",
-			"_GetChildHeight",
-			"child",
-			"nodeData",
-			"itemHeight",
-			"templateDict",
-			"_GetItemTemplate",
-			"templateDict",
-			"itemTypeDict",
-			"templateDict",
-			"_GetItemTemplate",
-			"GetNOde",
-			"gapHorizontal",
-			"LTree",
-			"templateDict",
-			"_PushUnUsedToPool",
-			"templateDict",
-			"itemTypeDict",
-			"defaultTemplate",
-			"template",
-			"_InitComponent",
-			"template",
-			"nodePoolList",
-			"nodePoolListDict",
-			"nodePoolList",
-			"_GetNode",
-			"LTreeNodeDemo2_1",
-			"LTreeNodeDemo2",
-			"LTreeNodeDemo1",
-			"name",
-			"LTreeDemo1",
-			"LTree",
-			"scrollRect",
-			"SetData",
-			"onItemSelect",
-			"OnItemSelect",
-			"onItemSelect",
-			"SetStartIndex",
-			"OnItemSelect",
-			"NodeSelectEvent",
-			"OnItemSelect",
-			"onItemSelect",
-			"ItemSelectEvent",
-			"FolderSelectEvent",
-			"ItemSelectEvent",
-			"FolderSelectEvent",
-			"OnItemSelect",
-			"FolderSelectEvent",
-			"rootData",
-			"canOffsetCount",
-			"offsetCount"
+			"itemTrans"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -493,91 +543,84 @@
 			[
 				{
 					"buffer": 0,
-					"file": "LComponent/LTree.lua",
+					"file": "Test/LTreeTest.lua",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 14328,
+						"buffer_size": 3178,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								10515,
-								10515
+								2769,
+								2769
 							]
 						],
 						"settings":
 						{
-							"history_list_is_closing": true,
 							"syntax": "Packages/Lua/Lua.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 420.0,
-						"translation.y": 5387.0,
+						"translation.x": 72.0,
+						"translation.y": 1080.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 1,
-					"file": "Demo/LTree/LTreeDemo2.lua",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2521,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2320,
-								2320
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Lua/Lua.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1140.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "Demo/LTree/LTreeNodeDemo2_2.lua",
+					"buffer": 1,
+					"file": "TestMain.lua",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 537,
+						"buffer_size": 850,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								448,
+								448
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Lua/Lua.sublime-syntax"
+						},
+						"translation.x": 72.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "DemoMain.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 692,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								692,
+								692
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -588,54 +631,23 @@
 				},
 				{
 					"buffer": 3,
-					"file": "Demo/LTree/LTreeDemo1.lua",
+					"file": "Test/LTestItem.lua",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3814,
+						"buffer_size": 1772,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								901,
+								901
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Lua/Lua.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": -0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "LComponent/LTreeNodeData.lua",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1620,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								13
-							]
-						],
-						"settings":
-						{
-							"history_list_is_closing": true,
 							"syntax": "Packages/Lua/Lua.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
@@ -645,6 +657,42 @@
 						"zoom_level": 1.0
 					},
 					"stack_index": 4,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 4,
+					"file": "LComponent/LTree.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10415,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3680,
+								3692
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1785.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -678,7 +726,7 @@
 		"cols":
 		[
 			0.0,
-			0.484231441686,
+			0.448601988004,
 			1.0
 		],
 		"rows":
@@ -706,6 +754,18 @@
 		"selected_items":
 		[
 			[
+				"utilsui",
+				"Util\\UtilsUI.lua"
+			],
+			[
+				"lnode",
+				"LComponent\\LTreeNodeData.lua"
+			],
+			[
+				"ltreeno",
+				"LComponent\\LTreeNodeData.lua"
+			],
+			[
 				"ltreenodemo",
 				"Demo\\LTree\\LTreeNodeDemo2_2.lua"
 			],
@@ -730,10 +790,6 @@
 				"LComponent\\LScrollView.lua"
 			],
 			[
-				"utilsui",
-				"Util\\UtilsUI.lua"
-			],
-			[
 				"lscro",
 				"LComponent\\LScrollView.lua"
 			],
@@ -748,10 +804,6 @@
 			[
 				"litem",
 				"LComponent\\LItem.lua"
-			],
-			[
-				"ltreeno",
-				"LComponent\\LTreeNode.lua"
 			],
 			[
 				"demomain",

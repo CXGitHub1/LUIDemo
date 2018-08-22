@@ -5,7 +5,7 @@ DemoManager.Config = {
     {name = "LScrollViewDemo1"},
     {name = "LListDemo"},
     {name = "LScrollPageDemo"},
-    -- {name = "LTreeDemo"},
+    {name = "LTreeDemo"},
     {name = "LTreeDemo1"},
     {name = "LTreeDemo2"},
 }

@@ -1,4 +1,5 @@
 //namespace DentedPixel{
+using SLua;
 using System;
 using UnityEngine;
 
@@ -30,6 +31,7 @@ using UnityEngine;
 * @class LTDescr
 * @constructor
 */
+[CustomLuaClass]
 public class LTDescr
 {
 	public bool toggle;

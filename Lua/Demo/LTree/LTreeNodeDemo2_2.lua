@@ -10,6 +10,6 @@ end
 function LTreeNodeDemo2_2:SetData(nodeData, commonData)
     self.nodeData = nodeData
     local data = nodeData.data
-    self.text.text = data.name .. ":" .. nodeData:GetRandomValue()
+    self.text.text = data.name .. ":" .. nodeData:GetValue()
     self.selectGo:SetActive(commonData == self.key)
 end

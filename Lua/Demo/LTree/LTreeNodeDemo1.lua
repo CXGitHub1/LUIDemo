@@ -7,10 +7,8 @@ function LTreeNodeDemo1:__init(gameObject, key)
     self.fileBgGo = transform:Find("FileBg").gameObject
     self.text = transform:Find("Text"):GetComponent(Text)
     self.selectGo = transform:Find("Select").gameObject
+    self.arrowGo = transform:Find("Arrow").gameObject
 end
-
--- function LTreeNodeDemo1:__release()
--- end
 
 function LTreeNodeDemo1:SetData(nodeData, commonData)
     self.nodeData = nodeData
@@ -24,5 +22,15 @@ function LTreeNodeDemo1:SetData(nodeData, commonData)
     end
     self.text.text = data.name
     self.selectGo:SetActive(commonData == self.key)
+    if nodeData:HaveChild() then
+        self.arrowGo:SetActive(true)
+        if nodeData.expand then
+            self.arrowGo.transform.eulerAngles = Vector3(0, 0, -45)
+        else
+            self.arrowGo.transform.eulerAngles = Vector3(0, 0, 0)
+        end
+    else
+        self.arrowGo:SetActive(false)
+    end
 end
 

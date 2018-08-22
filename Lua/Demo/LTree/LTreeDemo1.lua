@@ -69,7 +69,7 @@ function LTreeDemo1:__init(transform)
     self.lTree.LeafSelectEvent:AddListener(function(rootNodeData, key, node)
         self.lTree:SetData(rootNodeData, key)
     end)
-    self.lTree:SetGap(20, 20)
+    self.lTree:SetGap(40, 10)
 end
 
 function LTreeDemo1:SetData()

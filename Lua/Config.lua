@@ -24,6 +24,9 @@ DemoFileConfig = {
 	"Demo/LScrollViewDemo1",
 	"Demo/LScrollViewDemoItem1",
 	"Demo/LScrollPageDemo",
+	"Demo/LTree/LTreeDemo",
+	"Demo/LTree/LTreeNodeDemo",
+	"Demo/LTree/LTreeNodeDemo_1",
 	"Demo/LTree/LTreeDemo1",
 	"Demo/LTree/LTreeNodeDemo1",
 	"Demo/LTree/LTreeDemo2",
@@ -40,4 +43,6 @@ TestFileConfig = {
 	"Test/LScrollViewTest",
 	"Test/LScrollPageTest",
 	"Test/LTreeTest",
+	"Test/LTreeTestItem",
+	"Test/LTreeTestItem1",
 }
