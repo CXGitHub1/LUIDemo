@@ -4,7 +4,7 @@ import('UnityEngine.UI')
 require("Config")
 
 for i = 1, #CommonFileConfig do
-	require(CommonFileConfig[i])
+    require(CommonFileConfig[i])
 end
 
 Tween.New()
@@ -16,5 +16,5 @@ pError = Debug.LogError
 string.Empty = ""
 
 math.round = function(value)
-	return math.floor(value + 0.5)
+    return math.floor(value + 0.5)
 end

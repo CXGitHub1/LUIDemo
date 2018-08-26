@@ -5,7 +5,7 @@ function LTreeNode:__init(gameObject, key)
 end
 
 function LTreeNode:GetKey()
-	return self.key
+    return self.key
 end
 
 function LTreeNode:SetKey(key)

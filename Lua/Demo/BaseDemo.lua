@@ -10,9 +10,9 @@ end
 
 
 function BaseDemo:CreateDataList(num)
-	local result = {}
-	for i = 1, num do
-		table.insert(result, i)
-	end
+    local result = {}
+    for i = 1, num do
+        table.insert(result, i)
+    end
     return result
 end

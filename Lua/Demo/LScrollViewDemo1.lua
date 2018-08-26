@@ -26,7 +26,7 @@ end
 
 function LScrollViewDemo1:SetData()
     self.dataList = self:CreateDataList(30)
-	self.scrollView:SetData(self.dataList, self.selectIndex)
+    self.scrollView:SetData(self.dataList, self.selectIndex)
 end
 
 function LScrollViewDemo1:PullDown()

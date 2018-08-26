@@ -4,5 +4,5 @@ function LTreeNodeDataDemo2_2:__init(data, depth, key)
 end
 
 function LTreeNodeDataDemo2_2:GetValue()
-	return self.data.value
+    return self.data.value
 end
