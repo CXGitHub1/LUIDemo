@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"Inser",
+				"InsertSphereLineVertices"
+			],
+			[
 				"par",
 				"parentIndex"
 			],
@@ -295,7 +299,7 @@
 			"file": "Test/MeshTest.lua",
 			"settings":
 			{
-				"buffer_size": 17419,
+				"buffer_size": 16770,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -423,6 +427,18 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"index",
+			"startIndex",
+			"index",
+			"parentStartIndex",
+			"divideTimes",
+			"triangles",
+			"GetSphereUpperTriangles",
+			"InsertSphereLineVertices",
+			"topOrBottom",
+			"top",
+			"radius",
+			"position",
 			"length",
 			"GetSphereTriangles",
 			"startIndex",
@@ -538,19 +554,7 @@
 			"valueList",
 			"segments",
 			"position",
-			"mesh",
-			"DrawRadar",
-			"DrawDadar",
-			"DrawOctahedron",
-			"vertices",
-			"DrawCub",
-			"triangles",
-			"radian",
-			"bRadius",
-			"radius",
-			"radian",
-			"interval",
-			"vertices"
+			"mesh"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -578,15 +582,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 17419,
+						"buffer_size": 16770,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								16317,
-								16317
+								14978,
+								14978
 							]
 						],
 						"settings":
@@ -596,7 +600,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 7352.0,
+						"translation.y": 6758.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

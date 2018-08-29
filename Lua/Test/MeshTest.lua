@@ -307,23 +307,20 @@ function MeshTest:DrawSphere(transform)
     go:GetComponent(MeshRenderer).material = self:GetMaterial()
     local mesh = go:GetComponent(MeshFilter).mesh
     mesh:Clear()
-    local position = self.transform.position
-    --Test
-    local position = Vector3(0, 0, 0)
 
-    local radius = 50
-    local top = Vector3(position.x + 0, position.y + radius, position.z + 0)
-    local bottom = Vector3(position.x + 0, position.y - radius, position.z + 0)
-    local left = Vector3(position.x - radius, position.y + 0, position.z + 0)
-    local front = Vector3(position.x + 0, position.y + 0, position.z - radius)
-    local right = Vector3(position.x + radius, position.y + 0, position.z + 0)
-    local back = Vector3(position.x + 0, position.y + 0, position.z + radius)
+    local top = Vector3(0, 1, 0)
+    local bottom = Vector3(0, -1, 0)
+    local left = Vector3(-1, 0, 0)
+    local front = Vector3(0, 0, -1)
+    local right = Vector3(1, 0, 0)
+    local back = Vector3(0, 0, 1)
 
-    local divideTimes = 2
+    local divideTimes = 16
     local vertices = self:GetSphereVertices(divideTimes, top, bottom, left, front, right, back)
-    UtilsBase.dump(vertices)
+    -- UtilsBase.dump(vertices)
+    local radius = 50
     for i = 1, #vertices do
-        -- vertices[i] = vertices[i].normalized
+        vertices[i] = self.transform.position + vertices[i].normalized * radius
     end
     mesh.vertices = vertices
 
@@ -336,92 +333,87 @@ function MeshTest:GetSphereVertices(divideTimes, top, bottom, left, front, right
     --上半球
     table.insert(vertices, top)
     for i = 1, divideTimes do
-        local p1 = Vector3.Lerp(top, left, i / divideTimes)
-        local p2 = Vector3.Lerp(top, front, i / divideTimes)
-        local p3 = Vector3.Lerp(top, right, i / divideTimes)
-        local p4 = Vector3.Lerp(top, back, i / divideTimes)
-        table.insert(vertices, p1)
-        for j = 1, i - 1 do
-            table.insert(vertices, Vector3.Lerp(p1, p2, j / i))
-        end
-        table.insert(vertices, p2)
-        for j = 1, i - 1 do
-            table.insert(vertices, Vector3.Lerp(p2, p3, j / i))
-        end
-        table.insert(vertices, p3)
-        for j = 1, i - 1 do
-            table.insert(vertices, Vector3.Lerp(p3, p4, j / i))
-        end
-        table.insert(vertices, p4)
-        for j = 1, i - 1 do
-            table.insert(vertices, Vector3.Lerp(p4, p1, j / i))
-        end
+        self:InsertLineVertices(vertices, divideTimes, i, top, left, front, right, back)
     end
     --下半球
     for i = divideTimes - 1, 1, -1 do
-        local p1 = Vector3.Lerp(bottom, left, i / divideTimes)
-        local p2 = Vector3.Lerp(bottom, front, i / divideTimes)
-        local p3 = Vector3.Lerp(bottom, right, i / divideTimes)
-        local p4 = Vector3.Lerp(bottom, back, i / divideTimes)
-        table.insert(vertices, p1)
-        for j = 1, i - 1 do
-            table.insert(vertices, Vector3.Lerp(p1, p2, j / i))
-        end
-        table.insert(vertices, p2)
-        for j = 1, i - 1 do
-            table.insert(vertices, Vector3.Lerp(p2, p3, j / i))
-        end
-        table.insert(vertices, p3)
-        for j = 1, i - 1 do
-            table.insert(vertices, Vector3.Lerp(p3, p4, j / i))
-        end
-        table.insert(vertices, p4)
-        for j = 1, i - 1 do
-            table.insert(vertices, Vector3.Lerp(p4, p1, j / i))
-        end
+        self:InsertLineVertices(vertices, divideTimes, i, bottom, left, front, right, back)
     end
     table.insert(vertices, bottom)
     return vertices
+end
+
+function MeshTest:InsertLineVertices(vertices, divideTimes, i, topOrBottom, left, front, right, back)
+    local p1 = Vector3.Lerp(topOrBottom, left, i / divideTimes)
+    local p2 = Vector3.Lerp(topOrBottom, front, i / divideTimes)
+    local p3 = Vector3.Lerp(topOrBottom, right, i / divideTimes)
+    local p4 = Vector3.Lerp(topOrBottom, back, i / divideTimes)
+    table.insert(vertices, p1)
+    for j = 1, i - 1 do
+        table.insert(vertices, Vector3.Lerp(p1, p2, j / i))
+    end
+    table.insert(vertices, p2)
+    for j = 1, i - 1 do
+        table.insert(vertices, Vector3.Lerp(p2, p3, j / i))
+    end
+    table.insert(vertices, p3)
+    for j = 1, i - 1 do
+        table.insert(vertices, Vector3.Lerp(p3, p4, j / i))
+    end
+    table.insert(vertices, p4)
+    for j = 1, i - 1 do
+        table.insert(vertices, Vector3.Lerp(p4, p1, j / i))
+    end
 end
 
 function MeshTest:GetSphereTriangles(divideTimes)
     local triangles = {}
     local parentStartIndex = 0
     local startIndex = parentStartIndex + 1
+    local parentStartIndex, startIndex = self:GetSphereUpperTriangles(triangles, divideTimes, parentStartIndex, startIndex)
+    self:GetSphereLowerTriangles(triangles, divideTimes, parentStartIndex, startIndex)
+    -- UtilsBase.dump(triangles)
+    return triangles
+end
+
+function MeshTest:GetSphereUpperTriangles(triangles, divideTimes, parentStartIndex, startIndex)
     for i = 1, divideTimes do
         local parentPerPoint = i
         local length = i * 4
         local parentIndex = parentStartIndex
+        local index = startIndex
         for j = 1, length do
-            -- --正三角
-            -- table.insert(triangles, startIndex + j - 1)
-            -- if j == length then
-            --     table.insert(triangles, parentStartIndex)
-            --     table.insert(triangles, startIndex)
-            -- else
-            --     table.insert(triangles, parentIndex)
-            --     table.insert(triangles, startIndex + j)
-            -- end
-            -- if j % parentPerPoint ~= 0 then
-            --     parentIndex = parentIndex + 1
-            --     --倒三角
-            --     table.insert(triangles, parentIndex - 1)
-            --     if parentIndex == startIndex then
-            --         table.insert(triangles, parentStartIndex)
-            --     else
-            --         table.insert(triangles, parentIndex)
-            --     end
-            --     table.insert(triangles, startIndex + j)
-            -- end
+            --正三角
+            table.insert(triangles, index)
+            if j == length then
+                table.insert(triangles, parentStartIndex)
+                table.insert(triangles, startIndex)
+            else
+                table.insert(triangles, parentIndex)
+                table.insert(triangles, index + 1)
+            end
+            index = index + 1
+            if j % parentPerPoint ~= 0 then
+                parentIndex = parentIndex + 1
+                --倒三角
+                table.insert(triangles, parentIndex - 1)
+                if parentIndex == startIndex then
+                    table.insert(triangles, parentStartIndex)
+                else
+                    table.insert(triangles, parentIndex)
+                end
+                table.insert(triangles, startIndex + j)
+            end
         end
 
         --下一层
         parentStartIndex = startIndex
         startIndex = startIndex + length
     end
+    return parentStartIndex, startIndex
+end
 
-    -- print(parentStartIndex)
-
+function MeshTest:GetSphereLowerTriangles(triangles, divideTimes, parentStartIndex, startIndex)
     for i = divideTimes, 1, -1 do
         local perPoint = i
         local parentLength = i * 4
@@ -431,28 +423,24 @@ function MeshTest:GetSphereTriangles(divideTimes)
         local index = startIndex
         for j = 1, parentLength do
             --倒三角
-            -- table.insert(triangles, parentIndex)
-            -- if j == parentLength then
-            --     table.insert(triangles, parentStartIndex)
-            --     table.insert(triangles, startIndex)
-            -- else
-            --     table.insert(triangles, parentIndex + 1)
-            --     table.insert(triangles, index)
-            -- end
+            table.insert(triangles, parentIndex)
+            if j == parentLength then
+                table.insert(triangles, parentStartIndex)
+                table.insert(triangles, startIndex)
+            else
+                table.insert(triangles, parentIndex + 1)
+                table.insert(triangles, index)
+            end
             parentIndex = parentIndex + 1
             if j % perPoint ~= 0 then
                 index = index + 1
                 --正三角
-                table.insert(triangles, index)
                 if index == (startIndex + length) then
                     table.insert(triangles, startIndex)
-                    print(11111)
-                    print(index)
-                    print(startIndex)
-                    print(parentIndex)
                 else
-                    table.insert(triangles, index - 1)
+                    table.insert(triangles, index)
                 end
+                table.insert(triangles, index - 1)
                 table.insert(triangles, parentIndex)
             end
         end
@@ -461,7 +449,4 @@ function MeshTest:GetSphereTriangles(divideTimes)
         parentStartIndex = startIndex
         startIndex = startIndex + length
     end
-    UtilsBase.dump(triangles)
-
-    return triangles
 end
