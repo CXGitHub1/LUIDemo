@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"Vec",
+				"Vector2"
+			],
+			[
 				"Inser",
 				"InsertSphereLineVertices"
 			],
@@ -299,16 +303,7 @@
 			"file": "Test/MeshTest.lua",
 			"settings":
 			{
-				"buffer_size": 16770,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "TestMain.lua",
-			"settings":
-			{
-				"buffer_size": 1100,
+				"buffer_size": 23143,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -347,11 +342,14 @@
 	"expanded_folders":
 	[
 		"/D/code/unity/LUIDemo/Lua",
-		"/D/code/unity/LUIDemo/Lua/Test",
-		"/D/code/unity/LUIDemo/Lua/Util"
+		"/D/code/unity/LUIDemo/Lua/Test"
 	],
 	"file_history":
 	[
+		"/D/code/unity/LUIDemo/Lua/LComponent/LTree.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LScrollView.lua",
+		"/D/code/unity/LUIDemo/Lua/TestMain.lua",
+		"/D/code/unity/LUIDemo/Lua/Test/MeshTest.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LListTest.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LTreeTestItem.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LTreeTestItem1.lua",
@@ -368,10 +366,7 @@
 		"/D/code/unity/LUIDemo/Lua/LComponent/LTreeNode.lua",
 		"/D/code/unity/LUIDemo/Lua/Lua.sublime-project",
 		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeDemo1.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LTree.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeNodeDemo1.lua",
-		"/D/code/unity/LUIDemo/Lua/Test/MeshTest.lua",
-		"/D/code/unity/LUIDemo/Lua/TestMain.lua",
 		"/D/code/unity/LUIDemo/Lua/Config.lua",
 		"/D/code/unity/LUIDemo/Lua/CommonRequire.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/BaseTest.lua",
@@ -384,7 +379,6 @@
 		"/D/code/unity/LUIDemo/Lua/Test/LTestItem.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LScrollViewTest.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeNodeDemo2_1.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LScrollView.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LItem.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeNodeDataDemo1.lua",
 		"/D/code/unity/LUIDemo/Lua/Util/UtilsBase.lua",
@@ -427,6 +421,24 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"DrawCubeTexture",
+			"105",
+			"5",
+			"DrawCube",
+			"DrawCubeTexture",
+			"DrawRingTexture",
+			"DrawCubeTexture",
+			"DrawCub",
+			"DrawSphere",
+			"DrawRingTexture",
+			"DrawRing",
+			"DrawRingTexture",
+			"DrawCircleTexture",
+			"radius",
+			"DrawCircle",
+			"DrawSquareTexture",
+			"DrawTriangleTexture",
+			"DrawTriangle",
 			"index",
 			"startIndex",
 			"index",
@@ -536,25 +548,7 @@
 			"DrawOctahedron",
 			"DrawCub",
 			"105",
-			"position",
-			"1",
-			"i",
-			"DrawCub",
-			"DrawOctahedron",
-			"DrawCub",
-			"DrawOctahedron",
-			"DrawRadar",
-			"DrawOctahedron",
-			"DrawRadarBg",
-			"DrawRadar",
-			"GetMaterial",
-			"DrawRadarBg",
-			"DrawSquare",
-			"DrawRadar",
-			"valueList",
-			"segments",
-			"position",
-			"mesh"
+			"position"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -582,15 +576,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 16770,
+						"buffer_size": 23143,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								14978,
-								14978
+								21838,
+								21841
 							]
 						],
 						"settings":
@@ -600,40 +594,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 6758.0,
+						"translation.y": 10678.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "TestMain.lua",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1100,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								785,
-								785
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Lua/Lua.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
 					"type": "text"
 				}
 			]

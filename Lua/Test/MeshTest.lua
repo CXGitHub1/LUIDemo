@@ -9,9 +9,15 @@ function MeshTest:__init(gameObject)
     -- self:DrawRing(transform:Find("Test5"))
     -- self:DrawRadar(transform:Find("Test6"))
     -- self:DrawRadarBg(transform:Find("Test7"))
-    -- self:DrawCub(transform:Find("Test8"))
+    -- self:DrawCube(transform:Find("Test8"))
     -- self:DrawOctahedron(transform:Find("Test9"))
-    self:DrawSphere(transform:Find("Test10"))
+    -- self:DrawSphere(transform:Find("Test10"))
+    -- self:DrawTriangleTexture(transform:Find("Test11"))
+    -- self:DrawSquareTexture(transform:Find("Test12"))
+    -- self:DrawCircleTexture(transform:Find("Test13"))
+    -- self:DrawRingTexture(transform:Find("Test14"))
+    -- self:DrawCubeTexture(transform:Find("Test15"))
+    self:DrawCubeTexture1(transform:Find("Test16"))
 end
 
 function MeshTest:GetMaterial(color)
@@ -219,7 +225,7 @@ function MeshTest:DrawRadar(transform)
     mesh.triangles = triangles
 end
 
-function MeshTest:DrawCub(transform)
+function MeshTest:DrawCube(transform)
     self.transform = transform or self.transform
     local go = self.transform.gameObject
     go:GetComponent(MeshRenderer).material = self:GetMaterial()
@@ -450,3 +456,296 @@ function MeshTest:GetSphereLowerTriangles(triangles, divideTimes, parentStartInd
         startIndex = startIndex + length
     end
 end
+
+function MeshTest:DrawTriangleTexture(transform)
+    self.transform = transform or self.transform
+    local go = self.transform.gameObject
+    local mesh = go:GetComponent(MeshFilter).mesh
+    mesh:Clear()
+    local position = self.transform.position
+
+    mesh.vertices = {
+        Vector3(position.x, position.y, position.z),
+        Vector3(position.x, position.y + 100, position.z),
+        Vector3(position.x + 100, position.y + 100, position.z),
+    }
+    mesh.triangles = {
+        0, 1, 2,
+    }
+    mesh.uv = {
+        Vector2(0, 0),
+        Vector2(0, 1),
+        Vector2(1, 1),
+    }
+end
+
+function MeshTest:DrawSquareTexture(transform)
+    self.transform = transform or self.transform
+    local go = self.transform.gameObject
+    local mesh = go:GetComponent(MeshFilter).mesh
+    mesh:Clear()
+    local position = self.transform.position
+
+    mesh.vertices = {
+        Vector3(position.x, position.y, position.z),
+        Vector3(position.x, position.y + 100, position.z),
+        Vector3(position.x + 100, position.y + 100, position.z),
+        Vector3(position.x + 100, position.y, position.z),
+    }
+    mesh.triangles = {
+        0, 1, 2,
+        0, 2, 3,
+    }
+    mesh.uv = {
+        Vector2(0, 0),
+        Vector2(0, 1),
+        Vector2(1, 1),
+        Vector2(1, 0),
+    }
+end
+
+function MeshTest:DrawCircleTexture(transform)
+    self.transform = transform or self.transform
+    local go = self.transform.gameObject
+    local mesh = go:GetComponent(MeshFilter).mesh
+    mesh:Clear()
+    local position = self.transform.position
+    local segments = 60
+    local vertices = {}
+    local radius = 50
+    table.insert(vertices, Vector3(position.x, position.y, position.z))
+    local delta = 360 / segments
+    for i = 1, segments do
+        local radian = math.rad((i - 1) * delta)
+        local x = math.cos(radian) * radius
+        local y = math.sin(radian) * radius
+        table.insert(vertices, Vector3(position.x + x, position.y + y, position.z))
+    end
+    mesh.vertices = vertices
+    local triangles = {}
+    for i = 1, segments - 1 do
+        table.insert(triangles, 0)
+        table.insert(triangles, i + 1)
+        table.insert(triangles, i)
+    end
+    table.insert(triangles, 0)
+    table.insert(triangles, 1)
+    table.insert(triangles, #vertices - 1)
+    mesh.triangles = triangles
+
+    local uv = {}
+    table.insert(uv, Vector2(0.5, 0.5))
+    local delta = 360 / segments
+    for i = 1, segments do
+        local radian = math.rad((i - 1) * delta)
+        local x = math.cos(radian)
+        local y = math.sin(radian)
+        table.insert(uv, Vector2(0.5 + 0.5 * x, 0.5 + 0.5 * y))
+    end
+    mesh.uv = uv
+end
+
+function MeshTest:DrawRingTexture(transform)
+    self.transform = transform or self.transform
+    local go = self.transform.gameObject
+    local mesh = go:GetComponent(MeshFilter).mesh
+    mesh:Clear()
+    local position = self.transform.position
+    local segments = 60
+    local vertices = {}
+    local sRadius = 30
+    local bRadius = 50
+    local delta = 360 / segments
+    for i = 1, segments do
+        local radian = math.rad((i - 1) * delta)
+        table.insert(vertices, Vector3(position.x + math.cos(radian) * sRadius, position.y + math.sin(radian) * sRadius, position.z))
+        table.insert(vertices, Vector3(position.x + math.cos(radian) * bRadius, position.y + math.sin(radian) * bRadius, position.z))
+    end
+    mesh.vertices = vertices
+    local uv = {}
+    local delta = 360 / segments
+    for i = 1, segments do
+        local radian = math.rad((i - 1) * delta)
+        table.insert(uv, Vector2(0.5 + math.cos(radian) * 0.3, 0.5 + math.sin(radian) * 0.3))
+        table.insert(uv, Vector2(0.5 + math.cos(radian) * 0.5, 0.5 + math.sin(radian) * 0.5))
+    end
+    mesh.uv = uv
+    local triangles = {}
+    for i = 1, #vertices - 2, 2 do
+        table.insert(triangles, i - 1)
+        table.insert(triangles, i + 1)
+        table.insert(triangles, i)
+
+        table.insert(triangles, i)
+        table.insert(triangles, i + 1)
+        table.insert(triangles, i + 2)
+    end
+
+    table.insert(triangles, #vertices - 2)
+    table.insert(triangles, 0)
+    table.insert(triangles, #vertices - 1)
+
+    table.insert(triangles, #vertices - 1)
+    table.insert(triangles, 0)
+    table.insert(triangles, 1)
+    mesh.triangles = triangles
+end
+
+function MeshTest:DrawCubeTexture(transform)
+    self.transform = transform or self.transform
+    local go = self.transform.gameObject
+    local mesh = go:GetComponent(MeshFilter).mesh
+    mesh:Clear()
+    local position = self.transform.position
+    local vertices = {}
+
+    table.insert(vertices, Vector3(position.x + 0, position.y + 0, position.z - 0))
+    table.insert(vertices, Vector3(position.x + 100, position.y + 0, position.z - 0))
+    table.insert(vertices, Vector3(position.x + 0, position.y + 100, position.z - 0))
+    table.insert(vertices, Vector3(position.x + 100, position.y + 100, position.z - 0))
+
+    table.insert(vertices, Vector3(position.x + 0, position.y + 0, position.z + 100))
+    table.insert(vertices, Vector3(position.x + 100, position.y + 0, position.z + 100))
+    table.insert(vertices, Vector3(position.x + 0, position.y + 100, position.z + 100))
+    table.insert(vertices, Vector3(position.x + 100, position.y + 100, position.z + 100))
+
+    --上下两个面的冗余顶点，为了正确显示贴图
+    table.insert(vertices, Vector3(position.x + 0, position.y + 0, position.z - 0))
+    table.insert(vertices, Vector3(position.x + 100, position.y + 0, position.z - 0))
+    table.insert(vertices, Vector3(position.x + 0, position.y + 0, position.z + 100))
+    table.insert(vertices, Vector3(position.x + 100, position.y + 0, position.z + 100))
+
+    table.insert(vertices, Vector3(position.x + 0, position.y + 100, position.z - 0))
+    table.insert(vertices, Vector3(position.x + 100, position.y + 100, position.z - 0))
+    table.insert(vertices, Vector3(position.x + 0, position.y + 100, position.z + 100))
+    table.insert(vertices, Vector3(position.x + 100, position.y + 100, position.z + 100))
+    mesh.vertices = vertices
+
+    local triangles = {
+        0, 2, 3,
+        0, 3, 1,
+        1, 3, 7,
+        1, 7, 5,
+        5, 7, 6,
+        5, 6, 4,
+        4, 6, 2,
+        4, 2, 0,
+        12, 14, 15,
+        12, 15, 13,
+        10, 8, 9,
+        10, 9, 11,
+    }
+    mesh.triangles = triangles
+
+    local uv = {}
+    table.insert(uv, Vector2(0, 0))
+    table.insert(uv, Vector2(1, 0))
+    table.insert(uv, Vector2(0, 1))
+    table.insert(uv, Vector2(1, 1))
+
+    table.insert(uv, Vector2(1, 0))
+    table.insert(uv, Vector2(0, 0))
+    table.insert(uv, Vector2(1, 1))
+    table.insert(uv, Vector2(0, 1))
+
+    table.insert(uv, Vector2(0, 0))
+    table.insert(uv, Vector2(1, 0))
+    table.insert(uv, Vector2(0, 1))
+    table.insert(uv, Vector2(1, 1))
+    table.insert(uv, Vector2(0, 0))
+    table.insert(uv, Vector2(1, 0))
+    table.insert(uv, Vector2(0, 1))
+    table.insert(uv, Vector2(1, 1))
+    mesh.uv = uv
+end
+
+function MeshTest:DrawCubeTexture1(transform)
+    self.transform = transform or self.transform
+    local go = self.transform.gameObject
+    local mesh = go:GetComponent(MeshFilter).mesh
+    mesh:Clear()
+    local position = self.transform.position
+
+    local r = 100
+    local vertices = {}
+    local uv = {}
+
+    local w = 1/4
+    local h = 1/3
+
+    --front
+    table.insert(vertices, Vector3(position.x + 0, position.y + 0, position.z + 0))
+    table.insert(uv, Vector2(w, h))
+    table.insert(vertices, Vector3(position.x + r, position.y + 0, position.z + 0))
+    table.insert(uv, Vector2(2 * w, h))
+    table.insert(vertices, Vector3(position.x + 0, position.y + r, position.z + 0))
+    table.insert(uv, Vector2(w, 2 * h))
+    table.insert(vertices, Vector3(position.x + r, position.y + r, position.z + 0))
+    table.insert(uv, Vector2(2 * w, 2 * h))
+
+    --right
+    table.insert(vertices, Vector3(position.x + r, position.y + 0, position.z + 0))
+    table.insert(uv, Vector2(2 * w, h))
+    table.insert(vertices, Vector3(position.x + r, position.y + 0, position.z + r))
+    table.insert(uv, Vector2(3 * w, h))
+    table.insert(vertices, Vector3(position.x + r, position.y + r, position.z + 0))
+    table.insert(uv, Vector2(2 * w, 2 * h))
+    table.insert(vertices, Vector3(position.x + r, position.y + r, position.z + r))
+    table.insert(uv, Vector2(3 * w, 2 * h))
+
+    --back
+    table.insert(vertices, Vector3(position.x + r, position.y + 0, position.z + r))
+    table.insert(uv, Vector2(3 * w, h))
+    table.insert(vertices, Vector3(position.x + 0, position.y + 0, position.z + r))
+    table.insert(uv, Vector2(4 * w, h))
+    table.insert(vertices, Vector3(position.x + r, position.y + r, position.z + r))
+    table.insert(uv, Vector2(3 * w, 2 * h))
+    table.insert(vertices, Vector3(position.x + 0, position.y + r, position.z + r))
+    table.insert(uv, Vector2(4 * w, 2 * h))
+
+    --left
+    table.insert(vertices, Vector3(position.x + 0, position.y + 0, position.z + r))
+    table.insert(uv, Vector2(0, h))
+    table.insert(vertices, Vector3(position.x + 0, position.y + 0, position.z + 0))
+    table.insert(uv, Vector2(w, h))
+    table.insert(vertices, Vector3(position.x + 0, position.y + r, position.z + r))
+    table.insert(uv, Vector2(0, 2 * h))
+    table.insert(vertices, Vector3(position.x + 0, position.y + r, position.z + 0))
+    table.insert(uv, Vector2(w, 2 * h))
+
+    --top
+    table.insert(vertices, Vector3(position.x + 0, position.y + r, position.z + 0))
+    table.insert(uv, Vector2(w, 2 * h))
+    table.insert(vertices, Vector3(position.x + r, position.y + r, position.z + 0))
+    table.insert(uv, Vector2(2 * w, 2 * h))
+    table.insert(vertices, Vector3(position.x + 0, position.y + r, position.z + r))
+    table.insert(uv, Vector2(w, 3 * h))
+    table.insert(vertices, Vector3(position.x + r, position.y + r, position.z + r))
+    table.insert(uv, Vector2(2 * w, 3 * h))
+
+    --bottom
+    table.insert(vertices, Vector3(position.x + 0, position.y + 0, position.z + r))
+    table.insert(uv, Vector2(w, 0))
+    table.insert(vertices, Vector3(position.x + r, position.y + 0, position.z + r))
+    table.insert(uv, Vector2(2 * w, 0))
+    table.insert(vertices, Vector3(position.x + 0, position.y + 0, position.z + 0))
+    table.insert(uv, Vector2(w, h))
+    table.insert(vertices, Vector3(position.x + r, position.y + 0, position.z + 0))
+    table.insert(uv, Vector2(2 * w, h))
+
+    mesh.vertices = vertices
+    mesh.uv = uv
+
+    local triangles = {}
+    for i = 1, #vertices, 4 do
+        table.insert(triangles, i - 1)
+        table.insert(triangles, i + 1)
+        table.insert(triangles, i + 2)
+
+        table.insert(triangles, i - 1)
+        table.insert(triangles, i + 2)
+        table.insert(triangles, i)
+    end
+    mesh.triangles = triangles
+end
+
