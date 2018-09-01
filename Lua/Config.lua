@@ -46,4 +46,5 @@ TestFileConfig = {
     "Test/LTreeTestItem",
     "Test/LTreeTestItem1",
     "Test/MeshTest",
+    "Test/ImageMeshTest",
 }

@@ -303,7 +303,7 @@
 			"file": "Test/MeshTest.lua",
 			"settings":
 			{
-				"buffer_size": 23143,
+				"buffer_size": 27801,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -421,6 +421,18 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"position",
+			"DrawCubeTexture1",
+			" -",
+			"100",
+			"DrawCubeTexture1",
+			"DrawCubeTexture",
+			"0",
+			"8",
+			"7",
+			"6",
+			"0",
+			" -",
 			"DrawCubeTexture",
 			"105",
 			"5",
@@ -536,19 +548,7 @@
 			"DrawSphere",
 			"divideTimes",
 			"left",
-			"top",
-			"right",
-			"vertices",
-			"triangles",
-			"DrawSphere",
-			"DrawOctahedron",
-			"DrawCub",
-			"DrawOctahedron",
-			"DrawSphere",
-			"DrawOctahedron",
-			"DrawCub",
-			"105",
-			"position"
+			"top"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -576,15 +576,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 23143,
+						"buffer_size": 27801,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								21838,
-								21841
+								6677,
+								6677
 							]
 						],
 						"settings":
@@ -594,7 +594,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 10678.0,
+						"translation.y": 2883.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
