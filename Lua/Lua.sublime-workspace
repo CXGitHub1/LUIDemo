@@ -4,12 +4,16 @@
 		"selected_items":
 		[
 			[
-				"Col",
-				"Color"
+				"Add",
+				"AddVert"
 			],
 			[
 				"Vec",
-				"Vector2"
+				"Vector3"
+			],
+			[
+				"Col",
+				"Color"
 			],
 			[
 				"Inser",
@@ -334,7 +338,7 @@
 			"file": "Test/ImageMeshTest.lua",
 			"settings":
 			{
-				"buffer_size": 1858,
+				"buffer_size": 9049,
 				"encoding": "UTF-8",
 				"line_ending": "Unix",
 				"name": "ImageMeshTest"
@@ -453,6 +457,18 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"GetSphereUpperTriangles",
+			"GetSphereTriangles",
+			"triangles",
+			"GetSphereVertices",
+			"MeshTest",
+			"DrawSphere",
+			"DrawCube",
+			"DrawCircle",
+			"segments",
+			"DrawCircle",
+			"SetDelegate",
+			"1",
 			"Color",
 			"color",
 			"Color",
@@ -568,19 +584,7 @@
 			"perPoint",
 			"startIndex",
 			"divideTimes",
-			"length",
-			"triangles",
-			"parentStartIndex",
-			"startIndex",
-			"length",
-			"startIndex",
-			"parentStartIndex",
-			"startIndex",
-			"triangles",
-			"parentStartIndex",
-			"triangles",
-			"startIndex",
-			"GetSphereTriangles"
+			"length"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -599,7 +603,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -645,8 +649,8 @@
 						"selection":
 						[
 							[
-								2722,
-								2722
+								17091,
+								17091
 							]
 						],
 						"settings":
@@ -656,10 +660,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1188.0,
+						"translation.y": 7625.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -675,8 +679,8 @@
 						"selection":
 						[
 							[
-								255,
-								255
+								104,
+								104
 							]
 						],
 						"settings":
@@ -689,7 +693,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -704,15 +708,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1858,
+						"buffer_size": 9049,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								719,
-								719
+								5006,
+								5006
 							]
 						],
 						"settings":
@@ -721,7 +725,7 @@
 							"syntax": "Packages/Lua/Lua.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 324.0,
+						"translation.y": 1998.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -758,7 +762,7 @@
 		"cols":
 		[
 			0.0,
-			0.438836104513,
+			0.438242280285,
 			1.0
 		],
 		"rows":
