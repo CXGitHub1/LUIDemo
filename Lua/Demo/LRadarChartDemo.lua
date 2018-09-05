@@ -10,7 +10,7 @@ end
 
 function LRadarChartDemo:SetData()
     self.radarChart1Bg:SetData({1, 1, 1}, Color32(0, 0, 0, 255))
-    self.radarChart1:SetData({0.5, 0.8, 0.3})
+    self.radarChart1:SetData({0.5, 0.8, 0.7})
     self.radarChart2Bg:SetData({1, 1, 1, 1, 1}, Color32(0, 0, 0, 255))
-    self.radarChart2:SetData({1, 0.8, 0.5, 1, 0.6})
+    self.radarChart2:SetData({0.8, 0.5, 0.7, 0.9, 0.6})
 end
