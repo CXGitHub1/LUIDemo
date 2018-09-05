@@ -20,6 +20,7 @@ public class LMesh : Graphic
     //也可以考虑直接在c#层实现
     protected override void OnPopulateMesh(VertexHelper vh)
     {
+        vh.Clear();
         if(g != null)
         {
             vh = g(GetPixelAdjustedRect(), vh);

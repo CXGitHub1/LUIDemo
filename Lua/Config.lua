@@ -11,6 +11,7 @@ CommonFileConfig = {
     "LComponent/LTree",
     "LComponent/LTreeNode",
     "LComponent/LTreeNodeData",
+    "LComponent/LRadarChart",
 }
 
 DemoFileConfig = {
@@ -33,6 +34,7 @@ DemoFileConfig = {
     "Demo/LTree/LTreeNodeDemo2_1",
     "Demo/LTree/LTreeNodeDemo2_2",
     "Demo/LTree/LTreeNodeDataDemo2_2",
+    "Demo/LRadarChartDemo",
 }
 
 TestFileConfig = {

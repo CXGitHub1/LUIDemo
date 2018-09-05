@@ -8,6 +8,7 @@ DemoManager.Config = {
     {name = "LTreeDemo"},
     {name = "LTreeDemo1"},
     {name = "LTreeDemo2"},
+    {name = "LRadarChartDemo"},
 }
 
 function DemoManager:__init(rootTrans)
