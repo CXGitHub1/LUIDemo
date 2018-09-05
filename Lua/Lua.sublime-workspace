@@ -265,10 +265,7 @@
 			}
 		},
 		{
-			"contents": "LRadarChart = LRadarChart or BaseClass()\n\nlocal math_random = math.random\n\nfunction LRadarChart:__init(transform, radius)\n    self.transform = transform\n    self.gameObject = transform.gameObject\n    self.radius = radius\n    self.lMesh = self.gameObject:GetComponent(LMesh)\n    self.lMesh.g = function(rect, vertexHelper) self:DrawRadar(rect, vertexHelper) end\n    self.valueList = nil\n    self.color = nil\nend\n\nfunction LRadarChart:DrawRadar(rect, vh)\n    if self.valueList == nil then\n        return vh\n    end\n    local left = rect.x\n    local right = rect.x + rect.width\n    local bottom = rect.y\n    local top = rect.y + rect.height\n    local origin = Vector3((left + right) / 2, (bottom + top) / 2, 0)\n    local color = self.color or Color32(math_random(0, 255), math_random(0, 255), math_random(0, 255), 100)\n    vh:AddVert(origin, color, Vector2(0, 0))\n    local segment = #self.valueList\n    local delta = 360 / segment\n    local radius = self.radius\n    for i = 1, segment do\n        local radian = math.rad(90 + (i - 1) * delta)\n        local x = math.cos(radian) * radius * self.valueList[i]\n        local y = math.sin(radian) * radius * self.valueList[i]\n        vh:AddVert(origin + Vector3(x, y), self.color or Color32(math_random(0, 255), math_random(0, 255), math_random(0, 255), 255), Vector2(0, 0))\n    end\n\n    for i = 1, segment - 1 do\n        vh:AddTriangle(0, i + 1, i)\n    end\n    vh:AddTriangle(0, 1, segment)\n    return vh\nend\n\nfunction LRadarChart:SetData(valueList, color)\n    self.valueList = valueList\n    self.color = color\n    -- self.lMesh:SetVerticesDirty()\nend",
 			"file": "LComponent/LRadarChart.lua",
-			"file_size": 2192,
-			"file_write_time": 131806385750613383,
 			"settings":
 			{
 				"buffer_size": 1594,
@@ -307,7 +304,7 @@
 			"file": "TestMain.lua",
 			"settings":
 			{
-				"buffer_size": 1116,
+				"buffer_size": 1119,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -613,10 +610,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 14507.0,
+						"translation.y": 13959.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -632,8 +629,8 @@
 						"selection":
 						[
 							[
-								433,
-								442
+								1452,
+								1452
 							]
 						],
 						"settings":
@@ -643,7 +640,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 60.0,
+						"translation.y": 420.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -734,7 +731,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -743,15 +740,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1116,
+						"buffer_size": 1119,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								421,
-								421
+								495,
+								495
 							]
 						],
 						"settings":
@@ -764,7 +761,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]

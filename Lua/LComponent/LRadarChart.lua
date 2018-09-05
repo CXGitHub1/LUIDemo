@@ -45,22 +45,3 @@ function LRadarChart:SetData(valueList, color)
     self.color = color
     -- self.lMesh:SetVerticesDirty()
 end
-
---效果
---原理
---unity的图形都是由一个个三角形拼起来的
---现在unity已经提供了接口，只需要你提供3个坐标和坐标绘制的顺序
---就可以从坐标绘制顺时针方向看到一个三角形
---有这个接口，你可以绘制
---三角形
---正方形
---圆形
---太阳
---圆环
---正方体
---八面体
---球体
---unity还提供接口，设置绘制三角形的贴图内容，下面是一些带贴图的例子
---详细的原理可以参考这专题
---UGUI的话只需要自定义一个类，继承graphic，重写OnPopulateMesh即可完成绘制
---代码地址
