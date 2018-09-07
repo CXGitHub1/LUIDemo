@@ -130,3 +130,8 @@ function UtilsBase.XPCall(func, errcb)
         end
     end)
 end
+
+--Slua.IsNull 可以判断在C#层是否已经销毁
+function UtilsBase.IsNull(value)
+    return value == nil or Slua.IsNull(value)
+end
