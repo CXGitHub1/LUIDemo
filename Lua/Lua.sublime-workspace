@@ -331,38 +331,10 @@
 			"file": "LComponent/LRadarChart.lua",
 			"settings":
 			{
-				"buffer_size": 1594,
+				"buffer_size": 511,
 				"encoding": "UTF-8",
 				"line_ending": "Unix",
 				"name": "LRadar"
-			}
-		},
-		{
-			"file": "LComponent/LRenderTexture.lua",
-			"settings":
-			{
-				"buffer_size": 1121,
-				"encoding": "UTF-8",
-				"line_ending": "Unix",
-				"name": "LRenderTexture ="
-			}
-		},
-		{
-			"file": "LComponent/LItem.lua",
-			"settings":
-			{
-				"buffer_size": 1543,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "LComponent/LMultiVerticalScrollView.lua",
-			"settings":
-			{
-				"buffer_size": 11451,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
 			}
 		}
 	],
@@ -398,18 +370,17 @@
 	},
 	"expanded_folders":
 	[
-		"/D/code/unity/LUIDemo/Lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent",
-		"/D/code/unity/LUIDemo/Lua/Test"
+		"/D/code/unity/LUIDemo/Lua"
 	],
 	"file_history":
 	[
+		"/D/code/unity/LUIDemo/Lua/Demo/LRadarChartDemo.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LMultiVerticalScrollView.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LRenderTexture.lua",
 		"/D/code/unity/LUIDemo/Lua/Util/UtilsBase.lua",
 		"/D/code/unity/LUIDemo/Lua/TestMain.lua",
-		"/D/code/unity/LUIDemo/Lua/Demo/LRadarChartDemo.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/DemoManager.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LList.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LMultiVerticalScrollView.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/ImageMeshTest.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LTree.lua",
 		"/D/code/unity/LUIDemo/Lua/CommonRequire.lua",
@@ -466,7 +437,7 @@
 	],
 	"find":
 	{
-		"height": 40.0
+		"height": 27.0
 	},
 	"find_in_files":
 	{
@@ -628,7 +599,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -637,15 +608,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1594,
+						"buffer_size": 511,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								503,
-								503
+								388,
+								388
 							]
 						],
 						"settings":
@@ -654,107 +625,17 @@
 							"syntax": "Packages/Lua/Lua.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "LComponent/LRenderTexture.lua",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1121,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								315,
-								315
-							]
-						],
-						"settings":
-						{
-							"auto_name": "LRenderTexture =",
-							"syntax": "Packages/Lua/Lua.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 5.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "LComponent/LItem.lua",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 1543,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Lua/Lua.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 3,
-					"file": "LComponent/LMultiVerticalScrollView.lua",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 11451,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1422,
-								1422
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Lua/Lua.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 216.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				}
 			]
 		}
 	],

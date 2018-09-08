@@ -2,23 +2,23 @@ LListDemo = LListDemo or BaseClass(BaseDemo)
 
 LListDemo.Config = {
     --固定大小，水平显示
-    {row = 1, direction = LList.Direction.horizontal, dataLength = 6, sizeType = TestDefine.SizeType.fix},
+    {row = 1, direction = LDefine.Direction.horizontal, dataLength = 6, sizeType = TestDefine.SizeType.fix},
     --垂直显示，包括gap和padding，动态大小
-    {column = 2, row = 5, direction = LList.Direction.horizontal,
+    {column = 2, row = 5, direction = LDefine.Direction.horizontal,
         gapVertical = 5, gapHorizontal = 10,
         paddingLeft = 10, paddingRight = -10, paddingTop = 10, paddingBottom = 10,
         dataLength = 9, sizeType = TestDefine.SizeType.specified1},
     --水平显示，包括gap和padding，动态大小
-    {column = 2, row = 4, direction = LList.Direction.vertical,
+    {column = 2, row = 4, direction = LDefine.Direction.vertical,
         gapVertical = 5, gapHorizontal = 10,
         paddingLeft = 10, paddingRight = -10, paddingTop = 10, paddingBottom = 10,
         dataLength = 7, sizeType = TestDefine.SizeType.fix},
     --翻页显示
-    {column = 2, row = 3, direction = LList.Direction.horizontal,
+    {column = 2, row = 3, direction = LDefine.Direction.horizontal,
         gapVertical = 5, gapHorizontal = 10,
         dataLength = 12, sizeType = TestDefine.SizeType.specified5},
     --多次SetData
-    {column = 2, row = 3, direction = LList.Direction.vertical,
+    {column = 2, row = 3, direction = LDefine.Direction.vertical,
         gapVertical = 5, gapHorizontal = 10,
         dataLength = 9, sizeType = TestDefine.SizeType.specified4},
 }

@@ -4,6 +4,7 @@ CommonFileConfig = {
     "Util/UtilsBase",
     "Util/UtilsUI",
     "Util/Tween",
+    "LComponent/LDefine",
     "LComponent/LItem",
     "LComponent/LList",
     "LComponent/LScrollView",

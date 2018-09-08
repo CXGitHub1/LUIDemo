@@ -1,19 +1,12 @@
 LList = LList or BaseClass()
 
-LList.ITEM_NAME = "Item"
-
-LList.Direction = {
-    horizontal = 1,
-    vertical = 2,
-}
-
 function LList:__init(transform, itemType, row, column, direction)
     self.transform = transform
     self.gameObject = transform.gameObject
     self.itemType = itemType
     self.row = row or UtilsBase.INT32_MAX
     self.column = column or UtilsBase.INT32_MAX
-    self.layoutDirection = direction or LList.Direction.horizontal
+    self.layoutDirection = direction or LDefine.Direction.horizontal
     self.gapHorizontal = 0
     self.gapVertical = 0
     self.paddingLeft = 0
@@ -21,7 +14,7 @@ function LList:__init(transform, itemType, row, column, direction)
     self.paddingTop = 0
     self.paddingBottom = 0
 
-    self:_InitItem(transform:Find(LList.ITEM_NAME))
+    self:_InitItem(transform:Find(LDefine.ITEM_NAME))
 
     self.cacheList = {}
     self.itemList = {}
@@ -179,7 +172,7 @@ function LList:_GetItem(index)
     local item = self.cacheList[index]
     if item == nil then
         local go = GameObject.Instantiate(self.template)
-        go.name = LList.ITEM_NAME .. tostring(index)
+        go.name = LDefine.ITEM_NAME .. tostring(index)
         go.transform:SetParent(self.transform, false)
         item = self.itemType.New(go)
         item:SetIndex(index)
@@ -204,7 +197,7 @@ function LList:_HideCacheList(dataList)
 end
 
 function LList:_IsHorizontalLayout()
-    return self.layoutDirection == LList.Direction.horizontal
+    return self.layoutDirection == LDefine.Direction.horizontal
 end
 
 function LList:_GetPageRow(index)

@@ -1,22 +1,10 @@
 LScrollPage = LScrollPage or BaseClass()
 
-LScrollPage.ITEM_NAME = "Item"
-LScrollPage.GET_ITEM_WAY = {
-    new = 1,        --新建
-    exist = 2,      --已有
-    cache = 3,      --缓存获取
-}
-
-LScrollPage.Direction = {
-    horizontal = 1,
-    vertical = 2,
-}
-
 function LScrollPage:__init(transform, itemType, row, column, direction)
     self.itemType = itemType
     self.row = row or 1
     self.column = column or 1
-    self.itemLayoutDirection = direction or LScrollPage.Direction.horizontal
+    self.itemLayoutDirection = direction or LDefine.Direction.horizontal
     self.gapHorizontal = 0
     self.gapVertical = 0
     self.paddingLeft = 0
@@ -26,9 +14,9 @@ function LScrollPage:__init(transform, itemType, row, column, direction)
     self.perPageCount = self.row * self.column
 
     self.transform = transform
-    self.contentTrans = transform:Find("Mask/Content")
+    self.contentTrans = transform:Find(LDefine.MASK_NAME .. "/" .. LDefine.CONTENT_NAME)
     self:_InitTemplateItem()
-    self:_InitMask(transform:Find("Mask"))
+    self:_InitMask(transform:Find(LDefine.MASK_NAME))
     self:_InitScrollRect(transform)
     self:_InitDragEvent(transform)
 
@@ -54,7 +42,7 @@ function LScrollPage:_CalcMaskSize()
 end
 
 function LScrollPage:_InitTemplateItem()
-    local template = self.contentTrans:Find(LScrollPage.ITEM_NAME).gameObject
+    local template = self.contentTrans:Find(LDefine.ITEM_NAME).gameObject
     self.template = template
     self.itemWidth = template.transform.sizeDelta.x
     self.itemHeight = template.transform.sizeDelta.y
@@ -66,9 +54,9 @@ function LScrollPage:_InitScrollRect(transform)
     self.scrollRect.onValueChanged:AddListener(function() self:_OnValueChanged() end)
     scrollRect.inertia = false
     if scrollRect.vertical then
-        self.pageLayoutDirection = LScrollPage.Direction.vertical
+        self.pageLayoutDirection = LDefine.Direction.vertical
     else
-        self.pageLayoutDirection = LScrollPage.Direction.horizontal
+        self.pageLayoutDirection = LDefine.Direction.horizontal
     end
 end
 
@@ -285,7 +273,7 @@ function LScrollPage:_Update()
     for index = startIndex, endIndex do
         local item, getWay = self:_GetItem(index)
         item:SetActive(true)
-        if getWay ~= LScrollPage.GET_ITEM_WAY.exist then
+        if getWay ~= LDefine.GetItemWay.exist then
             item:SetData(self.dataList[index], self.commonData)
         end
         self.itemDict[index] = item
@@ -305,11 +293,11 @@ end
 
 function LScrollPage:_GetItem(index)
     if self.itemDict[index] then
-        return self.itemDict[index], LScrollPage.GET_ITEM_WAY.exist
+        return self.itemDict[index], LDefine.GetItemWay.exist
     elseif self.itemPoolList and #self.itemPoolList > 0 then
         item = table.remove(self.itemPoolList)
         item:InitFromCache(index) 
-        return item, LScrollPage.GET_ITEM_WAY.cache
+        return item, LDefine.GetItemWay.cache
     end
     local go = GameObject.Instantiate(self.template)
     go.transform:SetParent(self.contentTrans, false)
@@ -322,13 +310,13 @@ function LScrollPage:_GetItem(index)
             item[eventName]:AddListener(function(...) self[eventName]:Fire(...) end)
         end
     end
-    return item, LScrollPage.GET_ITEM_WAY.new
+    return item, LDefine.GetItemWay.new
 end
 
 function LScrollPage:_ItemHorizontalLayout()
-    return self.itemLayoutDirection == LScrollPage.Direction.horizontal
+    return self.itemLayoutDirection == LDefine.Direction.horizontal
 end
 
 function LScrollPage:_PageHorizontalLayout()
-    return self.pageLayoutDirection == LScrollPage.Direction.horizontal
+    return self.pageLayoutDirection == LDefine.Direction.horizontal
 end

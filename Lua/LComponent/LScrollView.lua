@@ -1,14 +1,5 @@
 LScrollView = LScrollView or BaseClass()
 
-LScrollView.Direction = {
-    horizontal = 1,
-    vertical = 2,
-}
-
-LScrollView.ITEM_NAME = "Item"
-LScrollView.MASK_NAME = "Mask"
-LScrollView.CONTENT_NAME = "Content"
-
 function LScrollView:__init(transform, itemType, row, column)
     self.gameObject = transform.gameObject
     self.itemType = itemType
@@ -24,8 +15,8 @@ function LScrollView:__init(transform, itemType, row, column)
     self.ReachBottomEvent = EventLib.New()
     self.eventNameList = nil
 
-    self.contentTrans = transform:Find(LScrollView.MASK_NAME .."/" .. LScrollView.CONTENT_NAME)
-    self:_InitMask(transform:Find(LScrollView.MASK_NAME))
+    self.contentTrans = transform:Find(LDefine.MASK_NAME .."/" .. LDefine.CONTENT_NAME)
+    self:_InitMask(transform:Find(LDefine.MASK_NAME))
     self:_InitTemplateItem()
     self:_InitScrollRect(transform)
 
@@ -44,7 +35,7 @@ function LScrollView:_InitMask(transform)
 end
 
 function LScrollView:_InitTemplateItem(transform)
-    local template = self.contentTrans:Find(LScrollView.ITEM_NAME).gameObject
+    local template = self.contentTrans:Find(LDefine.ITEM_NAME).gameObject
     self.template = template
     template:SetActive(false)
 end
@@ -54,9 +45,9 @@ function LScrollView:_InitScrollRect(transform)
     self.scrollRect = scrollRect
     self.scrollRect.onValueChanged:AddListener(function(value) self:_OnValueChanged(value) end)
     if scrollRect.vertical then
-        self.scrollDirection = LScrollView.Direction.vertical
+        self.scrollDirection = LDefine.Direction.vertical
     else
-        self.scrollDirection = LScrollView.Direction.horizontal
+        self.scrollDirection = LDefine.Direction.horizontal
     end
 end
 
@@ -544,7 +535,7 @@ function LScrollView:_GreaterThanMaskRight(x)
 end
 
 function LScrollView:_IsVerticalScroll()
-    return self.scrollDirection == LScrollView.Direction.vertical
+    return self.scrollDirection == LDefine.Direction.vertical
 end
 
 function LScrollView:_ContentContainMask()

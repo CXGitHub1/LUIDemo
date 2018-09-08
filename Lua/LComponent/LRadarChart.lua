@@ -1,7 +1,5 @@
 LRadarChart = LRadarChart or BaseClass()
 
-local math_random = math.random
-
 function LRadarChart:__init(transform, radius)
     self.transform = transform
     self.gameObject = transform.gameObject

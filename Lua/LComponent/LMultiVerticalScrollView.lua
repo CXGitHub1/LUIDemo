@@ -1,9 +1,5 @@
 LMultiVerticalScrollView = LMultiVerticalScrollView or BaseClass()
 
-LMultiVerticalScrollView.ITEM_NAME = "Item"
-LMultiVerticalScrollView.MASK_NAME = "Mask"
-LMultiVerticalScrollView.CONTENT_NAME = "Content"
-
 function LMultiVerticalScrollView:__init(transform, itemTypeList)
     self.gameObject = transform.gameObject
     self.itemTypeList = itemTypeList
@@ -17,8 +13,9 @@ function LMultiVerticalScrollView:__init(transform, itemTypeList)
 
     self:_InitComponent(transform)
 
-    self.selectKey = nil
-    self.dynamicIndex = 1
+    self.itemList = nil
+    -- self.selectKey = nil
+    -- self.dynamicIndex = 1
     self.ItemSelectEvent = EventLib.New()
 end
 
@@ -26,12 +23,12 @@ function LMultiVerticalScrollView:_InitComponent(transform)
      local scrollRect = transform:GetComponent(ScrollRect)
     self.scrollRect = scrollRect
     self.scrollRect.onValueChanged:AddListener(function(value) self:_OnValueChanged(value) end)
-    local maskTrans = transform:Find(LTree.MASK_NAME)
+    local maskTrans = transform:Find(LDefine.MASK_NAME)
     local mask = maskTrans:GetComponent(Mask)
     self.mask = mask
     self.maskWidth = mask.transform.sizeDelta.x
     self.maskHeight = mask.transform.sizeDelta.y
-    self.contentTrans = maskTrans:Find(LTree.CONTENT_NAME)
+    self.contentTrans = maskTrans:Find(LDefine.CONTENT_NAME)
     self:_InitTemplate()
 end
 
@@ -39,7 +36,7 @@ function LMultiVerticalScrollView:_InitTemplate(transform)
     self.itemTypeDict = {}
     for i = 1, #self.itemTypeList do
         local itemType = self.itemTypeList[i]
-        local trans = self.contentTrans:Find(LTree.ITEM_NAME .. "_" .. depth)
+        local trans = self.contentTrans:Find(LDefine.ITEM_NAME .. "_" .. depth)
         trans.gameObject:SetActive(false)
         self.itemTypeDict[i] = {
             itemType = itemType,
@@ -72,18 +69,27 @@ function LMultiVerticalScrollView:SetPadding(paddingLeft, paddingRight, paddingT
     self.paddingBottom = paddingBottom or 0
 end
 
+
+function LMultiVerticalScrollView:_GetItem(index)
+    if self.itemList and self.itemList[index] then
+    else
+    end
+end
+
 function LMultiVerticalScrollView:SetData(dataList, commonData)
     self.dataList = dataList
     self.commonData = commonData
     self:_InitHeightList(dataList)
 
-    local startIndex, endIndex, rowStartIndex, rowEndIndex = self:_GetIndexRange()
-    self.rowStartIndex = rowStartIndex
-    self.rowEndIndex = rowEndIndex
-    self:_cacheItemList(startIndex, endIndex)
-    self.itemList = {}
+
+    local startIndex = self:_GetStartIndex()
+    local endIndex = self:_GetEndIndex()
+    self.startIndex = startIndex
+    self.endIndex = endIndex
+
+    if self.itemList == nil then self.itemList = {} end
     for index = startIndex, endIndex do
-        local item = self:_getItem(index)
+        local item = self:_GetItem(index)
         item:Show()
         item:SetData(self.dataList[index], commonData)
         if self.selectKey then
@@ -91,11 +97,24 @@ function LMultiVerticalScrollView:SetData(dataList, commonData)
         end
         table.insert(self.itemList, item)
     end
-    self:_hideOutRangeList()
-    self:Layout()
-    self:_recalculateSize()
-    self:_setDragableComponentEnabled()
-    self:_adjustContentPosition()
+
+   
+    -- self:_cacheItemList(startIndex, endIndex)
+    -- self.itemList = {}
+    -- for index = startIndex, endIndex do
+    --     local item = self:_getItem(index)
+    --     item:Show()
+    --     item:SetData(self.dataList[index], commonData)
+    --     if self.selectKey then
+    --         item:SetSelectActive(self.selectKey)
+    --     end
+    --     table.insert(self.itemList, item)
+    -- end
+    -- self:_hideOutRangeList()
+    -- self:Layout()
+    -- self:_recalculateSize()
+    -- self:_setDragableComponentEnabled()
+    -- self:_adjustContentPosition()
 end
 
 function LMultiVerticalScrollView:_InitHeightList(dataList)
@@ -141,6 +160,49 @@ function LMultiVerticalScrollView:_GetIndexByY(targetY)
     return result
 end
 
+function LMultiVerticalScrollView:_GetStartIndex()
+    return self:_GetIndexByY(self:_GetMaskTop())
+end
+
+function LMultiVerticalScrollView:_GetEndIndex()
+    return self:_GetIndexByY(self:_GetMaskBottom()) 
+end
+
+-- function LMultiVerticalScrollView:_GetRowIndex(y)
+--     local result = math.ceil((y - self.paddingTop) / (self.itemHeight + self.gapVertical))
+--     return result < 1 and 1 or result
+-- end
+
+function LMultiVerticalScrollView:_GetMaskTop()
+    return -self.contentTrans.anchoredPosition.y
+end
+
+function LMultiVerticalScrollView:_GetMaskBottom()
+    return -self.contentTrans.anchoredPosition.y - self.maskHeight 
+end
+
+-- function LMultiVerticalScrollView:_GetIndexRange()
+--     local y = self.contentTrans.anchoredPosition.y
+--     local startIndex = self:_GetRowIndex(y)
+--     local endIndex = self:_GetRowIndex(y + self.maskHeight)
+--     startIndex = math.clamp(startIndex, 1, #self.dataList)
+--     endIndex = math.clamp(endIndex, 1, #self.dataList)
+--     return startIndex, endIndex
+-- end
+
+function LMultiVerticalScrollView:OnValueChanged(value)
+    if self.dataList == nil then
+        return
+    end
+
+    if self.startIndex ~= self:_GetStartIndex() or
+        self.endIndex ~= self:_GetEndIndex() then
+        self:_Update()
+    end
+
+end
+
+--undo
 
 
 
@@ -197,29 +259,7 @@ function LMultiVerticalScrollView:Layout()
     end
 end
 
-function LMultiVerticalScrollView:_getRowStartIndex()
-    local y = self.contentTrans.anchoredPosition.y
-    return self:_GetRowIndex(y)
-end
 
-function LMultiVerticalScrollView:_getRowEndIndex()
-    local y = self.contentTrans.anchoredPosition.y
-    return self:_GetRowIndex(y + self.maskHeight)
-end
-
-function LMultiVerticalScrollView:_GetRowIndex(y)
-    local result = math.ceil((y - self.paddingTop) / (self.itemHeight + self.gapVertical))
-    return result < 1 and 1 or result
-end
-
-function LMultiVerticalScrollView:_GetIndexRange()
-    local y = self.contentTrans.anchoredPosition.y
-    local startIndex = self:_GetRowIndex(y)
-    local endIndex = self:_GetRowIndex(y + self.maskHeight)
-    startIndex = math.clamp(startIndex, 1, #self.dataList)
-    endIndex = math.clamp(endIndex, 1, #self.dataList)
-    return startIndex, endIndex
-end
 
 function LMultiVerticalScrollView:SetSelectActive(key)
     self.selectKey = key

@@ -1,9 +1,5 @@
 LTree = LTree or BaseClass()
 
-LTree.ITEM_NAME = "Item"
-LTree.MASK_NAME = "Mask"
-LTree.CONTENT_NAME = "Content"
-
 function LTree:__init(transform, defaultItemType, itemTypeDict)
     self.defaultItemType = defaultItemType
     self.itemTypeDict = itemTypeDict
@@ -32,17 +28,17 @@ function LTree:_InitComponent(transform)
      local scrollRect = transform:GetComponent(ScrollRect)
     self.scrollRect = scrollRect
     self.scrollRect.onValueChanged:AddListener(function(value) self:_OnValueChanged(value) end)
-    local maskTrans = transform:Find(LTree.MASK_NAME)
+    local maskTrans = transform:Find(LDefine.MASK_NAME)
     local mask = maskTrans:GetComponent(Mask)
     self.mask = mask
     self.maskWidth = mask.transform.sizeDelta.x
     self.maskHeight = mask.transform.sizeDelta.y
-    self.contentTrans = maskTrans:Find(LTree.CONTENT_NAME)
+    self.contentTrans = maskTrans:Find(LDefine.CONTENT_NAME)
     self:_InitTemplate()
 end
 
 function LTree:_InitTemplate()
-    local itemTrans = self.contentTrans:Find(LTree.ITEM_NAME)
+    local itemTrans = self.contentTrans:Find(LDefine.ITEM_NAME)
     self.defaultItemWidth = itemTrans.sizeDelta.x
     self.defaultItemHeight = itemTrans.sizeDelta.y
     self.defaultTemplate = itemTrans.gameObject
@@ -50,7 +46,7 @@ function LTree:_InitTemplate()
     if self.itemTypeDict then
         self.depthDict = {}
         for depth, itemType in pairs(self.itemTypeDict) do
-            local trans = self.contentTrans:Find(LTree.ITEM_NAME .. "_" .. depth)
+            local trans = self.contentTrans:Find(LDefine.ITEM_NAME .. "_" .. depth)
             trans.gameObject:SetActive(false)
             self.depthDict[depth] = {
                 itemType = itemType,
