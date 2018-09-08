@@ -24,6 +24,15 @@ function LItem:SetActive(active)
     self.gameObject:SetActive(active)
 end
 
+--MultiVericalScrollView 所使用的类型
+function LItem:SetItemType(type)
+    self._itemType = type
+end
+
+function LItem:GetItemType(type)
+    return self._itemType
+end
+
 function LItem:SetIndex(index)
     self.index = index
     self.gameObject.name = "Item" .. index
@@ -55,6 +64,10 @@ end
 
 function LItem:SetData(data, commonData)
     pError("需要重写SetData方法")
+end
+
+function LItem:SetCommonData(commonData)
+    pError("需要重写SetCommonData方法")
 end
 
 function LItem:OnClick()

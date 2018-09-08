@@ -283,7 +283,6 @@ function LTree:_GetNode(nodeData)
     local go = GameObject.Instantiate(template)
     go.transform:SetParent(self.contentTrans, false)
     local node = itemType.New(go, nodeData:GetKey())
-    node:SetActive(true)
     node.ItemSelectEvent:AddListener(self.onItemSelect)
     self.nodeDict[key] = node
     return node

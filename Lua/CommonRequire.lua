@@ -10,7 +10,9 @@ end
 Tween.New()
 
 _print = print
-print = Debug.LogError
+print = function(msg)
+    Debug.LogError(msg .. "\n" .. debug.traceback())
+end
 pError = Debug.LogError
 
 string.Empty = ""

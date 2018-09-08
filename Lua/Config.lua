@@ -13,6 +13,7 @@ CommonFileConfig = {
     "LComponent/LTreeNode",
     "LComponent/LTreeNodeData",
     "LComponent/LRadarChart",
+    "LComponent/LMIScrollView",
 }
 
 DemoFileConfig = {
@@ -50,4 +51,6 @@ TestFileConfig = {
     "Test/LTreeTestItem1",
     "Test/MeshTest",
     "Test/ImageMeshTest",
+    "Test/LMIScrollView/LMIScrollViewTestItem",
+    "Test/LMIScrollView/LMIScrollViewTest",
 }

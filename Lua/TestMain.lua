@@ -9,8 +9,9 @@ local root = GameObject.Find("UIRoot")
 -- LScrollViewTest.New(root.transform:Find("LScrollViewTest").gameObject)
 -- LScrollPageTest.New(root.transform:Find("LScrollPageTest").gameObject)
 -- LTreeTest.New(root.transform:Find("LTreeTest").gameObject)
-local meshTest = MeshTest.New(root.transform:Find("MeshTest").gameObject)
+-- local meshTest = MeshTest.New(root.transform:Find("MeshTest").gameObject)
 -- local imageMeshTest = ImageMeshTest.New(root.transform:Find("ImageMeshTest").gameObject)
+LMIScrollViewTest.New(root.transform:Find("LMIScrollViewTest").gameObject)
 
 function Update()
     if Input.GetKeyDown(KeyCode.H) and Input.GetKey(KeyCode.LeftControl) then
@@ -27,7 +28,7 @@ function Update()
 
     if Input.GetKeyDown(KeyCode.W) and Input.GetKey(KeyCode.LeftControl) then
         print("W")
-        meshTest:DrawTriangle()
+        -- meshTest:DrawTriangle()
     end
 end
 
