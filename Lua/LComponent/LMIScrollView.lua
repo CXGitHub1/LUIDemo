@@ -46,10 +46,10 @@ function LMIScrollView:_InitTemplate()
     end
 end
 
-function LMIScrollView:__delete()
-    UtilsBase.TweenDelete(self, "focusTweenId")
-    UtilsBase.FieldDeleteMe(self, "ItemSelectEvent")
-    UtilsBase.TableDeleteMe(self, "itemDict")
+function LMIScrollView:__release()
+    UtilsBase.CancelTween(self, "focusTweenId")
+    UtilsBase.ReleaseField(self, "ItemSelectEvent")
+    UtilsBase.ReleaseTable(self, "itemDict")
     for key, itemPoolList in pairs(self.itemPoolListDict) do
         for i = 1, #itemPoolList do
             itemPoolList[i]:Release()
@@ -94,7 +94,7 @@ function LMIScrollView:SetData(dataList, commonData)
             self.itemDict[index] = item
         end 
     end
-    -- self:_AdjustContentPosition()
+    self:_AdjustContentPosition()
 end
 
 function LMIScrollView:ResetPosition()
@@ -103,8 +103,10 @@ function LMIScrollView:ResetPosition()
 end
 
 function LMIScrollView:Focus(index, tweenMove)
+    if not self.yList[index] then
+        return
+    end
     self.scrollRect:StopMovement()
-
     local targetY = -self.yList[index]
     local maxY = self.height - self.maskHeight
     if targetY > maxY then

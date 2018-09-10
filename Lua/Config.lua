@@ -52,5 +52,7 @@ TestFileConfig = {
     "Test/MeshTest",
     "Test/ImageMeshTest",
     "Test/LMIScrollView/LMIScrollViewTestItem",
+    "Test/LMIScrollView/LMIScrollViewTestItem1",
+    "Test/LMIScrollView/LMIScrollViewTestItem2",
     "Test/LMIScrollView/LMIScrollViewTest",
 }
