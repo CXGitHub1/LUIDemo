@@ -8,7 +8,6 @@ function BaseDemo:SetActive(active)
     self.gameObject:SetActive(active)
 end
 
-
 function BaseDemo:CreateDataList(num)
     local result = {}
     for i = 1, num do

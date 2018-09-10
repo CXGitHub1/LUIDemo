@@ -1,25 +1,36 @@
---LMIScrollView Is Short For Multiple Item Scroll View
---多Item垂直滚动组件
-LMIScrollView = LMIScrollView or BaseClass()
+NScrollView = NScrollView or BaseClass()
 
-function LMIScrollView:__init(transform, itemTypeList)
+function NScrollView:__init(transform, itemType, row, column)
     self.gameObject = transform.gameObject
-    self.itemTypeList = itemTypeList
+    self.itemType = itemType
+    self.row = row or UtilsBase.INT32_MAX
+    self.column = column or UtilsBase.INT32_MAX
+    self.gapHorizontal = 0
     self.gapVertical = 0
+    self.paddingLeft = 0
+    self.paddingRight = 0
+    self.paddingTop = 0
+    self.paddingBottom = 0
+    self.ItemSelectEvent = EventLib.New()
+    self.ReachBottomEvent = EventLib.New()
+    self.eventNameList = nil
 
     self.itemDict = nil
     self.itemPoolListDict = {}
-    self.ItemSelectEvent = EventLib.New()
-    self.eventNameList = nil
 
     self:_InitComponent(transform)
     self:_InitTemplate()
 end
 
-function LMIScrollView:_InitComponent(transform)
+function NScrollView:_InitComponent(transform)
      local scrollRect = transform:GetComponent(ScrollRect)
     self.scrollRect = scrollRect
     scrollRect.onValueChanged:AddListener(function(value) self:_OnValueChanged(value) end)
+    if scrollRect.vertical then
+        self.scrollDirection = LDefine.Direction.vertical
+    else
+        self.scrollDirection = LDefine.Direction.horizontal
+    end
     local maskTrans = transform:Find(LDefine.MASK_NAME)
     local mask = maskTrans:GetComponent(Mask)
     self.mask = mask
@@ -28,29 +39,16 @@ function LMIScrollView:_InitComponent(transform)
     self.contentTrans = maskTrans:Find(LDefine.CONTENT_NAME)
 end
 
-function LMIScrollView:_InitTemplate()
-    self.itemTypeDict = {}
-    self.width = 0
-    for i = 1, #self.itemTypeList do
-        local itemType = self.itemTypeList[i]
-        local trans = self.contentTrans:Find(LDefine.ITEM_NAME .. "_" .. i)
-        trans.gameObject:SetActive(false)
-        self.itemTypeDict[i] = {
-            itemType = itemType,
-            template = trans.gameObject,
-            width = trans.sizeDelta.x,
-            height = trans.sizeDelta.y,
-        }
-        if trans.sizeDelta.x > self.width then
-            self.width = trans.sizeDelta.x
-        end
-    end
+function NScrollView:_InitTemplate()
+    local itemTrans = self.contentTrans:Find(LDefine.ITEM_NAME)
+    self.template = itemTrans.gameObject
+    self.itemWidth = itemTrans.sizeDelta.x
+    self.itemHeight = itemTrans.sizeDelta.y
 end
 
-function LMIScrollView:__release()
+function NScrollView:__release()
     UtilsBase.CancelTween(self, "focusTweenId")
     UtilsBase.ReleaseField(self, "ItemSelectEvent")
-    UtilsBase.ReleaseTable(self, "eventNameList")
     UtilsBase.ReleaseTable(self, "itemDict")
     for key, itemPoolList in pairs(self.itemPoolListDict) do
         for i = 1, #itemPoolList do
@@ -61,19 +59,19 @@ function LMIScrollView:__release()
 end
 
 -- public function --
-function LMIScrollView:SetGap(gapVertical)
+function NScrollView:SetGap(gapHorizontal, gapVertical)
+    self.gapHorizontal = gapHorizontal or 0
     self.gapVertical = gapVertical or 0
 end
 
-function LMIScrollView:AddItemEvent(eventName)
-    if self.eventNameList == nil then
-        self.eventNameList = {}
-    end
-    table.insert(self.eventNameList, eventName)
-    self[eventName] = EventLib.New()
+function NScrollView:SetPadding(paddingLeft, paddingRight, paddingTop, paddingBottom)
+    self.paddingLeft = paddingLeft or 0
+    self.paddingRight = paddingRight or 0
+    self.paddingTop = paddingTop or 0
+    self.paddingBottom = paddingBottom or 0
 end
 
-function LMIScrollView:SetCommonData(commonData)
+function NScrollView:SetCommonData(commonData)
     self.commonData = commonData
     for _, item in pairs(self.itemDict) do
         item:SetCommonData(commonData)
@@ -86,7 +84,7 @@ end
 --     {type = itemType, data = data},
 --     {type = itemType, data = data},
 -- }
-function LMIScrollView:SetData(dataList, commonData)
+function NScrollView:SetData(dataList, commonData)
     self.dataList = dataList
     self.commonData = commonData
     self:_InitData(dataList)
@@ -107,12 +105,12 @@ function LMIScrollView:SetData(dataList, commonData)
     self:_AdjustContentPosition()
 end
 
-function LMIScrollView:ResetPosition()
+function NScrollView:ResetPosition()
     self.contentTrans.anchoredPosition = Vector2.zero
     self.scrollRect:StopMovement()
 end
 
-function LMIScrollView:Focus(index, tweenMove)
+function NScrollView:Focus(index, tweenMove)
     if not self.yList[index] then
         return
     end
@@ -133,7 +131,7 @@ end
 
 -- public function end --
 
-function LMIScrollView:_InitData(dataList)
+function NScrollView:_InitData(dataList)
     local y = 0
     self.yList = {}
     if dataList then
@@ -148,7 +146,7 @@ function LMIScrollView:_InitData(dataList)
     self.height = -y
 end
 
-function LMIScrollView:_OnValueChanged(value)
+function NScrollView:_OnValueChanged(value)
     if self:_IsDataListEmpty() then
         return
     end
@@ -158,7 +156,7 @@ function LMIScrollView:_OnValueChanged(value)
     end
 end
 
-function LMIScrollView:_Update()
+function NScrollView:_Update()
     self.startIndex = self:_GetStartIndex()
     self.endIndex = self:_GetEndIndex()
     self:_PushUnUsedItem()
@@ -173,7 +171,7 @@ function LMIScrollView:_Update()
     end
 end
 
-function LMIScrollView:_GetIndexByY(targetY)
+function NScrollView:_GetIndexByY(targetY)
     if self:_IsDataListEmpty() then
         return 0
     end
@@ -205,17 +203,17 @@ function LMIScrollView:_GetIndexByY(targetY)
     return result
 end
 
-function LMIScrollView:_GetData(index)
+function NScrollView:_GetData(index)
     if self.dataList then
         return self.dataList[index]
     end
 end
 
-function LMIScrollView:_IsDataListEmpty()
+function NScrollView:_IsDataListEmpty()
     return self.dataList == nil or next(self.dataList) == nil
 end
 
-function LMIScrollView:_GetItem(index)
+function NScrollView:_GetItem(index)
     local itemType = self.dataList[index].type
     if self.itemDict and self.itemDict[index] then
         local item = self.itemDict[index]
@@ -237,32 +235,13 @@ function LMIScrollView:_GetItem(index)
     item:SetIndex(index)
     item:SetItemType(itemType)
     item.ItemSelectEvent:AddListener(function(index, item) self.ItemSelectEvent:Fire(index, item) end)
-    if self.eventNameList then
-        for i = 1, #self.eventNameList do
-            local eventName = self.eventNameList[i]
-            item[eventName]:AddListener(function(...) self[eventName]:Fire(...) end)
-        end
-    end
     return item, LDefine.GetItemWay.new
 end
 
-function LMIScrollView:_GetStartIndex()
-    return self:_GetIndexByY(self:_GetMaskTop())
-end
 
-function LMIScrollView:_GetEndIndex()
-    return self:_GetIndexByY(self:_GetMaskBottom()) 
-end
 
-function LMIScrollView:_GetMaskTop()
-    return -self.contentTrans.anchoredPosition.y
-end
 
-function LMIScrollView:_GetMaskBottom()
-    return -self.contentTrans.anchoredPosition.y - self.maskHeight 
-end
-
-function LMIScrollView:_PushPool(item)
+function NScrollView:_PushPool(item)
     item:SetActive(false)
     self.itemDict[item.index] = nil
     local itemType = item:GetItemType()
@@ -272,7 +251,7 @@ function LMIScrollView:_PushPool(item)
     table.insert(self.itemPoolListDict[itemType], item)
 end
 
-function LMIScrollView:_PushUnUsedItem()
+function NScrollView:_PushUnUsedItem()
     if self.itemDict then
         for index, item in pairs(self.itemDict) do
             if index < self.startIndex or
@@ -288,10 +267,53 @@ function LMIScrollView:_PushUnUsedItem()
     end
 end
 
-function LMIScrollView:_AdjustContentPosition()
+function NScrollView:_AdjustContentPosition()
     local maxY = self.height - self.maskHeight
     maxY = maxY < 0 and 0 or maxY
     if self.contentTrans.anchoredPosition.y > maxY then
         UtilsUI.SetAnchoredY(self.contentTrans, maxY)
     end
+end
+
+
+function NScrollView:_GetRowStartIndex()
+    return self:_GetRowIndex(self:_GetMaskTop())
+end
+
+function NScrollView:_GetRowEndIndex()
+    return self:_GetRowIndex(self:_GetMaskBottom()) 
+end
+
+function NScrollView:_GetColumnStartIndex()
+    return self:_GetColumnIndex(self:_GetMaskLeft())
+end
+
+function NScrollView:_GetColumnEndIndex()
+    return self:_GetColumnIndex(self:_GetMaskRight()) 
+end
+
+function NScrollView:_GetRowIndex(y)
+    local result = math.ceil((y - self.paddingTop) / (self.itemHeight + self.gapVertical))
+    return result < 1 and 1 or result
+end
+
+function NScrollView:_GetColumnIndex(x)
+    local result = math.ceil((-x - self.paddingLeft) / (self.itemWidth + self.gapHorizontal))
+    return result < 1 and 1 or result
+end
+
+function NScrollView:_GetMaskLeft()
+    return -self.contentTrans.anchoredPosition.x
+end
+
+function NScrollView:_GetMaskRight()
+    return -self.contentTrans.anchoredPosition.x + self.maskWidth
+end
+
+function NScrollView:_GetMaskTop()
+    return -self.contentTrans.anchoredPosition.y
+end
+
+function NScrollView:_GetMaskBottom()
+    return -self.contentTrans.anchoredPosition.y - self.maskHeight 
 end

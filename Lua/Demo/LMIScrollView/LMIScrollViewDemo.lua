@@ -2,7 +2,7 @@ LMIScrollViewDemo = LMIScrollViewDemo or BaseClass(BaseDemo)
 
 function LMIScrollViewDemo:__init(transform)
     local scrollView = LMIScrollView.New(transform:Find("Test1"), {LMIScrollViewDemoItem, LMIScrollViewDemoItem1, LMIScrollViewDemoItem2})
-    scrollView:SetGap(4)
+    scrollView:SetGap(5)
     scrollView.ItemSelectEvent:AddListener(function(index, item)
         scrollView:SetCommonData(index)
     end)
