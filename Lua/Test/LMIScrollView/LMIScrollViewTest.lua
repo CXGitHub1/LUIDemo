@@ -20,7 +20,7 @@ function LMIScrollViewTest:__init(gameObject)
     local transform = gameObject.transform
     local scrollView = LMIScrollView.New(transform:Find("Test0"), {LMIScrollViewTestItem})
     scrollView:SetData()
-    local scrollView = LMIScrollView.New(transform:Find("Test01"),  {LMIScrollViewTestItem})
+    local scrollView = LMIScrollView.New(transform:Find("Test01"), {LMIScrollViewTestItem})
     scrollView:SetData({})
     for i = 1, #LMIScrollViewTest.Config do
         local config = LMIScrollViewTest.Config[i]

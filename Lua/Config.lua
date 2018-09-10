@@ -37,6 +37,10 @@ DemoFileConfig = {
     "Demo/LTree/LTreeNodeDemo2_2",
     "Demo/LTree/LTreeNodeDataDemo2_2",
     "Demo/LRadarChartDemo",
+    "Demo/LMIScrollView/LMIScrollViewDemo",
+    "Demo/LMIScrollView/LMIScrollViewDemoItem",
+    "Demo/LMIScrollView/LMIScrollViewDemoItem1",
+    "Demo/LMIScrollView/LMIScrollViewDemoItem2",
 }
 
 TestFileConfig = {
