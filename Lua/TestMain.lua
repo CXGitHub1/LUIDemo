@@ -11,7 +11,8 @@ local root = GameObject.Find("UIRoot")
 -- LTreeTest.New(root.transform:Find("LTreeTest").gameObject)
 -- local meshTest = MeshTest.New(root.transform:Find("MeshTest").gameObject)
 -- local imageMeshTest = ImageMeshTest.New(root.transform:Find("ImageMeshTest").gameObject)
-local scrollView = LMIScrollViewTest.New(root.transform:Find("LMIScrollViewTest").gameObject)
+-- local scrollView = LMIScrollViewTest.New(root.transform:Find("LMIScrollViewTest").gameObject)
+local scrollView = LSIScrollViewTest.New(root.transform:Find("LSIScrollViewTest").gameObject)
 
 function Update()
     if Input.GetKeyDown(KeyCode.H) and Input.GetKey(KeyCode.LeftControl) then
