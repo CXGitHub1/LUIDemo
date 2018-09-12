@@ -4,6 +4,38 @@
 		"selected_items":
 		[
 			[
+				"co",
+				"column"
+			],
+			[
+				"Is",
+				"_IsVerticalScroll"
+			],
+			[
+				"row",
+				"rowIndex"
+			],
+			[
+				"_GetRo",
+				"_GetStartRowIndex"
+			],
+			[
+				"_get",
+				"_GetRCStartIndex"
+			],
+			[
+				"_GetData",
+				"_GetDataLength"
+			],
+			[
+				"_Pu",
+				"_PushUnUsedItem"
+			],
+			[
+				"_GetRow",
+				"_GetRowStartIndex"
+			],
+			[
 				"y",
 				"yList"
 			],
@@ -292,10 +324,6 @@
 				"selectKey"
 			],
 			[
-				"_Pu",
-				"_PushUnUsedToPool"
-			],
-			[
 				"nde",
 				"nodeDataDict"
 			],
@@ -356,10 +384,37 @@
 	"buffers":
 	[
 		{
-			"file": "LComponent/NScrollView.lua",
+			"file": "LComponent/LSIScrollView.lua",
 			"settings":
 			{
-				"buffer_size": 9499,
+				"buffer_size": 10732,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "TestMain.lua",
+			"settings":
+			{
+				"buffer_size": 1364,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Test/LSIScrollViewTest.lua",
+			"settings":
+			{
+				"buffer_size": 3320,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Config.lua",
+			"settings":
+			{
+				"buffer_size": 1730,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -409,10 +464,12 @@
 		"/D/code/unity/LUIDemo/Lua",
 		"/D/code/unity/LUIDemo/Lua/Demo",
 		"/D/code/unity/LUIDemo/Lua/Demo/LMIScrollView",
-		"/D/code/unity/LUIDemo/Lua/LComponent"
+		"/D/code/unity/LUIDemo/Lua/LComponent",
+		"/D/code/unity/LUIDemo/Lua/Test"
 	],
 	"file_history":
 	[
+		"/D/code/unity/LUIDemo/Lua/Test/LScrollViewTest.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LMIScrollView.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LMIScrollView/LMIScrollViewDemo.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LMIScrollView/LMIScrollViewTestItem.lua",
@@ -440,7 +497,6 @@
 		"/D/code/unity/LUIDemo/Lua/CommonRequire.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LListTest.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LScrollPageTest.lua",
-		"/D/code/unity/LUIDemo/Lua/Test/LScrollViewTest.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LTree.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LScrollPageDemo.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LMultiVerticalScrollView.lua",
@@ -503,6 +559,83 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"sizeDelta",
+			"_OnValueChanged",
+			"_FireReachBottomEvent",
+			"_OnValueChanged",
+			"_FireReachBottomEvent",
+			"ReachBottomEvent",
+			"_GetStartColumnIndex",
+			"_GetEndColumnIndex",
+			"print",
+			"_GetStartColumnIndex",
+			"_GetColumnIndex",
+			"_GetStartColumnIndex",
+			"_GetStartIndex",
+			"_GetEndIndex",
+			"_GetStartIndex",
+			"_GetStartColumnIndex",
+			"_GetColumnIndex",
+			"_GetEndIndex",
+			"_GetStartIndex",
+			"_GetEndRowIndex",
+			"_GetRowIndex",
+			"_GetEndRowIndex",
+			"_GetEndIndex",
+			"listView",
+			"LScrollViewTest",
+			"NScrollView",
+			"_OnValueChanged",
+			"print",
+			"itemType",
+			"itemPoolList",
+			"_GetDataLength",
+			"_CalcSizeDelta",
+			"_GetPosition",
+			"columnIndex",
+			"contentTrans",
+			"_GetStartIndex",
+			"_GetStartRowIndex",
+			"_GetRowIndex",
+			"_GetMaskBottom",
+			"_GetRowIndex",
+			"_GetEndIndex",
+			"NScrollView",
+			"_OnValueChanged",
+			"dataLength",
+			"_GetDataLength",
+			"SetItemType",
+			"_GetData",
+			"_GetIndexByY",
+			"_AdjustContentPosition",
+			"commonData",
+			"columnIndex",
+			"_PushPool",
+			"itemPoolList",
+			"itemPoolListDict",
+			"_PushUnUsedItem",
+			"_GetRCStartIndex",
+			"_GetRowIndex",
+			"_GetStartRowIndex",
+			"columnIndex",
+			"startColumnIndex",
+			"rowIndex",
+			"startRowIndex",
+			"_GetEndColumnIndex",
+			"_GetStartRowIndex",
+			"_GetStartColumnIndex",
+			"startColumnIndex",
+			"startRowIndex",
+			"rowStartIndex",
+			"_GetStartRowIndex",
+			"_GetStartIndex",
+			"_GetRCStartIndex",
+			"_GetStartRowIndex",
+			"_GetRowEndIndex",
+			"_GetRowStartIndex",
+			"_PushUnUsedItem",
+			"_IsVerticalScroll",
+			"dataList",
 			"_InitData",
 			"_GetRowIndex",
 			"_GetColumnIndex",
@@ -553,84 +686,7 @@
 			"print",
 			"itemDict",
 			"\n            ",
-			"_GetItem",
-			"SetIndex",
-			"_GetItem",
-			"itemDict",
-			"index",
-			"InitFromCache",
-			"SetIndex",
-			"SetItemType",
-			"_GetItem",
-			"itemDict",
-			"SetIndex",
-			"_PushPool",
-			"_PushUnUsedItem",
-			"itemDict",
-			"_PushUnUsedItem",
-			"_GetItem",
-			"GetItem",
-			"type",
-			"GetItemType",
-			"GetType",
-			"_type",
-			"SetType",
-			"type",
-			"_GetItem",
-			"SetIndex",
-			"item",
-			"_PushUnUsedItem",
-			"SetPosition",
-			"_GetItem",
-			"GET_ITEM_WAY",
-			"itemTypeDict",
-			"GET_ITEM_WAY",
-			"itemTypeList",
-			"height",
-			"itemTypeDict",
-			"type",
-			"itemTypeDict",
-			"data",
-			"LItem",
-			"itemTypeList",
-			"_GetItem",
-			"_IsDataListEmpty",
-			"dataList",
-			"GetData",
-			"dataList",
-			"_GetItem",
-			"dataList",
-			"_PushUnUsedItem",
-			"itemDict",
-			"LMIScrollView",
-			"list",
-			"List",
-			"list",
-			"scrollView",
-			"list",
-			"List",
-			"list",
-			"gapVertical",
-			"LList",
-			"LMIScrollViewTest",
-			"LMultiVerticalScrollView",
-			"gapVertical",
-			"_GetItem",
-			"gapVertical",
-			"_AdjustContentPosition",
-			"targetY",
-			"y",
-			"_AdjustContentPosition",
-			"_GetStartIndex",
-			"_GetIndexByY",
-			"_GetMaskTop",
-			"_GetStartIndex",
-			"_InitData",
-			"_GetStartIndex",
-			"_GetMaskTop",
-			"_OnValueChanged",
-			"OnValueChanged",
-			"_PushPool"
+			"_GetItem"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -654,19 +710,19 @@
 			[
 				{
 					"buffer": 0,
-					"file": "LComponent/NScrollView.lua",
+					"file": "LComponent/LSIScrollView.lua",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9499,
+						"buffer_size": 10732,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8358,
-								8358
+								6253,
+								6253
 							]
 						],
 						"settings":
@@ -676,33 +732,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 4770.0,
+						"translation.y": 2909.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
+				},
 				{
 					"buffer": 1,
-					"file": "LComponent/LScrollView.lua",
+					"file": "TestMain.lua",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 17996,
+						"buffer_size": 1364,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								847,
-								847
+								669,
+								669
 							]
 						],
 						"settings":
@@ -715,7 +765,133 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 4,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 2,
+					"file": "Test/LSIScrollViewTest.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3320,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2503,
+								2503
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 8.0,
+						"translation.y": 162.0,
+						"zoom_level": 1.0
+					},
 					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "Config.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1730,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1098,
+								1098
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 378.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "LComponent/LScrollView.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 17996,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								10504,
+								9771
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5627.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 0,
+					"file": "LComponent/LSIScrollView.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10732,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								9860,
+								9860
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4495.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -749,7 +925,7 @@
 		"cols":
 		[
 			0.0,
-			0.603919239905,
+			0.5,
 			1.0
 		],
 		"rows":
@@ -776,6 +952,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"NS",
+				"LComponent\\NScrollView.lua"
+			],
 			[
 				"LMIScrollViewDemoItem1",
 				"Demo\\LMIScrollView\\LMIScrollViewDemoItem1.lua"

@@ -81,9 +81,7 @@ function LSIScrollView:SetData(dataList, commonData)
     self.commonData = commonData
 
     self.startIndex = self:_GetStartIndex()
-    print(self.startIndex)
     self.endIndex = self:_GetEndIndex()
-    print(self.endIndex)
     self:_PushUnUsedItem()
 
     if not self:_IsDataListEmpty() then
@@ -97,7 +95,7 @@ function LSIScrollView:SetData(dataList, commonData)
         end 
     end
     self:_CalcSizeDelta()
-    -- self:_AdjustContentPosition()
+    self:_AdjustContentPosition()
 end
 
 
@@ -153,17 +151,12 @@ function LSIScrollView:Focus(index, tweenMove)
         UtilsUI.SetAnchoredY(self.contentTrans, targetY)
     end
 end
-
 -- public function end --
 
 function LSIScrollView:_OnValueChanged(value)
-    print(value.y .. "    " .. self.contentTrans.anchoredPosition.y)
     if self:_IsDataListEmpty() then
         return
     end
-    -- print(string.format("_OnValueChanged: self.startIndex:%s  self:_GetStartIndex():%s", self.startIndex, self:_GetStartIndex()))
-    -- print(self.endIndex)
-    -- print(self:_GetEndIndex())
     self:_FireReachBottomEvent(value)
     if self.startIndex ~= self:_GetStartIndex() or
         self.endIndex ~= self:_GetEndIndex() then
@@ -252,10 +245,18 @@ function LSIScrollView:_PushUnUsedItem()
 end
 
 function LSIScrollView:_AdjustContentPosition()
-    local maxY = self.height - self.maskHeight
-    maxY = maxY < 0 and 0 or maxY
-    if self.contentTrans.anchoredPosition.y > maxY then
-        UtilsUI.SetAnchoredY(self.contentTrans, maxY)
+    if self:_IsVerticalScroll() then
+        local maxY = self.height - self.maskHeight
+        maxY = maxY < 0 and 0 or maxY
+        if self.contentTrans.anchoredPosition.y > maxY then
+            UtilsUI.SetAnchoredY(self.contentTrans, maxY)
+        end
+    else
+        local minX = self.maskWidth - self.width
+        minX = minX > 0 and 0 or minX
+        if self.contentTrans.anchoredPosition.x < minX then
+            UtilsUI.SetAnchoredX(self.contentTrans, minX)
+        end
     end
 end
 
@@ -313,7 +314,6 @@ end
 
 function LSIScrollView:_GetColumnIndex(x)
     local result = math.ceil((x - self.paddingLeft) / (self.itemWidth + self.gapHorizontal))
-    print("_GetColumnIndex:" .. x .. "  " ..result)
     return result < 1 and 1 or result
 end
 
