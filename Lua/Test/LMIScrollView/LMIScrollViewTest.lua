@@ -27,7 +27,9 @@ function LMIScrollViewTest:__init(gameObject)
         local scrollView = LMIScrollView.New(transform:Find("Test" .. i), config.itemTypeList)
         -- local scrollView = LMIScrollView.New(transform:Find("Test7"), config.itemTypeList)
         self.scrollView = scrollView
-        scrollView:SetGap(config.gapHorizontal, config.gapVertical)
+        if config.gapVertical then
+            scrollView:SetGap(config.gapVertical)
+        end
         scrollView:SetData(self:CreateDataList(config.dataLength, #config.itemTypeList), {sizeType = config.sizeType})
 
         if i == 7 then

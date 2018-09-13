@@ -21,9 +21,6 @@ function LMIScrollView:_InitComponent(transform)
     self.scrollRect = scrollRect
     scrollRect.onValueChanged:AddListener(function(value) self:_OnValueChanged(value) end)
     local maskTrans = transform:Find(LDefine.MASK_NAME)
-    local mask = maskTrans:GetComponent(Mask)
-    self.mask = mask
-    self.maskWidth = maskTrans.sizeDelta.x
     self.maskHeight = maskTrans.sizeDelta.y
     self.contentTrans = maskTrans:Find(LDefine.CONTENT_NAME)
 end
@@ -62,7 +59,7 @@ end
 
 -- public function --
 function LMIScrollView:SetGap(gapVertical)
-    self.gapVertical = gapVertical or 0
+    self.gapVertical = gapVertical
 end
 
 function LMIScrollView:AddItemEvent(eventName)
@@ -164,8 +161,8 @@ function LMIScrollView:_Update()
     self:_PushUnUsedItem()
     for index = self.startIndex, self.endIndex do
         local item, getWay = self:_GetItem(index)
-        item:SetActive(true)
         if getWay ~= LDefine.GetItemWay.exist then
+            item:SetActive(true)
             item:SetData(self.dataList[index], self.commonData)
             item:SetPosition(Vector2(0, self.yList[index]))
             self.itemDict[index] = item

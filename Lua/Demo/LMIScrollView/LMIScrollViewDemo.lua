@@ -19,6 +19,16 @@ function LMIScrollViewDemo:__init(transform)
         UtilsUI.GetText(transform, "Button1/Text").text = string.format("Focus(%s)", index)
         scrollView:Focus(index, true)
     end)
+    transform:Find("Button2").gameObject:SetActive(true)
+    UtilsUI.AddButtonListener(transform, "Button2", function()
+        local length = math.random(1, 100)
+        UtilsUI.GetText(transform, "Button2/Text").text = string.format("SetData(%s)", length)
+        local dataList = {}
+        for i = 1, length do
+            table.insert(dataList, {type = math.random(1, 3), data = i})
+        end
+        scrollView:SetData(dataList)
+    end)
 end
 
 function LMIScrollViewDemo:SetData()

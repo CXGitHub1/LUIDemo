@@ -69,21 +69,12 @@ function LSIScrollView:SetPadding(paddingLeft, paddingRight, paddingTop, padding
     self.paddingBottom = paddingBottom or 0
 end
 
-function LSIScrollView:SetCommonData(commonData)
-    self.commonData = commonData
-    for _, item in pairs(self.itemDict) do
-        item:SetCommonData(commonData)
-    end
-end
-
 function LSIScrollView:SetData(dataList, commonData)
     self.dataList = dataList
     self.commonData = commonData
-
     self.startIndex = self:_GetStartIndex()
     self.endIndex = self:_GetEndIndex()
     self:_PushUnUsedItem()
-
     if not self:_IsDataListEmpty() then
         if self.itemDict == nil then self.itemDict = {} end
         for index = self.startIndex, self.endIndex do
@@ -98,34 +89,11 @@ function LSIScrollView:SetData(dataList, commonData)
     self:_AdjustContentPosition()
 end
 
-
-function LSIScrollView:_CalcSizeDelta()
-    local maxColumn, maxRow
-    local dataLength = self:_GetDataLength()
-    if self:_IsVerticalScroll() then
-        maxRow = math.ceil(dataLength / self.column)
-        maxColumn = dataLength > self.column and self.column or dataLength
-    else
-        maxColumn = math.ceil(dataLength / self.row)
-        maxRow = dataLength > self.row and self.row or dataLength
+function LSIScrollView:SetCommonData(commonData)
+    self.commonData = commonData
+    for _, item in pairs(self.itemDict) do
+        item:SetCommonData(commonData)
     end
-    local width = self.paddingLeft + (self.itemWidth + self.gapHorizontal) * maxColumn + self.paddingRight
-    local height = self.paddingTop + (self.itemHeight + self.gapVertical) * maxRow + self.paddingBottom
-    self.contentTrans.sizeDelta = Vector2(width, height)
-end
-
-function LSIScrollView:_GetPosition(index)
-    local columnIndex, rowIndex
-    if self:_IsVerticalScroll() then
-        columnIndex = (index - 1) % self.column
-        rowIndex = math.floor((index - 1) / self.column)
-    else
-        columnIndex = math.floor((index - 1) / self.row)
-        rowIndex = (index - 1) % self.row
-    end
-    local x = self.paddingLeft + columnIndex * (self.itemWidth + self.gapHorizontal)
-    local y = self.paddingTop + rowIndex * (self.itemHeight + self.gapVertical)
-    return Vector2(x, -y)
 end
 
 function LSIScrollView:ResetPosition()
@@ -224,6 +192,35 @@ function LSIScrollView:_GetItem(index)
     return item, LDefine.GetItemWay.new
 end
 
+function LSIScrollView:_CalcSizeDelta()
+    local maxColumn, maxRow
+    local dataLength = self:_GetDataLength()
+    if self:_IsVerticalScroll() then
+        maxRow = math.ceil(dataLength / self.column)
+        maxColumn = dataLength > self.column and self.column or dataLength
+    else
+        maxColumn = math.ceil(dataLength / self.row)
+        maxRow = dataLength > self.row and self.row or dataLength
+    end
+    local width = self.paddingLeft + (self.itemWidth + self.gapHorizontal) * maxColumn + self.paddingRight
+    local height = self.paddingTop + (self.itemHeight + self.gapVertical) * maxRow + self.paddingBottom
+    self.contentTrans.sizeDelta = Vector2(width, height)
+end
+
+function LSIScrollView:_GetPosition(index)
+    local columnIndex, rowIndex
+    if self:_IsVerticalScroll() then
+        columnIndex = (index - 1) % self.column
+        rowIndex = math.floor((index - 1) / self.column)
+    else
+        columnIndex = math.floor((index - 1) / self.row)
+        rowIndex = (index - 1) % self.row
+    end
+    local x = self.paddingLeft + columnIndex * (self.itemWidth + self.gapHorizontal)
+    local y = self.paddingTop + rowIndex * (self.itemHeight + self.gapVertical)
+    return Vector2(x, -y)
+end
+
 function LSIScrollView:_PushPool(item)
     item:SetActive(false)
     self.itemDict[item.index] = nil
@@ -236,8 +233,7 @@ end
 function LSIScrollView:_PushUnUsedItem()
     if self.itemDict then
         for index, item in pairs(self.itemDict) do
-            if index < self.startIndex or
-                index > self.endIndex then
+            if index < self.startIndex or index > self.endIndex then
                 self:_PushPool(item)
             end
         end
