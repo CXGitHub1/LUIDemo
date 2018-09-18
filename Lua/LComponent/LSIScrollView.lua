@@ -204,6 +204,8 @@ function LSIScrollView:_CalcSizeDelta()
     end
     local width = self.paddingLeft + (self.itemWidth + self.gapHorizontal) * maxColumn + self.paddingRight
     local height = self.paddingTop + (self.itemHeight + self.gapVertical) * maxRow + self.paddingBottom
+    self.width = width
+    self.height = height
     self.contentTrans.sizeDelta = Vector2(width, height)
 end
 

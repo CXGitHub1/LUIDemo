@@ -2,12 +2,15 @@ LSIScrollViewTest = LSIScrollViewTest or BaseClass(BaseTest)
 
 LSIScrollViewTest.Config = {
     --一列 簡單例子
-    {column = 1, dataLength = 10, sizeType = TestDefine.SizeType.fix},
+    -- {column = 1, dataLength = 10, sizeType = TestDefine.SizeType.fix},
     --兩列 帶gap 帶Focus 和 ResetPosition
-    {column = 1, dataLength = 20, gapVertical = 4, sizeType = TestDefine.SizeType.fix},
-    --一行 帶padding 測SetCommond
+    {column = 2, dataLength = 10000, gapVertical = 4, sizeType = TestDefine.SizeType.fix},
+    --一行 帶padding 測SetCommon 选中
+    -- {row = 1, dataLength = 30, sizeType = TestDefine.SizeType.fix},
     --三行 帶gap padding 測SetData 測空 測Release
-    
+    -- {row = 3, dataLength = 20, sizeType = TestDefine.SizeType.fix},
+
+
     -- {column = 1, dataLength = 20, paddingTop = 10, sizeType = TestDefine.SizeType.specified},
     -- {column = 2, dataLength = 19, sizeType = TestDefine.SizeType.fix},
     -- {column = 2, dataLength = 40, startIndex = 3, gapVertical = 10, gapHorizontal = 10, sizeType = TestDefine.SizeType.decrease},
@@ -22,14 +25,14 @@ LSIScrollViewTest.Config = {
 
 function LSIScrollViewTest:__init(gameObject)
     local transform = gameObject.transform
-    local scrollView = LScrollView.New(transform:Find("Test0"), LTestItem, 1, 2)
+    local scrollView = LSIScrollView.New(transform:Find("Test0"), LTestItem, 1, 2)
     scrollView:SetData()
-    local scrollView = LScrollView.New(transform:Find("Test01"), LTestItem, 3, 4)
+    local scrollView = LSIScrollView.New(transform:Find("Test01"), LTestItem, 3, 4)
     scrollView:SetData({})
     for i = 1, #LSIScrollViewTest.Config do
         local config = LSIScrollViewTest.Config[i]
-        local scrollView = LSIScrollView.New(transform:Find("Test" .. i), LTestItem, config.row, config.column)
-        -- local scrollView = LSIScrollView.New(transform:Find("Test11"), LTestItem, config.row, config.column)
+        -- local scrollView = LSIScrollView.New(transform:Find("Test" .. i), LTestItem, config.row, config.column)
+        local scrollView = LSIScrollView.New(transform:Find("Test2"), LTestItem, config.row, config.column)
         scrollView:SetGap(config.gapHorizontal, config.gapVertical)
         scrollView:SetPadding(config.paddingLeft, config.paddingRight, config.paddingTop, config.paddingBottom)
         if config.bottomData then
