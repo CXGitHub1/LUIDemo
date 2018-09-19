@@ -1,3 +1,12 @@
+--LScrollView是一个允许内部元素动态改变大小的滚动布局组件
+--高度的灵活性必然会有其局限性，比如说代码的复杂度高
+--比如说想要让组件滚动到不在当前显示范围的元素时，因为高度不确定，处理起来不算方便（先调用SetStartIndex()，再调用SetData()），最终的效果也有瑕疵
+--再回到游戏的实际业务，其实游戏中需要所有元素动态改变大小极其少见，大部分情况下所有元素的大小相同
+--小部分情况下会有多种不同类型的元素，极少数情况会有元素改变大小的情况，这种可以交由开发人员自己来做布局
+--那我只需要提供上面两种情况的组件既可
+--所有元素大小相同的，用LSIScrollVIew
+--有多种不同高度元素的，用LMIScrollView
+--详见
 LScrollView = LScrollView or BaseClass()
 
 function LScrollView:__init(transform, itemType, row, column)
