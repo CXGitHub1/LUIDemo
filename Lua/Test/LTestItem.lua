@@ -4,6 +4,9 @@ function LTestItem:__init()
     local transform = self.transform
     self.transform = transform
     self.text = transform:Find("Text"):GetComponent(Text)
+    if transform:Find("Select") then
+        self.selectGo = transform:Find("Select").gameObject
+    end
 end
 
 function LTestItem:SetData(data, commonData)
@@ -43,5 +46,12 @@ function LTestItem:SetData(data, commonData)
         else
             self.transform.sizeDelta = Vector2(40, 20)
         end
+    end
+    self:SetSelectActive(commonData.selectIndex == self.index)
+end
+
+function LTestItem:SetSelectActive(active)
+    if self.selectGo then
+        self.selectGo:SetActive(active)
     end
 end

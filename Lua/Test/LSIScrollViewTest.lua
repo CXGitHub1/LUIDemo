@@ -4,23 +4,11 @@ LSIScrollViewTest.Config = {
     --一列 簡單例子
     -- {column = 1, dataLength = 10, sizeType = TestDefine.SizeType.fix},
     --兩列 帶gap 帶Focus 和 ResetPosition
-    {column = 2, dataLength = 10000, gapVertical = 4, sizeType = TestDefine.SizeType.fix},
+    -- {column = 2, dataLength = 10000, gapVertical = 4, sizeType = TestDefine.SizeType.fix},
     --一行 帶padding 測SetCommon 选中
-    -- {row = 1, dataLength = 30, sizeType = TestDefine.SizeType.fix},
-    --三行 帶gap padding 測SetData 測空 測Release
-    -- {row = 3, dataLength = 20, sizeType = TestDefine.SizeType.fix},
-
-
-    -- {column = 1, dataLength = 20, paddingTop = 10, sizeType = TestDefine.SizeType.specified},
-    -- {column = 2, dataLength = 19, sizeType = TestDefine.SizeType.fix},
-    -- {column = 2, dataLength = 40, startIndex = 3, gapVertical = 10, gapHorizontal = 10, sizeType = TestDefine.SizeType.decrease},
-    -- {column = 4, dataLength = 10000, startIndex = 1000, gapVertical = 10, gapHorizontal = 10, paddingLeft = 5, paddingRight = 20, paddingTop = 40, paddingBottom = 50, sizeType = TestDefine.SizeType.fix},
-    -- {column = 2, dataLength = 19, startIndex = 11, gapVertical = 30, gapHorizontal = 20, paddingLeft = 40, paddingRight = 40, paddingTop = 40, paddingBottom = 40, sizeType = TestDefine.SizeType.specified1},
-    -- {row = 1, dataLength = 28, gapHorizontal = 10, paddingTop = 20, sizeType = TestDefine.SizeType.specified2},
-    -- {row = 2, dataLength = 20, startIndex = 4, gapHorizontal = 10, paddingLeft = 40, paddingRight = 40, paddingTop = 40, paddingBottom = 40, sizeType = TestDefine.SizeType.decrease},
-    -- {row = 2, dataLength = 20, startIndex = 4, gapHorizontal = 10, paddingLeft = 40, paddingRight = 40, paddingTop = 40, paddingBottom = 40, sizeType = TestDefine.SizeType.fix},
-    -- {column = 2, dataLength = 20, bottomData = 40, sizeType = TestDefine.SizeType.fix},
-    -- {column = 2, dataLength = 20, sizeType = TestDefine.SizeType.fix},
+    -- {row = 1, dataLength = 30, sizeType = TestDefine.SizeType.fix, paddingLeft = 40, paddingRight = 40, paddingTop = 40, paddingBottom = 40,},
+    --三行 帶gap padding 測SetData 測空 測Release  Focus  bottomData
+    {row = 3, dataLength = 20, bottomData = 100, sizeType = TestDefine.SizeType.fix},
 }
 
 function LSIScrollViewTest:__init(gameObject)
@@ -45,11 +33,43 @@ function LSIScrollViewTest:__init(gameObject)
             end)
         end
         scrollView:SetData(self:CreateDataList(config.dataLength), {sizeType = config.sizeType})
-        if i == 12 then
-            local button = transform:Find("Button12"):GetComponent(Button).onClick:AddListener(function()
-                local randomValue = math.random(0, 100)
-                scrollView:SetData(self:CreateDataList(randomValue), {sizeType = config.sizeType})
+        if i == 1 then
+            local text = UtilsUI.GetText(transform, "Button3_1/Text")
+            UtilsUI.AddButtonListener(transform, "Button3_1", function()
+                local rv = self:RandomValue(100)
+                text.text = string.format("SetData(%s)", rv)
+                scrollView:SetData(rv)
+            end)
+            local text = UtilsUI.GetText(transform, "Button3_2/Text")
+            UtilsUI.AddButtonListener(transform, "Button3_2", function()
+                local value = self:RandomValue(config.dataLength)
+                text.text = string.format("Focus(%s)", value)
+                scrollView:Focus(value, true)
+            end)
+            UtilsUI.AddButtonListener(transform, "Button3_3", function()
+                scrollView:Release()
+            end)
+
+        elseif i == 3 then
+            scrollView.ItemSelectEvent:AddListener(function(index)
+                scrollView:SetCommonData({sizeType = config.sizeType, selectIndex = index})
+            end)
+            --一行 帶padding 測SetCommon 选中 bottomData
+        elseif i == 2 then
+            local text = UtilsUI.GetText(transform, "Button2_1/Text")
+            UtilsUI.AddButtonListener(transform, "Button2_1", function()
+                local value = self:RandomValue(config.dataLength)
+                text.text = string.format("Focus(%s)", value)
+                scrollView:Focus(value, true)
+            end)
+            UtilsUI.AddButtonListener(transform, "Button2_2", function()
+                scrollView:ResetPosition()
             end)
         end
     end
+end
+
+function LSIScrollViewTest:RandomValue(length)
+    math.randomseed(os.time())
+    return math.random(1, length)
 end

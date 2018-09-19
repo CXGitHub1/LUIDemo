@@ -102,21 +102,26 @@ function LSIScrollView:ResetPosition()
 end
 
 function LSIScrollView:Focus(index, tweenMove)
-    if not self.yList[index] then
+    if self.dataList == nil and self.dataList[index] == nil then
         return
     end
+    UtilsBase.CancelTween(self, "focusTweenId")
     self.scrollRect:StopMovement()
-    local targetY = -self.yList[index]
-    local maxY = self.height - self.maskHeight
-    if targetY > maxY then
-        targetY = maxY
-    end
-    if tweenMove then
-        self.focusTweenId = Tween.Instance:MoveLocalY(self.contentTrans.gameObject, targetY, 0.3, function()
-            self.focusTweenId = nil
-        end).id
+    local position = self:_GetPosition(index)
+    if self:_IsVerticalScroll() then
+        local targetY = self:_LimitY(-position.y)
+        if tweenMove then
+            self.focusTweenId = Tween.Instance:MoveLocalY(self.contentTrans.gameObject, targetY, 0.3).id
+        else
+            UtilsUI.SetAnchoredY(self.contentTrans, targetY)
+        end
     else
-        UtilsUI.SetAnchoredY(self.contentTrans, targetY)
+        local targetX = self:_LimitX(-position.x)
+        if tweenMove then
+            self.focusTweenId = Tween.Instance:MoveLocalX(self.contentTrans.gameObject, targetX, 0.3).id
+        else
+            UtilsUI.SetAnchoredX(self.contentTrans, targetX)
+        end
     end
 end
 -- public function end --
@@ -244,18 +249,22 @@ end
 
 function LSIScrollView:_AdjustContentPosition()
     if self:_IsVerticalScroll() then
-        local maxY = self.height - self.maskHeight
-        maxY = maxY < 0 and 0 or maxY
-        if self.contentTrans.anchoredPosition.y > maxY then
-            UtilsUI.SetAnchoredY(self.contentTrans, maxY)
-        end
+        UtilsUI.SetAnchoredY(self.contentTrans, self:_LimitY(-self.contentTrans.anchoredPosition.y))
     else
-        local minX = self.maskWidth - self.width
-        minX = minX > 0 and 0 or minX
-        if self.contentTrans.anchoredPosition.x < minX then
-            UtilsUI.SetAnchoredX(self.contentTrans, minX)
-        end
+        UtilsUI.SetAnchoredX(self.contentTrans, self:_LimitX(self.contentTrans.anchoredPosition.x))
     end
+end
+
+function LSIScrollView:_LimitX(x)
+    local minX = self.maskWidth - self.width
+    minX = minX > 0 and 0 or minX
+    return math.max(x, minX)
+end
+
+function LSIScrollView:_LimitY(y)
+    local maxY = self.height - self.maskHeight
+    maxY = maxY < 0 and 0 or maxY
+    return y <= maxY and y or maxY
 end
 
 function LSIScrollView:_IsVerticalScroll()
