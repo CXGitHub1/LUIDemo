@@ -26,6 +26,10 @@ function LDemoItem:SetSelect(active)
     end
 end
 
+function LDemoItem:SetCommonData(commonData)
+    self:SetSelectActive(commonData.selectIndex == self.index)
+end
+
 function LDemoItem:SetData(data, commonData)
     self.text.text = self.index
     local sizeType = commonData.sizeType

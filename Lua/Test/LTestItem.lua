@@ -9,6 +9,10 @@ function LTestItem:__init()
     end
 end
 
+function LTestItem:__release()
+    GameObject.Destroy(self.transform.gameObject)
+end
+
 function LTestItem:SetData(data, commonData)
     self.text.text = self.index
     local sizeType = commonData.sizeType
@@ -54,4 +58,8 @@ function LTestItem:SetSelectActive(active)
     if self.selectGo then
         self.selectGo:SetActive(active)
     end
+end
+
+function LTestItem:SetCommonData(commonData)
+    self:SetSelectActive(commonData.selectIndex == self.index)
 end

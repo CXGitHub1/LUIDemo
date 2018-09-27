@@ -1,16 +1,18 @@
---LScrollView是一个允许内部元素动态改变大小的滚动布局组件
+--LScrollView是一个允许内部元素动态改变大小的"滚动布局组件"
 --高度的灵活性必然会有其局限性，比如
---1、代码的复杂度高，新增设置元素与边界的间隔(padding)的功能，新增设置元素与元素之间的间隔(gap)都
---2、想要让组件滚动到不在当前显示范围的元素时，因为高度不确定，处理起来不算方便
+--1、代码的复杂度高，特别是在增加 设置元素与边界的间隔(padding)，设置元素与元素之间的间隔(gap) 这两个功能之后
+--布局相关的代码并不能简洁易懂
+--2、当某元素不在当前显示范围，而想让组件滚动去显示该元素时，因为高度不确定，处理起来不方便
 --目前的解决方案是先调用SetStartIndex()，再调用SetData()，最终的效果也有瑕疵
---这时在回头评估下游戏的实际业务，其实游戏中需要所有元素动态改变大小极其少见
+--这时再回头评估下游戏的实际业务，其实游戏中需要所有元素动态改变大小极其少见
 --1、大部分情况下滚动布局组件的所有元素的大小相同
 --2、小部分情况下会有多种不同类型的元素
 --3、极少数情况会有同一种元素能动态大小的情况
---那我只需要提供上面两种情况的组件既可
---所有元素大小相同的，用LSIScrollVIew
---有多种不同高度元素的，用LMIScrollView
---详见
+--所以我针对上面前两种情况又提取了两个组件
+--如果滚动布局组件下所有元素大小相同的，可以用单元素滚动布局组件
+--如果滚动布局组件下有多种不同高度元素的，可以用多元素滚动布局组件
+--如果遇到第三种情况，才用LScrollView
+
 LScrollView = LScrollView or BaseClass()
 
 function LScrollView:__init(transform, itemType, row, column)
@@ -32,7 +34,6 @@ function LScrollView:__init(transform, itemType, row, column)
     self:_InitMask(transform:Find(LDefine.MASK_NAME))
     self:_InitTemplateItem()
     self:_InitScrollRect(transform)
-
 
     self.itemDict = nil
     self.itemPoolList = {}
@@ -107,6 +108,20 @@ function LScrollView:SetStartIndex(index)
     self.startIndex = self:_GetStartIndex(index)
 end
 
+function LScrollView:_GetSetDataStartPosition(startIndex)
+    local isFirst = startIndex == 1
+    local x = self.paddingLeft
+    local y = -self.paddingTop
+    if not isFirst then
+        if self:_IsVerticalScroll() then
+            y = 0
+        else
+            x = 0
+        end
+    end
+    return x, y
+end
+
 function LScrollView:SetData(dataList, commonData)
     self:_InitData(dataList, commonData)
     if dataList == nil then
@@ -118,17 +133,7 @@ function LScrollView:SetData(dataList, commonData)
     if startIndex > #dataList then
         startIndex = 1
     end
-    local isFirst = startIndex == 1
-    local x = self.paddingLeft
-    local y = -self.paddingTop
-    if not isFirst then
-        if self:_IsVerticalScroll() then
-            y = 0
-        else
-            x = 0
-        end
-    end
-
+    local x, y = self:_GetSetDataStartPosition(startIndex)
     if self.itemDict == nil then self.itemDict = {} end
     local endIndex = #dataList
     for index = startIndex, #dataList do
@@ -172,7 +177,6 @@ function LScrollView:_OnValueChanged(value)
     if self.dataList == nil or next(self.dataList) == nil then
         return
     end
-    self:_FireReachBottomEvent(value)
     if not self:_ContentContainMask() then
         while(self:_CanAddAtStart()) do
             self:_RemoveEndOutMask()
@@ -183,17 +187,15 @@ function LScrollView:_OnValueChanged(value)
             self:_AddAtEnd()
         end
     end
+    self:_FireReachBottomEvent(value)
 end
 
 function LScrollView:_CanAddAtStart()
     return self.startIndex > 1 and self:_ContentStartInMask()
 end
 
-function LScrollView:_AddAtStart()
-    local addEndIndex = self.startIndex - 1
-    local addStartIndex = self:_GetStartIndex(addEndIndex)
-    local size
-    local isFirst = addStartIndex == 1
+--AAS is short for AddAtStart
+function LScrollView:_GetAASStartPosition(isFirst)
     local x = 0
     local y = 0
     if self:_IsVerticalScroll() then
@@ -207,6 +209,12 @@ function LScrollView:_AddAtStart()
             x = self.paddingLeft
         end
     end
+    return x, y
+end
+
+--AAS is short for AddAtStart
+function LScrollView:_AASCreateLine(addStartIndex, addEndIndex, x, y)
+    local size
     for index = addStartIndex, addEndIndex do
         local item = self:_GetItem(index)
         item:SetActive(true)
@@ -220,7 +228,11 @@ function LScrollView:_AddAtStart()
         end
         self.itemDict[index] = item
     end
+    return size
+end
 
+--AAS is short for AddAtStart
+function LScrollView:_AddAtStartTranslate(size, isFirst)
     local offset
     if self:_IsVerticalScroll() then
         local offsetY = -(size.y + self.gapVertical)
@@ -241,7 +253,15 @@ function LScrollView:_AddAtStart()
         item:Translate(offset)
     end
     self.scrollRect:ContentTranslate(-offset)
+end
 
+function LScrollView:_AddAtStart()
+    local addEndIndex = self.startIndex - 1
+    local addStartIndex = self:_GetStartIndex(addEndIndex)
+    local isFirst = addStartIndex == 1
+    local x, y = self:_GetAASStartPosition(isFirst)
+    local size = self:_AASCreateLine(addStartIndex, addEndIndex, x, y)
+    self:_AddAtStartTranslate(size, isFirst)
     self.startIndex = addStartIndex
     self:_CalcSize()
 end
@@ -250,28 +270,12 @@ function LScrollView:_CanAddAtEnd()
     return self.endIndex < #self.dataList and self:_ContentEndInMask()
 end
 
-function LScrollView:_AddAtEnd()
+function LScrollView:_AddAtEndCreateLine(x, y)
     local addStartIndex = self.endIndex + 1
     local addEndIndex = self:_GetEndIndex(addStartIndex)
     if addEndIndex > #self.dataList then
         addEndIndex = #self.dataList
     end
-
-    local endLineStartIndex = self:_GetStartIndex(self.endIndex)
-    local endItem = self.itemDict[endLineStartIndex]
-    local endPosition = endItem:GetPosition()
-    local size = endItem:GetSize()
-
-    local x = endPosition.x
-    local y = endPosition.y
-    if self:_IsVerticalScroll() then
-        x = self.paddingLeft
-        y = y - (size.y + self.gapVertical)
-    else
-        y = -self.paddingTop
-        x = x + size.x + self.gapHorizontal
-    end
-
     for index = addStartIndex, addEndIndex do
         local item = self:_GetItem(index)
         item:SetActive(true)
@@ -284,7 +288,24 @@ function LScrollView:_AddAtEnd()
         end
         self.itemDict[index] = item
     end
-    self.endIndex = addEndIndex
+    return addEndIndex
+end
+
+function LScrollView:_AddAtEnd()
+    local endLineStartIndex = self:_GetStartIndex(self.endIndex)
+    local endItem = self.itemDict[endLineStartIndex]
+    local endPosition = endItem:GetPosition()
+    local size = endItem:GetSize()
+    local x = endPosition.x
+    local y = endPosition.y
+    if self:_IsVerticalScroll() then
+        x = self.paddingLeft
+        y = y - (size.y + self.gapVertical)
+    else
+        y = -self.paddingTop
+        x = x + size.x + self.gapHorizontal
+    end
+    self.endIndex = self:_AddAtEndCreateLine(x, y)
     self:_CalcSize()
 end
 

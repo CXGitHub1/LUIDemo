@@ -1,3 +1,4 @@
+--翻页组件 只改标题就好
 LScrollPage = LScrollPage or BaseClass()
 
 function LScrollPage:__init(transform, itemType, row, column, direction)
@@ -179,10 +180,7 @@ function LScrollPage:SetData(dataList, commonData)
         self.itemDict[index] = item
     end
     self:_Layout()
-    self:_RecalculateSize()
-    if initPage then
-        self:SetCurrentPage(initPage)
-    end
+    self:_CalculateSize()
     if self:_PageHorizontalLayout() then
         if (math.abs(self.contentTrans.localPosition.x)) > math.abs(self:_GetTargetPosition(self.totalPage).x) then
             UtilsUI.SetAnchoredX(self.contentTrans, self:_GetTargetPosition(self.totalPage).x)
@@ -194,7 +192,6 @@ function LScrollPage:SetData(dataList, commonData)
     end
 end
 
-
 -- private function
 function LScrollPage:_TweenMove(page)
     if self:_PageHorizontalLayout() then
@@ -204,7 +201,7 @@ function LScrollPage:_TweenMove(page)
     end
 end
 
-function LScrollPage:_RecalculateSize()
+function LScrollPage:_CalculateSize()
     if self:_PageHorizontalLayout() then
         self.contentTrans.sizeDelta = Vector2(self.totalPage * self.maskWidth, self.maskHeight)
     else

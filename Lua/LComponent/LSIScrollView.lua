@@ -1,5 +1,18 @@
 --LSIScrollView Is Short For Single Item Scroll View
---单Item滚动组件
+--单元素滚动布局组件
+--1、特性
+-- 2.1、创建满足Mask展示的最小数量的元素，滚动过程中保证元素复用
+-- 2.2、要求所有元素的大小相同
+-- 2.3、支持设置元素与元素之间的间隔(gap)，设置元素与ScrollRect中Content的偏移值(padding) 
+-- 2.4、TODO 滚动到展示内容末尾会有对应事件派发，方便实现数据流的效果（详见LScrollViewDemo的第4个例子） 
+-- 2.5、TODO 使用者与元素方便进行交互，拓展性良好（详见LScrollViewDemo的第6个例子）
+
+--2、复用逻辑
+-- 复用的逻辑与树形组件LTree的逻辑类似，就是在SetData之后维护一份高度列表
+-- 这样我们通过y轴的位置就可以很方便的获得要显示的下标范围
+-- 根据显示的下标范围，就可以轻易的知道哪些元素要隐藏缓存，哪些元素要创建显示
+
+
 LSIScrollView = LSIScrollView or BaseClass()
 
 function LSIScrollView:__init(transform, itemType, row, column)
@@ -52,6 +65,7 @@ function LSIScrollView:__release()
     UtilsBase.CancelTween(self, "focusTweenId")
     UtilsBase.ReleaseField(self, "ItemSelectEvent")
     UtilsBase.ReleaseField(self, "ReachBottomEvent")
+    UtilsBase.ReleaseTable(self, "eventNameList")
     UtilsBase.ReleaseTable(self, "itemDict")
     UtilsBase.ReleaseTable(self, "itemPoolList")
 end
@@ -67,6 +81,14 @@ function LSIScrollView:SetPadding(paddingLeft, paddingRight, paddingTop, padding
     self.paddingRight = paddingRight or 0
     self.paddingTop = paddingTop or 0
     self.paddingBottom = paddingBottom or 0
+end
+
+function LSIScrollView:AddItemEvent(eventName)
+    if self.eventNameList == nil then
+        self.eventNameList = {}
+    end
+    table.insert(self.eventNameList, eventName)
+    self[eventName] = EventLib.New()
 end
 
 function LSIScrollView:SetData(dataList, commonData)
@@ -130,32 +152,36 @@ function LSIScrollView:_OnValueChanged(value)
     if self:_IsDataListEmpty() then
         return
     end
-    self:_FireReachBottomEvent(value)
     if self.startIndex ~= self:_GetStartIndex() or
         self.endIndex ~= self:_GetEndIndex() then
         self:_Update()
     end
+    self:_FireReachBottomEvent(value)
 end
 
 function LSIScrollView:_FireReachBottomEvent(value)
     if self.endIndex == #self.dataList then
         if self:_IsVerticalScroll() then
-            if value.y * self.contentTrans.sizeDelta.y < -4 then
-                if not self.reachBottomFire then
-                    self.ReachBottomEvent:Fire()
-                    self.reachBottomFire = true
+            if self.height > self.maskHeight then
+                if value.y * (self.height - self.maskHeight) < -5 then
+                    if not self.reachBottomFire then
+                        self.ReachBottomEvent:Fire()
+                        self.reachBottomFire = true
+                    end
+                else
+                    self.reachBottomFire = false
                 end
-            else
-                self.reachBottomFire = false
             end
         else
-            if value.x * self.contentTrans.sizeDelta.x > 4 then
-                if self.reachBottomFire == false then
-                    self.ReachBottomEvent:Fire()
-                    self.reachBottomFire = true
+            if self.width > self.maskWidth then
+                if (value.x - 1) * (self.width - self.maskWidth) > (-self.paddingRight + 5) then
+                    if self.reachBottomFire == false then
+                        self.ReachBottomEvent:Fire()
+                        self.reachBottomFire = true
+                    end
+                else
+                    self.reachBottomFire = false
                 end
-            else
-                self.reachBottomFire = false
             end
         end
     end
@@ -194,6 +220,12 @@ function LSIScrollView:_GetItem(index)
     local item = self.itemType.New(go)
     item:SetIndex(index)
     item.ItemSelectEvent:AddListener(function(index, item) self.ItemSelectEvent:Fire(index, item) end)
+    if self.eventNameList then
+        for i = 1, #self.eventNameList do
+            local eventName = self.eventNameList[i]
+            item[eventName]:AddListener(function(...) self[eventName]:Fire(...) end)
+        end
+    end
     return item, LDefine.GetItemWay.new
 end
 
@@ -249,21 +281,33 @@ end
 
 function LSIScrollView:_AdjustContentPosition()
     if self:_IsVerticalScroll() then
-        UtilsUI.SetAnchoredY(self.contentTrans, self:_LimitY(-self.contentTrans.anchoredPosition.y))
+        if self.contentTrans.anchoredPosition.y > self:_GetContentMaxY() then
+            UtilsUI.SetAnchoredY(self.contentTrans, self:_GetContentMaxY())
+        end
     else
-        UtilsUI.SetAnchoredX(self.contentTrans, self:_LimitX(self.contentTrans.anchoredPosition.x))
+        if self.contentTrans.anchoredPosition.x < self:_GetContentMinX() then
+            UtilsUI.SetAnchoredX(self.contentTrans, self:_GetContentMinX())
+        end
     end
 end
 
-function LSIScrollView:_LimitX(x)
+function LSIScrollView:_GetContentMinX()
     local minX = self.maskWidth - self.width
-    minX = minX > 0 and 0 or minX
+    return minX > 0 and 0 or minX
+end
+
+function LSIScrollView:_LimitX(x)
+    local minX = self:_GetContentMinX()
     return math.max(x, minX)
 end
 
-function LSIScrollView:_LimitY(y)
+function LSIScrollView:_GetContentMaxY()
     local maxY = self.height - self.maskHeight
-    maxY = maxY < 0 and 0 or maxY
+    return maxY < 0 and 0 or maxY
+end
+
+function LSIScrollView:_LimitY(y)
+    local maxY = self:_GetContentMaxY()
     return y <= maxY and y or maxY
 end
 

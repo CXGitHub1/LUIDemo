@@ -1,5 +1,26 @@
 --LMIScrollView Is Short For Multiple Item Scroll View
---多Item垂直滚动组件
+-- 多元素滚动布局组件
+-- 1、特性
+-- 2.1、创建满足Mask展示的最小数量的元素，滚动过程中保证元素复用
+-- 2.2、支持多种类型的元素(详见LMIScrollViewDemo)
+-- 2.3、支持设置元素与元素之间的间隔(gap)
+-- 2.4、使用者与元素方便进行交互，拓展性良好
+
+-- 3、使用限制与要求
+-- 目前只支持垂直方向，单列滚动，不支持设置元素与ScrollRect中Content的偏移值(padding)
+-- SetData中dataList的结构为
+-- {
+--     {type = itemType, data = data},
+--     {type = itemType, data = data},
+--     {type = itemType, data = data},
+-- }
+-- 其中ItemType为Content下子物体的下标
+
+-- 4、复用逻辑
+-- 复用的逻辑与树形组件LTree的逻辑类似，就是在SetData之后维护一份每个元素的y轴坐标列表
+-- 这样我们通过Mask的顶部和底部坐标，就可以很方便的获得要显示的下标范围
+-- 根据显示的下标范围，就可以轻易的知道哪些元素要隐藏缓存，哪些元素要创建显示
+
 LMIScrollView = LMIScrollView or BaseClass()
 
 function LMIScrollView:__init(transform, itemTypeList)

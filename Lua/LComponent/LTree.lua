@@ -1,3 +1,4 @@
+--加名字就好
 LTree = LTree or BaseClass()
 
 function LTree:__init(transform, defaultItemType, itemTypeDict)
@@ -22,6 +23,14 @@ end
 function LTree:__release()
     UtilsBase.ReleaseField(self, "NodeSelectEvent")
     UtilsBase.ReleaseField(self, "LeafSelectEvent")
+    UtilsBase.ReleaseTable(self, "nodeDict")
+    UtilsBase.ReleaseTable(self, "defaultNodePoolList")
+    for _, itemPoolList in pairs(self.nodePoolListDict) do
+        for i = 1, #itemPoolList do
+            itemPoolList[i]:Release()
+        end
+    end
+    self.nodePoolListDict = nil
 end
 
 function LTree:_InitComponent(transform)
@@ -30,7 +39,6 @@ function LTree:_InitComponent(transform)
     self.scrollRect.onValueChanged:AddListener(function(value) self:_OnValueChanged(value) end)
     local maskTrans = transform:Find(LDefine.MASK_NAME)
     local mask = maskTrans:GetComponent(Mask)
-    self.mask = mask
     self.maskWidth = mask.transform.sizeDelta.x
     self.maskHeight = mask.transform.sizeDelta.y
     self.contentTrans = maskTrans:Find(LDefine.CONTENT_NAME)
@@ -170,9 +178,9 @@ function LTree:_UpdateTree()
         for i = self.startIndex, self.endIndex do
             local nodeData = self.orderList[i]
             local node = self:_GetNode(nodeData)
-            node:SetData(nodeData, self.commonData)
-            node:SetActive(true)
             node:SetPosition(nodeData:GetPosition())
+            node:SetActive(true)
+            node:SetData(nodeData, self.commonData)
         end
     else
         for key, node in pairs(self.nodeDict) do
