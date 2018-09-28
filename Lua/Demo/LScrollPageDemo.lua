@@ -1,4 +1,3 @@
---无限滚动列表？
 LScrollPageDemo = LScrollPageDemo or BaseClass(BaseDemo)
 
 LScrollPageDemo.Config = {

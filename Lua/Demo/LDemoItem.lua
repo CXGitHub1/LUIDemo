@@ -18,6 +18,7 @@ function LDemoItem:__init()
 end
 
 function LDemoItem:__release()
+    GameObject.Destroy(self.transform.gameObject)
 end
 
 function LDemoItem:SetSelect(active)
@@ -27,7 +28,7 @@ function LDemoItem:SetSelect(active)
 end
 
 function LDemoItem:SetCommonData(commonData)
-    self:SetSelectActive(commonData.selectIndex == self.index)
+    self:SetSelect(commonData.selectIndex == self.index)
 end
 
 function LDemoItem:SetData(data, commonData)

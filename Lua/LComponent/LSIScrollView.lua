@@ -175,7 +175,7 @@ function LSIScrollView:_FireReachBottomEvent(value)
         else
             if self.width > self.maskWidth then
                 if (value.x - 1) * (self.width - self.maskWidth) > (-self.paddingRight + 5) then
-                    if self.reachBottomFire == false then
+                    if not self.reachBottomFire then
                         self.ReachBottomEvent:Fire()
                         self.reachBottomFire = true
                     end

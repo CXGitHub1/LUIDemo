@@ -42,6 +42,7 @@ DemoFileConfig = {
     "Demo/LMIScrollView/LMIScrollViewDemoItem",
     "Demo/LMIScrollView/LMIScrollViewDemoItem1",
     "Demo/LMIScrollView/LMIScrollViewDemoItem2",
+    "Demo/LSIScrollViewDemo",
 }
 
 TestFileConfig = {

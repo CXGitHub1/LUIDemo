@@ -375,7 +375,7 @@ function LScrollView:_FireReachBottomEvent(value)
             end
         else
             if value.x > 1.1 then
-                if self.reachBottomFire == false then
+                if not self.reachBottomFire then
                     self.ReachBottomEvent:Fire()
                     self.reachBottomFire = true
                 end
