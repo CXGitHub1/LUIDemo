@@ -11,8 +11,9 @@ local root = GameObject.Find("UIRoot")
 -- LTreeTest.New(root.transform:Find("LTreeTest").gameObject)
 -- local meshTest = MeshTest.New(root.transform:Find("MeshTest").gameObject)
 -- local imageMeshTest = ImageMeshTest.New(root.transform:Find("ImageMeshTest").gameObject)
--- local scrollView = LMIScrollViewTest.New(root.transform:Find("LMIScrollViewTest").gameObject)
-local scrollView = LSIScrollViewTest.New(root.transform:Find("LSIScrollViewTest").gameObject)
+-- local scrollViewTest = LMIScrollViewTest.New(root.transform:Find("LMIScrollViewTest").gameObject)
+-- local scrollViewTest = LSIScrollViewTest.New(root.transform:Find("LSIScrollViewTest").gameObject)
+local rtTest = LRenderTextureTest.New(root.transform:Find("LRenderTextureTest").gameObject)
 
 function Update()
     if Input.GetKeyDown(KeyCode.H) and Input.GetKey(KeyCode.LeftControl) then
@@ -29,7 +30,9 @@ function Update()
 
     if Input.GetKeyDown(KeyCode.W) and Input.GetKey(KeyCode.LeftControl) then
         print("W")
-        scrollView.scrollView:Release()
+        local model = ModelLoader.Instance:Load(80002, 80002, 80002)
+        model.name = "fuck"
+        -- scrollViewTest.scrollView:Release()
         -- meshTest:DrawTriangle()
     end
 end

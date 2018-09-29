@@ -4,6 +4,9 @@ CommonFileConfig = {
     "Util/UtilsBase",
     "Util/UtilsUI",
     "Util/Tween",
+    "Asset/AssetDefine",
+    "Asset/AssetLoader",
+    "Asset/ModelLoader",
     "LComponent/LDefine",
     "LComponent/LItem",
     "LComponent/LList",
@@ -15,6 +18,7 @@ CommonFileConfig = {
     "LComponent/LRadarChart",
     "LComponent/LSIScrollView",
     "LComponent/LMIScrollView",
+    "LComponent/LRenderTexture",
 }
 
 DemoFileConfig = {
@@ -62,4 +66,5 @@ TestFileConfig = {
     "Test/LMIScrollView/LMIScrollViewTestItem2",
     "Test/LMIScrollView/LMIScrollViewTest",
     "Test/LSIScrollViewTest",
+    "Test/LRenderTextureTest",
 }
