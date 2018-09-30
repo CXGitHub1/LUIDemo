@@ -14,6 +14,6 @@ end
 
 function ModelLoader:Load(modelId, skinId, animationId)
     local prefab = AssetLoader.Instance:Load(string.format(AssetDefine.PREFAB_PATH, modelId))
-    return prefab
+    return GameObject.Instantiate(prefab)
 end
 

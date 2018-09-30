@@ -9,8 +9,6 @@ function AssetLoader:__init()
 end
 
 function AssetLoader:Load(path)
-    print(path)
-    local result = Resources.Load(path, UnityEngine.Object)
-    print(tostring(result))
+    local result = Resources.Load(path, GameObject)
     return result
 end
