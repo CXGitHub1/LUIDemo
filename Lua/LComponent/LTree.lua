@@ -1,4 +1,3 @@
---加名字就好
 LTree = LTree or BaseClass()
 
 function LTree:__init(transform, defaultItemType, itemTypeDict)

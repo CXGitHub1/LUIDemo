@@ -1,18 +1,5 @@
 --LSIScrollView Is Short For Single Item Scroll View
 --单元素滚动布局组件
---1、特性
--- 2.1、创建满足Mask展示的最小数量的元素，滚动过程中保证元素复用
--- 2.2、要求所有元素的大小相同
--- 2.3、支持设置元素与元素之间的间隔(gap)，设置元素与ScrollRect中Content的偏移值(padding) 
--- 2.4、TODO 滚动到展示内容末尾会有对应事件派发，方便实现数据流的效果（详见LScrollViewDemo的第4个例子） 
--- 2.5、TODO 使用者与元素方便进行交互，拓展性良好（详见LScrollViewDemo的第6个例子）
-
---2、复用逻辑
--- 复用的逻辑与树形组件LTree的逻辑类似，就是在SetData之后维护一份高度列表
--- 这样我们通过y轴的位置就可以很方便的获得要显示的下标范围
--- 根据显示的下标范围，就可以轻易的知道哪些元素要隐藏缓存，哪些元素要创建显示
-
-
 LSIScrollView = LSIScrollView or BaseClass()
 
 function LSIScrollView:__init(transform, itemType, row, column)

@@ -1,4 +1,3 @@
---列表布局组件 博客只要改名就行
 LList = LList or BaseClass()
 
 function LList:__init(transform, itemType, row, column, direction)

@@ -1,4 +1,3 @@
---翻页组件 只改标题就好
 LScrollPage = LScrollPage or BaseClass()
 
 function LScrollPage:__init(transform, itemType, row, column, direction)
