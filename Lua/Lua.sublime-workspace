@@ -444,10 +444,14 @@
 	"buffers":
 	[
 		{
+			"contents": "LRenderTextureTest = LRenderTextureTest or BaseClass(BaseTest)\n\nfunction LRenderTextureTest:__init(gameObject)\n    local transform = gameObject.transform\nend\n\n\n\nfunction CacheNpcTpose:GetMeshNode()\n    return self.meshNode\nend\n\nfunction CacheNpcTpose:GetAutoReleaser()\n    return self.autoReleaser\nend\n\nfunction CacheNpcTpose:GetAnimation()\n    if not self.animation then\n        self.animation = self.obj:GetComponent(Animation)\n    end\n    return self.animation\nend\n\nfunction CacheNpcTpose:SetNewSkin(resData, assetLoader)\n    self.obj.name = \"tpose\"\n    self.resData = resData\n\n    self.autoReleaser = self.obj:GetComponent(AssetAutoReleaser)\n    local skinPath = resData.skinPath\n    local skin = assetLoader:Pop(skinPath)\n    self.meshNode = self:GetTransform():Find(\"Mesh_body\")\n    self.renderer = self.meshNode:GetComponent(Renderer)\n    self.texture_id = Shader.PropertyToID(\"_MainTex\")\n    self.material_block = MaterialPropertyBlock()\n    self.renderer:GetPropertyBlock(self.material_block)\n    self.material_block:SetTexture(self.texture_id,skin)\n    self.renderer:SetPropertyBlock(self.material_block)\n\n    self.autoReleaser:Add(resData.skinPath)\n    AssetMgrProxy.Instance:IncreaseReferenceCount(resData.skinPath)\nend\n\nfunction CacheNpcTpose:SetNewSkinAndDelOldSkin(resData, assetLoader)\n    local skin = assetLoader:Pop(resData.skinPath)\n    local lastSkinPath = self.resData.skinPath\n    local setSkinPath = resData.skinPath\n\n    if lastSkinPath ~= setSkinPath then\n        self.autoReleaser:RemovePath(lastSkinPath)\n        AssetMgrProxy.Instance:DecreaseReferenceCount(lastSkinPath)\n        AssetMgrProxy.Instance:IncreaseReferenceCount(setSkinPath)\n        self.autoReleaser:Add(setSkinPath)\n        if UtilsBase.IsNull(self.material_block) then\n            self.texture_id = Shader.PropertyToID(\"_MainTex\")\n            self.material_block = MaterialPropertyBlock()\n        end\n        self.material_block:SetTexture(self.texture_id, skin)\n        self.renderer:SetPropertyBlock(self.material_block)\n    end\n    self.resData = resData\nend\n\nfunction CacheNpcTpose:_getTextureMaterial()\n\n    if not self.renderer then\n        return\n    end\n\n    if not self.material then\n        self.material = self.renderer.material\n    end\n    return self.material\nend\n\n\n-- Npc Loader\n-- 所有NPC的创建都通过这个方法\n-- @huangyq\nNpcTposeLoader = NpcTposeLoader or BaseClass()\n\nlocal _string_format = string.format\n\nfunction NpcTposeLoader:__init(setting, callback)\n    self.setting = setting\n    self.fullanimation = setting.fullanimation == true\n    self.animationWhiteList = setting.animationWhiteList\n    self.callback = callback\n    self.assetLoader = nil\n    -- 是否中途取消\n    self.cancel = false\n    self.tpose = nil\n    self.cacheTpose = nil\n\n    -- 这个结构跟以后的分包时取代替资源有关系\n    self.resData = {\n        skinId = setting.skinId\n        ,modelId = setting.modelId\n        ,motionId = setting.animationId\n        ,animationData = nil\n        ,fullanimation = self.fullanimation\n\n        ,skinPath = \"\"\n        ,modelPath = \"\"\n        ,animPathList = {}\n        ,defaultclips = {}\n        ,animationWhiteList = self.animationWhiteList\n    }\n\n    local baseData = Config.DataAnimation.data_npc[self.resData.motionId]\n    self.resData.animationData = baseData\n    if baseData == nil then\n        LogError(\"缺少AnimationData信息(animation_data表)[motionId:\" .. self.resData.motionId .. \", skinId:\" .. self.resData.skinId .. \" , modelId:\" .. self.resData.modelId .. \"]\\n\"..debug.force_traceback())\n        return\n    end\n    local list\n    if self.fullanimation then\n        list = AnimationManager.Instance:FormatList(baseData)\n    else\n        if self.animationWhiteList then\n            list = self.animationWhiteList\n        else\n            list = AnimationManager.Instance:GetNecessaryList(baseData)\n        end\n    end\n    self.resData.skinPath = _string_format(\"Unit/Npc/Skin/%s.TGA\", self.resData.skinId)\n    self.resData.modelPath = UnitModelQuality.GetNpcPath(self.resData.modelId)\n    for _, animationId in ipairs(list) do\n        self.resData.defaultclips[animationId] = animationId\n        table.insert(self.resData.animPathList, _string_format(\"Unit/Npc/Animation/%s/%s.anim\", baseData.controller_id, animationId))\n    end\nend\n\nfunction NpcTposeLoader:__delete()\n    self:ChangeRoleTposeShaderByName(\"Xcqy/UnlitTexture\")\n    self:ReturnLoadAsset()\n    self:DeleteAssetLoader()\nend\n\nfunction NpcTposeLoader:Load()\n    self.cancel = false\n    local subResources = SubpackageManager.Instance:NpcResources(self.resData)\n    self.cacheTpose = GoPoolManager.Instance:BorrowCache(self.resData.modelPath, GoPoolType.Npc)\n    if self.cacheTpose ~= nil then\n        SubpackageManager.Instance:RemoveByFile(subResources, self.resData.modelPath)\n    end\n\n    local callback = function()\n        if self.cancel then\n            self:DeleteAssetLoader()\n        else\n            self:BuildTpose()\n        end\n    end\n    self.assetLoader = AssetBatchLoader.New(\"NpcTposeLoader[\" .. self.resData.modelId .. \"]\");\n    self.assetLoader:AddListener(callback)\n    -- UtilsBase.dump(subResources, \"===============subResources\")\n    self.assetLoader:LoadAll(subResources)\nend\n\nfunction NpcTposeLoader:Cancel()\n    self.cancel = true\n    self:ReturnLoadAsset()\nend\n\nfunction NpcTposeLoader:BuildTpose()\n    if self.assetLoader == nil then\n        return\n    end\n    if self.cacheTpose == nil then\n        self.tpose = self.assetLoader:Pop(self.resData.modelPath)\n        self.cacheTpose = GoPoolManager.Instance:CreateCache(self.tpose, self.resData.modelPath, GoPoolType.Npc)\n        self.cacheTpose:SetNewSkin(self.resData, self.assetLoader)\n    else\n        self.tpose = self.cacheTpose:GetObj()\n        self.cacheTpose:SetNewSkinAndDelOldSkin(self.resData, self.assetLoader)\n    end\n    self.tpose:SetActive(true)\n\n    local animation = self.cacheTpose:GetAnimation()\n    local autoReleaser = self.cacheTpose:GetAutoReleaser()\n    local clip = nil\n    local defaultClip = self.resData.animationData.stand_id\n    if defaultClip == \"\" then\n        defaultClip = self.resData.animationData.idle_id\n    end\n    for _, path in ipairs(self.resData.animPathList) do\n        clip = self.assetLoader:Pop(path)\n        if clip ~= nil then\n            local clipname = clip.name\n            if animation:getItem(clipname) == nil then\n                animation:AddClip(clip, clipname)\n                autoReleaser:Add(path)\n                AssetMgrProxy.Instance:IncreaseReferenceCount(path)\n            end\n        else\n            LogError(string.format(\"动作资源不存在%s\",path))\n        end\n    end\n    animation:Play(defaultClip)\n    local meshNode = self.cacheTpose:GetMeshNode()\n    if self.callback ~= nil then\n        self.callback({tpose = self.tpose, animation = animation, animationData = self.resData.animationData, meshNode = meshNode, modelPath = self.resData.modelPath, defaultclips = self.resData.defaultclips})\n    end\n    self:DeleteAssetLoader()\nend\n\nfunction NpcTposeLoader:ChangeAlphaShader()\n    if self.cacheTpose then\n        self.cacheTpose:ChangeAlphaShader()\n    end\nend\n\nfunction NpcTposeLoader:ChangeNormalShader(isSelf)\n    if self.cacheTpose then\n        self.cacheTpose:ChangeNormalShader(isSelf)\n    end\nend\n\nfunction NpcTposeLoader:ChangeRoleTposeShaderByShader(shader)\n    if self.cacheTpose then\n        self.cacheTpose:ChangeShaderByShader(shaderName)\n    end\nend\n\nfunction NpcTposeLoader:ChangeRoleTposeShaderByName(shaderName)\n    if self.cacheTpose then\n        self.cacheTpose:ChangeShaderByName(shaderName)\n    end\nend\n\nfunction NpcTposeLoader:ChangeHeadTposeShaderByShader(shader)\nend\n\nfunction NpcTposeLoader:ChangeHeadTposeShaderByName(shaderName)\nend\n\nfunction NpcTposeLoader:ChangeRimLight(rimcolor, power, strength, alpha)\n    if self.cacheTpose then\n        self.cacheTpose:ChangeRimLight(rimcolor, power, strength, alpha)\n    end\nend\n\nfunction NpcTposeLoader:GetTposeCache()\n    return self.cacheTpose\nend\n\nfunction NpcTposeLoader:DeleteAssetLoader()\n    if self.assetLoader ~= nil then\n        self.assetLoader:DeleteMe()\n        self.assetLoader = nil\n    end\nend\n\nfunction NpcTposeLoader:ReturnLoadAsset()\n    if self.cacheTpose ~= nil then\n        GoPoolManager.Instance:ReturnCache(self.cacheTpose, self.resData.modelPath, GoPoolType.Npc)\n        self.cacheTpose = nil\n    end\nend\n",
 			"file": "Test/LRenderTextureTest.lua",
+			"file_size": 157,
+			"file_write_time": 131833694885644025,
 			"settings":
 			{
-				"buffer_size": 157,
+				"buffer_size": 8290,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -474,7 +478,7 @@
 			"file": "Asset/ModelLoader.lua",
 			"settings":
 			{
-				"buffer_size": 9912,
+				"buffer_size": 847,
 				"encoding": "UTF-8",
 				"line_ending": "Unix",
 				"name": "ModelLoader"
@@ -607,7 +611,7 @@
 	],
 	"find":
 	{
-		"height": 28.0
+		"height": 29.0
 	},
 	"find_in_files":
 	{
@@ -769,7 +773,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -778,15 +782,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 157,
+						"buffer_size": 8290,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								152,
-								152
+								922,
+								943
 							]
 						],
 						"settings":
@@ -794,10 +798,10 @@
 							"syntax": "Packages/Lua/Lua.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 154.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -826,7 +830,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -871,24 +875,26 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9912,
+						"buffer_size": 847,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								9912,
-								9912
+								846,
+								846
 							]
 						],
 						"settings":
 						{
 							"auto_name": "ModelLoader",
-							"syntax": "Packages/Lua/Lua.sublime-syntax"
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 5094.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -929,7 +935,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 28.0
+		"height": 29.0
 	},
 	"input":
 	{
@@ -973,7 +979,7 @@
 	"project": "Lua.sublime-project",
 	"replace":
 	{
-		"height": 52.0
+		"height": 54.0
 	},
 	"save_all_on_build": true,
 	"select_file":

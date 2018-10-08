@@ -135,3 +135,10 @@ end
 function UtilsBase.IsNull(value)
     return value == nil or Slua.IsNull(value)
 end
+
+function UtilsBase.SetParent(childTrans, parentTrans)
+    childTrans:SetParent(parentTrans)
+    childTrans.localScale = Vector3.one
+    childTrans.localPosition = Vector3.zero
+    childTrans.localRotation = Quaternion.identity
+end
