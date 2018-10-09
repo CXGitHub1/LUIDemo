@@ -8,32 +8,34 @@ function ModelLoader:__init()
     ModelLoader.Instance = self
 end
 
-function ModelLoader:Load(modelId, skinId, animationId)
-    local prefab = AssetLoader.Instance:Load(string.format(AssetDefine.PREFAB_PATH, modelId))
+function ModelLoader:Load(loaderData)
+    local prefab = AssetLoader.Instance:Load(loaderData:GetModelPath())
     local go = GameObject.Instantiate(prefab)
-    self:SetSkin(skinId, go.transform)
-    self:SetAnimation(animationId, go)
+    self:SetSkin(loaderData, go.transform)
+    self:SetAnimation(loaderData, go)
     return go
 end
 
-function ModelLoader:SetSkin(skinId, transform)
+function ModelLoader:SetSkin(loaderData, transform)
     local renderer = transform:Find("Mesh_body"):GetComponent(Renderer)
     local mpb = MaterialPropertyBlock()
     renderer:GetPropertyBlock(mpb)
-    local skin = AssetLoader.Instance:Load(string.format(AssetDefine.SKIN_PATH, skinId))
+    local skin = AssetLoader.Instance:Load(loaderData:GetSkinPath())
     local textureId = Shader.PropertyToID("_MainTex")
     mpb:SetTexture(textureId, skin)
     renderer:SetPropertyBlock(mpb)
 end
 
-function ModelLoader:SetAnimation(animationId, go)
+function ModelLoader:SetAnimation(loaderData, go)
     local animation = go:GetComponent(Animation)
-    local playName = AssetDefine.ANIMATION_NAME_DICT[1]
-    for _, name in pairs(AssetDefine.ANIMATION_NAME_DICT) do
-        local path = string.format(AssetDefine.ANIMATION_PATH, animationId .. "/" .. name)
+    local animationPathList = loaderData:GetAnimationPathList()
+    for i = 1, #animationPathList do
+        local path = animationPathList[i]
         local clip = AssetLoader.Instance:Load(path)
         local clipName = clip.name
         animation:AddClip(clip, clipName)
     end
+    
+    local playName = AssetDefine.ANIMATION_NAME_DICT[1]
     animation:Play(playName)
 end

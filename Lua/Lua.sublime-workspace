@@ -4,216 +4,8 @@
 		"selected_items":
 		[
 			[
-				"In",
-				"Instance"
-			],
-			[
-				"Ass",
-				"AssetLoader"
-			],
-			[
-				"_getCon",
-				"_GetContentMinX"
-			],
-			[
-				"ac",
-				"anchoredPosition"
-			],
-			[
-				"_GetCon",
-				"_GetContentMinX"
-			],
-			[
-				"_GetCo",
-				"_GetContentMaxY"
-			],
-			[
-				"GetC",
-				"_GetContentMaxY"
-			],
-			[
-				"padd",
-				"paddingTop"
-			],
-			[
-				"mask",
-				"maskWidth"
-			],
-			[
-				"add",
-				"addStartIndex"
-			],
-			[
-				"_Adda",
-				"_AddAtStartCreateLine"
-			],
-			[
-				"Util",
-				"UtilsBase"
-			],
-			[
-				"Li",
-				"LimitY"
-			],
-			[
-				"_GetR",
-				"_GetRowIndex"
-			],
-			[
-				"re",
-				"return"
-			],
-			[
-				"LSIS",
-				"LSIScrollViewTest"
-			],
-			[
-				"IS",
-				"_IsVerticalScroll"
-			],
-			[
-				"co",
-				"column"
-			],
-			[
-				"Is",
-				"_IsVerticalScroll"
-			],
-			[
-				"row",
-				"rowIndex"
-			],
-			[
-				"_GetRo",
-				"_GetStartRowIndex"
-			],
-			[
-				"_get",
-				"_GetRCStartIndex"
-			],
-			[
-				"_GetData",
-				"_GetDataLength"
-			],
-			[
-				"_Pu",
-				"_PushUnUsedItem"
-			],
-			[
-				"_GetRow",
-				"_GetRowStartIndex"
-			],
-			[
-				"y",
-				"yList"
-			],
-			[
-				"item",
-				"Item"
-			],
-			[
-				"itemT",
-				"itemTypeDict"
-			],
-			[
-				"max",
-				"maxY"
-			],
-			[
-				"itemP",
-				"itemPoolListDict"
-			],
-			[
-				"itemTy",
-				"itemType"
-			],
-			[
-				"Ins",
-				"Instantiate"
-			],
-			[
-				"GetItem",
-				"GetItemWay"
-			],
-			[
-				"_getin",
-				"_GetIndexByY"
-			],
-			[
-				"_GetMask",
-				"_GetMaskTop"
-			],
-			[
-				"ma",
-				"math_random"
-			],
-			[
-				"daa",
-				"dataList"
-			],
-			[
-				"hei",
-				"heightList"
-			],
-			[
-				"im",
-				"itemTypeDict"
-			],
-			[
-				"tem",
-				"templateList"
-			],
-			[
-				"Add",
-				"AddVert"
-			],
-			[
-				"Vec",
-				"Vector3"
-			],
-			[
-				"Col",
-				"Color"
-			],
-			[
-				"Inser",
-				"InsertSphereLineVertices"
-			],
-			[
-				"par",
-				"parentIndex"
-			],
-			[
-				"pare",
-				"parentIndex"
-			],
-			[
-				"paren",
-				"parentIndex"
-			],
-			[
-				"pen",
-				"parentStartIndex"
-			],
-			[
-				"fo",
-				"front"
-			],
-			[
-				"rad",
-				"radius"
-			],
-			[
-				"ra",
-				"radius"
-			],
-			[
-				"DrawS",
-				"DrawSphere"
-			],
-			[
-				"tra",
-				"triangles"
+				"anim",
+				"animationPathList"
 			],
 			[
 				"Draw",
@@ -248,6 +40,10 @@
 				"nodeDataDict"
 			],
 			[
+				"max",
+				"maxX"
+			],
+			[
 				"_GetMas",
 				"_GetMaskBottom"
 			],
@@ -256,8 +52,16 @@
 				"orderList"
 			],
 			[
+				"Util",
+				"UtilsBase"
+			],
+			[
 				"chil",
 				"childHeight"
+			],
+			[
+				"mask",
+				"maskTop"
 			],
 			[
 				"GetMas",
@@ -304,8 +108,16 @@
 				"nodeDataDict"
 			],
 			[
+				"itemT",
+				"itemType"
+			],
+			[
 				"dep",
 				"depth"
+			],
+			[
+				"item",
+				"itemType"
 			],
 			[
 				"temp",
@@ -384,6 +196,10 @@
 				"selectKey"
 			],
 			[
+				"_Pu",
+				"_PushUnUsedToPool"
+			],
+			[
 				"nde",
 				"nodeDataDict"
 			],
@@ -444,32 +260,10 @@
 	"buffers":
 	[
 		{
-			"contents": "LRenderTextureTest = LRenderTextureTest or BaseClass(BaseTest)\n\nfunction LRenderTextureTest:__init(gameObject)\n    local transform = gameObject.transform\nend\n\n\n\nfunction CacheNpcTpose:GetMeshNode()\n    return self.meshNode\nend\n\nfunction CacheNpcTpose:GetAutoReleaser()\n    return self.autoReleaser\nend\n\nfunction CacheNpcTpose:GetAnimation()\n    if not self.animation then\n        self.animation = self.obj:GetComponent(Animation)\n    end\n    return self.animation\nend\n\nfunction CacheNpcTpose:SetNewSkin(resData, assetLoader)\n    self.obj.name = \"tpose\"\n    self.resData = resData\n\n    self.autoReleaser = self.obj:GetComponent(AssetAutoReleaser)\n    local skinPath = resData.skinPath\n    local skin = assetLoader:Pop(skinPath)\n    self.meshNode = self:GetTransform():Find(\"Mesh_body\")\n    self.renderer = self.meshNode:GetComponent(Renderer)\n    self.texture_id = Shader.PropertyToID(\"_MainTex\")\n    self.material_block = MaterialPropertyBlock()\n    self.renderer:GetPropertyBlock(self.material_block)\n    self.material_block:SetTexture(self.texture_id,skin)\n    self.renderer:SetPropertyBlock(self.material_block)\n\n    self.autoReleaser:Add(resData.skinPath)\n    AssetMgrProxy.Instance:IncreaseReferenceCount(resData.skinPath)\nend\n\nfunction CacheNpcTpose:SetNewSkinAndDelOldSkin(resData, assetLoader)\n    local skin = assetLoader:Pop(resData.skinPath)\n    local lastSkinPath = self.resData.skinPath\n    local setSkinPath = resData.skinPath\n\n    if lastSkinPath ~= setSkinPath then\n        self.autoReleaser:RemovePath(lastSkinPath)\n        AssetMgrProxy.Instance:DecreaseReferenceCount(lastSkinPath)\n        AssetMgrProxy.Instance:IncreaseReferenceCount(setSkinPath)\n        self.autoReleaser:Add(setSkinPath)\n        if UtilsBase.IsNull(self.material_block) then\n            self.texture_id = Shader.PropertyToID(\"_MainTex\")\n            self.material_block = MaterialPropertyBlock()\n        end\n        self.material_block:SetTexture(self.texture_id, skin)\n        self.renderer:SetPropertyBlock(self.material_block)\n    end\n    self.resData = resData\nend\n\nfunction CacheNpcTpose:_getTextureMaterial()\n\n    if not self.renderer then\n        return\n    end\n\n    if not self.material then\n        self.material = self.renderer.material\n    end\n    return self.material\nend\n\n\n-- Npc Loader\n-- 所有NPC的创建都通过这个方法\n-- @huangyq\nNpcTposeLoader = NpcTposeLoader or BaseClass()\n\nlocal _string_format = string.format\n\nfunction NpcTposeLoader:__init(setting, callback)\n    self.setting = setting\n    self.fullanimation = setting.fullanimation == true\n    self.animationWhiteList = setting.animationWhiteList\n    self.callback = callback\n    self.assetLoader = nil\n    -- 是否中途取消\n    self.cancel = false\n    self.tpose = nil\n    self.cacheTpose = nil\n\n    -- 这个结构跟以后的分包时取代替资源有关系\n    self.resData = {\n        skinId = setting.skinId\n        ,modelId = setting.modelId\n        ,motionId = setting.animationId\n        ,animationData = nil\n        ,fullanimation = self.fullanimation\n\n        ,skinPath = \"\"\n        ,modelPath = \"\"\n        ,animPathList = {}\n        ,defaultclips = {}\n        ,animationWhiteList = self.animationWhiteList\n    }\n\n    local baseData = Config.DataAnimation.data_npc[self.resData.motionId]\n    self.resData.animationData = baseData\n    if baseData == nil then\n        LogError(\"缺少AnimationData信息(animation_data表)[motionId:\" .. self.resData.motionId .. \", skinId:\" .. self.resData.skinId .. \" , modelId:\" .. self.resData.modelId .. \"]\\n\"..debug.force_traceback())\n        return\n    end\n    local list\n    if self.fullanimation then\n        list = AnimationManager.Instance:FormatList(baseData)\n    else\n        if self.animationWhiteList then\n            list = self.animationWhiteList\n        else\n            list = AnimationManager.Instance:GetNecessaryList(baseData)\n        end\n    end\n    self.resData.skinPath = _string_format(\"Unit/Npc/Skin/%s.TGA\", self.resData.skinId)\n    self.resData.modelPath = UnitModelQuality.GetNpcPath(self.resData.modelId)\n    for _, animationId in ipairs(list) do\n        self.resData.defaultclips[animationId] = animationId\n        table.insert(self.resData.animPathList, _string_format(\"Unit/Npc/Animation/%s/%s.anim\", baseData.controller_id, animationId))\n    end\nend\n\nfunction NpcTposeLoader:__delete()\n    self:ChangeRoleTposeShaderByName(\"Xcqy/UnlitTexture\")\n    self:ReturnLoadAsset()\n    self:DeleteAssetLoader()\nend\n\nfunction NpcTposeLoader:Load()\n    self.cancel = false\n    local subResources = SubpackageManager.Instance:NpcResources(self.resData)\n    self.cacheTpose = GoPoolManager.Instance:BorrowCache(self.resData.modelPath, GoPoolType.Npc)\n    if self.cacheTpose ~= nil then\n        SubpackageManager.Instance:RemoveByFile(subResources, self.resData.modelPath)\n    end\n\n    local callback = function()\n        if self.cancel then\n            self:DeleteAssetLoader()\n        else\n            self:BuildTpose()\n        end\n    end\n    self.assetLoader = AssetBatchLoader.New(\"NpcTposeLoader[\" .. self.resData.modelId .. \"]\");\n    self.assetLoader:AddListener(callback)\n    -- UtilsBase.dump(subResources, \"===============subResources\")\n    self.assetLoader:LoadAll(subResources)\nend\n\nfunction NpcTposeLoader:Cancel()\n    self.cancel = true\n    self:ReturnLoadAsset()\nend\n\nfunction NpcTposeLoader:BuildTpose()\n    if self.assetLoader == nil then\n        return\n    end\n    if self.cacheTpose == nil then\n        self.tpose = self.assetLoader:Pop(self.resData.modelPath)\n        self.cacheTpose = GoPoolManager.Instance:CreateCache(self.tpose, self.resData.modelPath, GoPoolType.Npc)\n        self.cacheTpose:SetNewSkin(self.resData, self.assetLoader)\n    else\n        self.tpose = self.cacheTpose:GetObj()\n        self.cacheTpose:SetNewSkinAndDelOldSkin(self.resData, self.assetLoader)\n    end\n    self.tpose:SetActive(true)\n\n    local animation = self.cacheTpose:GetAnimation()\n    local autoReleaser = self.cacheTpose:GetAutoReleaser()\n    local clip = nil\n    local defaultClip = self.resData.animationData.stand_id\n    if defaultClip == \"\" then\n        defaultClip = self.resData.animationData.idle_id\n    end\n    for _, path in ipairs(self.resData.animPathList) do\n        clip = self.assetLoader:Pop(path)\n        if clip ~= nil then\n            local clipname = clip.name\n            if animation:getItem(clipname) == nil then\n                animation:AddClip(clip, clipname)\n                autoReleaser:Add(path)\n                AssetMgrProxy.Instance:IncreaseReferenceCount(path)\n            end\n        else\n            LogError(string.format(\"动作资源不存在%s\",path))\n        end\n    end\n    animation:Play(defaultClip)\n    local meshNode = self.cacheTpose:GetMeshNode()\n    if self.callback ~= nil then\n        self.callback({tpose = self.tpose, animation = animation, animationData = self.resData.animationData, meshNode = meshNode, modelPath = self.resData.modelPath, defaultclips = self.resData.defaultclips})\n    end\n    self:DeleteAssetLoader()\nend\n\nfunction NpcTposeLoader:ChangeAlphaShader()\n    if self.cacheTpose then\n        self.cacheTpose:ChangeAlphaShader()\n    end\nend\n\nfunction NpcTposeLoader:ChangeNormalShader(isSelf)\n    if self.cacheTpose then\n        self.cacheTpose:ChangeNormalShader(isSelf)\n    end\nend\n\nfunction NpcTposeLoader:ChangeRoleTposeShaderByShader(shader)\n    if self.cacheTpose then\n        self.cacheTpose:ChangeShaderByShader(shaderName)\n    end\nend\n\nfunction NpcTposeLoader:ChangeRoleTposeShaderByName(shaderName)\n    if self.cacheTpose then\n        self.cacheTpose:ChangeShaderByName(shaderName)\n    end\nend\n\nfunction NpcTposeLoader:ChangeHeadTposeShaderByShader(shader)\nend\n\nfunction NpcTposeLoader:ChangeHeadTposeShaderByName(shaderName)\nend\n\nfunction NpcTposeLoader:ChangeRimLight(rimcolor, power, strength, alpha)\n    if self.cacheTpose then\n        self.cacheTpose:ChangeRimLight(rimcolor, power, strength, alpha)\n    end\nend\n\nfunction NpcTposeLoader:GetTposeCache()\n    return self.cacheTpose\nend\n\nfunction NpcTposeLoader:DeleteAssetLoader()\n    if self.assetLoader ~= nil then\n        self.assetLoader:DeleteMe()\n        self.assetLoader = nil\n    end\nend\n\nfunction NpcTposeLoader:ReturnLoadAsset()\n    if self.cacheTpose ~= nil then\n        GoPoolManager.Instance:ReturnCache(self.cacheTpose, self.resData.modelPath, GoPoolType.Npc)\n        self.cacheTpose = nil\n    end\nend\n",
 			"file": "Test/LRenderTextureTest.lua",
-			"file_size": 157,
-			"file_write_time": 131833694885644025,
 			"settings":
 			{
-				"buffer_size": 8290,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Asset/AssetLoader.lua",
-			"settings":
-			{
-				"buffer_size": 299,
-				"encoding": "UTF-8",
-				"line_ending": "Unix",
-				"name": "AssetLoader"
-			}
-		},
-		{
-			"file": "TestMain.lua",
-			"settings":
-			{
-				"buffer_size": 1571,
+				"buffer_size": 9742,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -478,19 +272,40 @@
 			"file": "Asset/ModelLoader.lua",
 			"settings":
 			{
-				"buffer_size": 847,
+				"buffer_size": 1318,
 				"encoding": "UTF-8",
-				"line_ending": "Unix",
-				"name": "ModelLoader"
+				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "LComponent/LRenderTexture.lua",
+			"file": "Test/LRenderTexture/LRenderTextureItem.lua",
 			"settings":
 			{
-				"buffer_size": 1121,
+				"buffer_size": 347,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "LUIModel = LUIModel or BaseClass()\n\nfunction LUIModel:__init(transform, modelData)\n    local rootTrans = GameObject.Find(\"Preview\").transform\n    local cameraGo = GameObject.Instantiate(AssetLoader.Instance:Load(string.format(AssetDefine.UI_PREFAB_PATH, \"PreviewCamera\")))\n    UtilsBase.SetParent(cameraGo.transform, rootTrans)\n    cameraGo.name = \"PreviewCamera\"\n    local modelGo = ModelLoader.Instance:Load(80002, 80002, 80002)\n    modelGo.name = \"80002\"\n    local modelTrans = modelGo.transform\n    local childTransList = modelTrans:GetComponentsInChildren(Transform)\n    for i = 1, #childTransList do\n        childTransList[i].gameObject.layer = LayerMask.NameToLayer(\"UIModel\")\n    end\n    modelTrans:SetParent(cameraGo.transform)\n    modelTrans.localScale = Vector3.one\n    modelTrans.localPosition = Vector3(0, 0, 20)\n    modelTrans.localRotation = Vector3(0, 180, 0)\nend",
+			"file": "LComponent/LUIModel.lua",
+			"file_size": 89,
+			"file_write_time": 131835742351711895,
+			"settings":
+			{
+				"buffer_size": 879,
+				"encoding": "UTF-8",
+				"line_ending": "Windows",
+				"name": "LUIModel = LUIDemo or"
+			}
+		},
+		{
+			"file": "Asset/ModelLoaderData.lua",
+			"settings":
+			{
+				"buffer_size": 705,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -527,74 +342,64 @@
 	"expanded_folders":
 	[
 		"/D/code/unity/LUIDemo/Lua",
+		"/D/code/unity/LUIDemo/Lua/Asset",
 		"/D/code/unity/LUIDemo/Lua/LComponent",
-		"/D/code/unity/LUIDemo/Lua/Test"
+		"/D/code/unity/LUIDemo/Lua/Test",
+		"/D/code/unity/LUIDemo/Lua/Util"
 	],
 	"file_history":
 	[
-		"/D/code/unity/LUIDemo/Lua/Config.lua",
-		"/D/code/unity/LUIDemo/Lua/TestMain.lua",
-		"/D/code/unity/LUIDemo/Lua/CommonRequire.lua",
-		"/D/code/unity/LUIDemo/Lua/Asset/AssetDefine.lua",
-		"/D/code/unity/LUIDemo/Lua/Test/LRenderTextureTest.lua",
-		"/D/code/unity/LUIDemo/Lua/Test/LScrollPageTest.lua",
-		"/D/code/unity/LUIDemo/Lua/Test/LListTest.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LScrollView.lua",
-		"/D/code/unity/LUIDemo/Lua/Demo/LSIScrollViewDemo.lua",
-		"/D/code/unity/LUIDemo/Lua/Demo/DemoManager.lua",
-		"/D/code/unity/LUIDemo/Lua/Demo/LDemoItem.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LSIScrollView.lua",
-		"/D/code/unity/LUIDemo/Lua/Demo/LRadarChartDemo.lua",
-		"/D/code/unity/LUIDemo/Lua/Demo/LScrollPageDemo.lua",
-		"/D/code/unity/LUIDemo/Lua/Test/LSIScrollViewTest.lua",
-		"/D/code/unity/LUIDemo/Lua/Test/LTestItem.lua",
-		"/D/code/unity/LUIDemo/Lua/Demo/LScrollViewDemo.lua",
-		"/D/code/unity/LUIDemo/Lua/Test/MeshTest.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LTreeNode.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LMIScrollView.lua",
-		"/D/code/unity/LUIDemo/Lua/Demo/LMIScrollView/LMIScrollViewDemo.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LItem.lua",
-		"/D/code/unity/LUIDemo/Lua/Base/BaseClass.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LRadarChart.lua",
+		"/D/code/unity/LUIDemo/Lua/Test/LListTest.lua",
+		"/D/code/unity/LUIDemo/Lua/Test/LRenderTexture/LRenderTextureItem.lua",
+		"/D/code/unity/LUIDemo/Lua/Test/PreviewComposite.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LScrollView.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LTree.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LList.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LScrollPage.lua",
-		"/D/code/unity/LUIDemo/Lua/Util/UtilsUI.lua",
-		"/D/code/unity/LUIDemo/Lua/Test/LMIScrollView/LMIScrollViewTest.lua",
-		"/D/code/unity/LUIDemo/Lua/Test/LScrollViewTest.lua",
-		"/D/code/unity/LUIDemo/Lua/Test/LMIScrollView/LMIScrollViewTestItem.lua",
-		"/D/code/unity/LUIDemo/Lua/Demo/BaseDemo.lua",
-		"/D/code/unity/LUIDemo/Lua/Demo/LMIScrollView/LMIScrollViewDemoItem1.lua",
-		"/D/code/unity/LUIDemo/Lua/Demo/LMIScrollView/LMIScrollViewDemoItem.lua",
-		"/D/code/unity/LUIDemo/Lua/Demo/LMIScrollView/LMIScrollViewDemoItem2.lua",
-		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeDemo.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LTreeNodeData.lua",
-		"/D/code/unity/LUIDemo/Lua/Test/LMIScrollView/LMIScrollViewTestItem2.lua",
-		"/D/code/unity/LUIDemo/Lua/Test/BaseTest.lua",
-		"/D/code/unity/LUIDemo/Lua/Util/UtilsBase.lua",
-		"/D/code/unity/LUIDemo/Lua/DemoMain.lua",
-		"/D/code/unity/LUIDemo/Lua/Test/LMIScrollView/LMIScrollViewTestItem1.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LMultiVerticalScrollView.lua",
-		"/D/code/unity/LUIDemo/Lua/Demo/LListDemo.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LDefine.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LRenderTexture.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LList.lua",
+		"/D/code/unity/LUIDemo/Lua/Test/MeshTest.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LRadarChart.lua",
+		"/D/code/unity/LUIDemo/Lua/Demo/LSIScrollViewDemo.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/ImageMeshTest.lua",
-		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeDemo1.lua",
+		"/D/code/unity/LUIDemo/Lua/Test/LTreeTest.lua",
+		"/D/code/unity/LUIDemo/Lua/Demo/LRadarChartDemo.lua",
+		"/D/code/unity/LUIDemo/Lua/TestMain.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LSIScrollView.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LTreeTestItem.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LTreeTestItem1.lua",
+		"/D/code/unity/LUIDemo/Lua/Util/UtilsUI.lua",
 		"/D/code/unity/LUIDemo/Lua/Util/Tween.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/TestDefine.lua",
+		"/D/code/unity/LUIDemo/Lua/Demo/BaseDemo.lua",
+		"/D/code/unity/LUIDemo/Lua/Demo/LScrollPageDemo.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LScrollViewDemo1.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeNodeDataDemo2_2.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeNodeDemo.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeNodeDemo_1.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LTreeNode.lua",
+		"/D/code/unity/LUIDemo/Lua/DemoMain.lua",
 		"/D/code/unity/LUIDemo/Lua/Lua.sublime-project",
+		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeDemo1.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeNodeDemo1.lua",
+		"/D/code/unity/LUIDemo/Lua/Config.lua",
+		"/D/code/unity/LUIDemo/Lua/CommonRequire.lua",
+		"/D/code/unity/LUIDemo/Lua/Test/BaseTest.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeDemo2.lua",
+		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeDemo.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LTreeNodeData.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeNodeDemo2_2.lua",
-		"/D/code/unity/LUIDemo/Lua/Test/LTreeTest.lua",
+		"/D/code/unity/LUIDemo/Lua/Demo/DemoManager.lua",
+		"/D/code/unity/LUIDemo/Lua/Test/LTestItem.lua",
+		"/D/code/unity/LUIDemo/Lua/Test/LScrollViewTest.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeNodeDemo2_1.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LItem.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeNodeDataDemo1.lua",
+		"/D/code/unity/LUIDemo/Lua/Util/UtilsBase.lua",
+		"/D/code/unity/LUIDemo/Lua/Test/LScrollPageTest.lua",
+		"/D/code/unity/LUIDemo/Lua/Base/BaseClass.lua",
+		"/D/code/unity/LUIDemo/Lua/Demo/LScrollViewDemo.lua",
+		"/D/code/unity/LUIDemo/Lua/Demo/LListDemo.lua",
+		"/D/code/unity/LUIDemo/Lua/Demo/LDemoItem.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LScrollViewDemoItem1.lua",
 		"/D/code/unity/LUIDemo/Lua/BaseRequire.lua",
 		"/D/code/unity/LUIDemo/Lua/test.lua",
@@ -611,11 +416,11 @@
 	],
 	"find":
 	{
-		"height": 29.0
+		"height": 36.0
 	},
 	"find_in_files":
 	{
-		"height": 104.0,
+		"height": 96.0,
 		"where_history":
 		[
 			"D:\\code\\unity\\LUIDemo\\Lua",
@@ -627,134 +432,134 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"AssetLoader",
-			"ModelLoader",
-			"LRenderTextureText",
-			"scrollView",
-			"reachBottomFire",
-			"LTestItem",
-			"LSIScrollViewTest",
-			"LScrollPageDemo",
+			"LUIDemo",
+			"DrawCubeTexture1",
+			"\t",
+			"OnValue",
+			"GetNode",
 			"print",
-			"Button3_1",
-			"_AdjustContentPosition",
-			"_FireReachBottomEvent",
-			"print",
-			"_LimitY",
-			"height",
-			"width",
-			"_LimitY",
-			"_AdjustContentPosition",
-			"_GetStartIndex",
-			"ndex()\n    if self:_IsVerticalScroll() then\n        local rowIndex = self:",
-			"_GetStartRowIndex",
-			"_GetMaskTop",
-			"_GetRowIndex",
-			"_GetStartRowIndex",
-			"_GetStartIndex",
-			"_Update",
-			"print",
-			"_GetRowIndex",
-			"_GetStartRowIndex",
-			"_GetStartIndex",
-			"print",
-			"_GetStartIndex",
-			"_GetRowIndex",
-			"_GetMaskTop",
-			"_GetStartRowIndex",
-			"_GetStartIndex",
-			"_FireReachBottomEvent",
-			"sizeDelta",
-			"SizeDelta",
-			"sizeDelta",
-			"mask",
-			"_FireReachBottomEvent",
-			"Fire",
-			"ReachBottomEvent",
-			"selectIndex",
-			"eventNameList",
-			"Mask",
-			"mask",
-			"Mask",
-			"mask",
-			"Mask",
-			"mask",
-			"Mask",
-			"mask",
-			"Mask",
-			"mask",
-			"self.mask",
 			"nodePoolListDict",
-			"_GetDynamicCurrentPage",
-			"_Layout",
-			"_RecalculateSize",
-			"_EmptyCacheItemList",
-			"scrollRect",
-			"滚动组件",
-			"滚动",
-			"滚动组件",
-			"_CalcNextItemPosition",
-			"_CalcPageInfo",
-			"_AddAtEndCreateLine",
-			"_AASCreateLine",
-			"_GetAASStartPosition",
-			"_AASCreateLine",
-			"_AddAtStartTranslate",
-			"_GetAASStartPosition",
-			"_AASCreateLine",
-			"_InitData",
-			"_AddAtEndCreateLine",
-			"x",
-			"endIndex",
-			"addStartIndex",
-			"endIndex",
-			"_AddAtStartCreateLine",
-			"_GetAddAtStartStartPosition",
-			"offset",
-			"size",
-			"isFirst",
-			"startIndex",
-			"_AddAtStart",
-			"_RemoveEndOutMask",
+			"defaultNodePoolList",
+			"nodePoolList",
+			"nodePoolListDict",
+			"_GetNode",
+			"_PushUnUsedToPool",
+			"_GetNode",
+			"MoveLocalY",
+			"LTreeNodeDemo",
+			"Test",
+			"LTreeTest",
+			"LTreeNodeDemo_1",
+			"LTreeTestItem1",
+			"LTreeTestItem",
+			"LTreeNodeDemo",
+			"LTreeTestItem",
+			"lTree",
+			"LTreeDemo1",
+			"arrowGo",
+			"LTreeTestItem",
+			"Config3",
+			"_SetContentY",
+			"key",
+			"SetKey",
+			"nodeDataDict",
+			"_SetContentY",
+			"transform",
+			"DemoFileConfig",
+			"prin",
+			"_PushUnUsedToPool",
+			"_OnItemSelect",
+			"onItemSelect",
+			"OnItemSelect",
+			"_GetItemWidth",
+			"_GetItemHeight",
+			"_TreeToList",
+			"_GetChildHeight",
+			"_PushPool",
+			"_OnValueChanged",
+			"_SetContentY",
+			"_GetNodeX",
+			"_SetStartIndex",
+			"depthDict",
+			"itemType",
+			"_GetIndexByY",
+			"_UpdateTree",
+			"_GetIndexByY",
+			"orderList",
+			"_GetNode",
+			"print",
+			"_SetContentY",
+			"itemHeight",
+			"_BelowMaskBottom",
+			"childHeight",
+			"nodeDataDict",
+			"_UpdateTree",
+			"nodeData",
+			"nodeDict",
+			"_PushPool",
+			"nodeData",
+			"node",
+			"Use",
+			"_GetItemHeight",
+			"_TreeToList",
+			"_InitStartIndex",
+			"_AboveMaskTop",
+			"_BelowMaskBottom",
+			"_BelowMaskTop",
+			"_AboveMaskBottom",
+			"_GetMaskBottom",
+			"_BelowMaskBottom",
+			"_BelowMaskTop",
+			"_AboveMaskBottom",
+			"_PushPool",
+			"_IsOutOfMask",
+			"_AboveMaskTop",
+			"_GetContentBound",
 			"_ContentContainMask",
-			"size",
-			"_CalcSize",
-			"_InitData",
-			"ReachBottomEvent",
-			"ItemSelectEvent",
-			"mask",
-			"_CalcSize",
-			"dynamicCurrentPage",
-			"_Update",
-			"onval",
-			"paddingTop",
-			"_LimitX",
-			"Focus",
-			"height",
-			"_LimitY",
-			"SetData",
-			"index",
-			"focus",
-			"_AdjustContentPosition",
-			"y",
-			"_AdjustContentPosition",
-			"SetAnchoredY",
-			"_LimitY",
-			"contentTrans",
-			"_LimitY",
-			"focusTweenId",
-			"LimitY",
-			"LimitX",
-			"FOcus",
-			"LimitY",
-			"_AdjustContentPosition",
-			"height",
-			"_GetStartIndex",
+			"_ContentStartInMask",
+			"_ContentEndInMask",
+			"_AboveMaskBottom",
+			"_IndexToNode",
+			"_PushPool",
+			"_IsOutOfMask",
+			"_GetChildHeight",
+			"_SetStartIndex",
+			"_TreeToList",
+			"depthDict",
+			"_GetItemHeight",
+			"_GetChildHeight",
+			"_GetItemHeight",
+			"OnItemSelect",
+			"_GetIndexByY",
+			"_UpdateTree",
 			"yList",
-			"_CalcSizeDelta",
-			"height",
-			"self.height",
-			"height"
+			"childNodeData",
+			"nodeData",
+			"_TreeToList",
+			"mid",
+			"_GetIndexByY",
+			"_UpdateTree",
+			"_CalcSize",
+			"yList",
+			"_TreeToList",
+			"maxX",
+			"width",
+			"y",
+			"x",
+			"_UpdateTree",
+			"width",
+			"_TreeToList",
+			"GetItemHei",
+			"_TreeToList",
+			"_CalcSize",
+			"nodeData",
+			"_TreeToList",
+			"yList",
+			"nodeDataDict",
+			"_TreeToList",
+			"orderList",
+			"resetContent",
+			"ResetContent"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -782,23 +587,25 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8290,
+						"buffer_size": 9742,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								922,
-								943
+								946,
+								158
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Lua/Lua.sublime-syntax"
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 154.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -806,48 +613,19 @@
 				},
 				{
 					"buffer": 1,
-					"file": "Asset/AssetLoader.lua",
+					"file": "Asset/ModelLoader.lua",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 299,
+						"buffer_size": 1318,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								299,
-								299
-							]
-						],
-						"settings":
-						{
-							"auto_name": "AssetLoader",
-							"syntax": "Packages/Lua/Lua.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "TestMain.lua",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1571,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1055,
-								1055
+								1079,
+								1079
 							]
 						],
 						"settings":
@@ -855,6 +633,40 @@
 							"syntax": "Packages/Lua/Lua.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 179.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 2,
+					"file": "Test/LRenderTexture/LRenderTextureItem.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 347,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								342,
+								342
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -862,38 +674,30 @@
 					},
 					"stack_index": 4,
 					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
+				},
 				{
 					"buffer": 3,
-					"file": "Asset/ModelLoader.lua",
+					"file": "LComponent/LUIModel.lua",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 847,
+						"buffer_size": 879,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								846,
-								846
+								879,
+								879
 							]
 						],
 						"settings":
 						{
-							"auto_name": "ModelLoader",
-							"syntax": "Packages/Lua/Lua.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"auto_name": "LUIModel = LUIDemo or",
+							"syntax": "Packages/Lua/Lua.sublime-syntax"
 						},
-						"translation.x": 0.0,
+						"translation.x": 9.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
@@ -902,26 +706,24 @@
 				},
 				{
 					"buffer": 4,
-					"file": "LComponent/LRenderTexture.lua",
+					"file": "Asset/ModelLoaderData.lua",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1121,
+						"buffer_size": 705,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								386,
-								386
+								701,
+								701
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Lua/Lua.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Lua/Lua.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -935,11 +737,11 @@
 	],
 	"incremental_find":
 	{
-		"height": 29.0
+		"height": 36.0
 	},
 	"input":
 	{
-		"height": 40.0
+		"height": 36.0
 	},
 	"layout":
 	{
@@ -961,7 +763,7 @@
 		"cols":
 		[
 			0.0,
-			0.412114014252,
+			0.5,
 			1.0
 		],
 		"rows":
@@ -979,7 +781,7 @@
 	"project": "Lua.sublime-project",
 	"replace":
 	{
-		"height": 54.0
+		"height": 52.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -989,124 +791,8 @@
 		"selected_items":
 		[
 			[
-				"LSISc",
-				"Demo\\LSIScrollViewDemo.lua"
-			],
-			[
-				"Ltest",
-				"Test\\LTestItem.lua"
-			],
-			[
-				"scrollview",
-				"LComponent\\LScrollView.lua"
-			],
-			[
-				"LDemoItem",
-				"Demo\\LDemoItem.lua"
-			],
-			[
-				"LItem",
-				"LComponent\\LItem.lua"
-			],
-			[
-				"basec",
-				"Base\\BaseClass.lua"
-			],
-			[
-				"Lscrollvi",
-				"LComponent\\LScrollView.lua"
-			],
-			[
-				"LLi",
-				"LComponent\\LList.lua"
-			],
-			[
-				"lsc",
-				"LComponent\\LScrollView.lua"
-			],
-			[
-				"scrollpage",
-				"LComponent\\LScrollPage.lua"
-			],
-			[
-				"LScro",
-				"LComponent\\LScrollView.lua"
-			],
-			[
-				"bas",
-				"Base\\BaseClass.lua"
-			],
-			[
-				"LTestItem",
-				"Test\\LTestItem.lua"
-			],
-			[
-				"utilsui",
-				"Util\\UtilsUI.lua"
-			],
-			[
-				"lmi",
-				"LComponent\\LMIScrollView.lua"
-			],
-			[
-				"scrollvi",
-				"LComponent\\LScrollView.lua"
-			],
-			[
-				"NS",
-				"LComponent\\NScrollView.lua"
-			],
-			[
-				"LMIScrollViewDemoItem1",
-				"Demo\\LMIScrollView\\LMIScrollViewDemoItem1.lua"
-			],
-			[
-				"basede",
-				"Demo\\BaseDemo.lua"
-			],
-			[
-				"u",
-				"Util\\UtilsBase.lua"
-			],
-			[
-				"base",
-				"Base\\BaseClass.lua"
-			],
-			[
-				"Litem",
-				"LComponent\\LItem.lua"
-			],
-			[
-				"Lite",
-				"LComponent\\LItem.lua"
-			],
-			[
-				"Lis",
-				"LComponent\\LList.lua"
-			],
-			[
-				"LTr",
-				"LComponent\\LTree.lua"
-			],
-			[
-				"LMu",
-				"LComponent\\LMultiVerticalScrollView.lua"
-			],
-			[
-				"LScroo",
-				"Demo\\LScrollPageDemo.lua"
-			],
-			[
-				"Lscro",
-				"LComponent\\LScrollPage.lua"
-			],
-			[
-				"scrollv",
-				"LComponent\\LScrollView.lua"
-			],
-			[
-				"utilsb",
-				"Util\\UtilsBase.lua"
+				"model",
+				"Asset\\ModelLoader.lua"
 			],
 			[
 				"ltreedemo",
@@ -1127,6 +813,10 @@
 			[
 				"notdeda",
 				"LComponent\\LTreeNodeData.lua"
+			],
+			[
+				"utilsui",
+				"Util\\UtilsUI.lua"
 			],
 			[
 				"lnode",
@@ -1181,8 +871,16 @@
 				"LComponent\\LItem.lua"
 			],
 			[
+				"base",
+				"Base\\BaseClass.lua"
+			],
+			[
 				"lscrollview",
 				"LComponent\\LScrollView.lua"
+			],
+			[
+				"lsc",
+				"LComponent\\LScrollPage.lua"
 			]
 		],
 		"width": 0.0
