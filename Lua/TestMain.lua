@@ -30,8 +30,6 @@ function Update()
 
     if Input.GetKeyDown(KeyCode.W) and Input.GetKey(KeyCode.LeftControl) then
         print("W")
-        local model = ModelLoader.Instance:Load(80002, 80002, 80002)
-        model.name = "fuck"
         -- scrollViewTest.scrollView:Release()
         -- meshTest:DrawTriangle()
     end

@@ -46,6 +46,7 @@ function LScrollPage:_InitTemplateItem()
     self.template = template
     self.itemWidth = template.transform.sizeDelta.x
     self.itemHeight = template.transform.sizeDelta.y
+    self.template:SetActive(false)
 end
 
 function LScrollPage:_InitScrollRect(transform)

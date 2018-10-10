@@ -17,7 +17,7 @@ end
 function ModelLoaderData:GetAnimationPathList()
     local result = {}
     for _, name in pairs(AssetDefine.ANIMATION_NAME_DICT) do
-        local path = string.format(AssetDefine.ANIMATION_PATH, animationId .. "/" .. name)
+        local path = string.format(AssetDefine.ANIMATION_PATH, self.animationId .. "/" .. name)
         table.insert(result, path)
     end
     return result

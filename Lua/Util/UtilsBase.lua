@@ -142,3 +142,10 @@ function UtilsBase.SetParent(childTrans, parentTrans)
     childTrans.localPosition = Vector3.zero
     childTrans.localRotation = Quaternion.identity
 end
+
+function UtilsBase.SetLayer(transform, layerName)
+    local childTransList = transform:GetComponentsInChildren(Transform)
+    for i = 1, #childTransList do
+        childTransList[i].gameObject.layer = LayerMask.NameToLayer("UIModel")
+    end
+end

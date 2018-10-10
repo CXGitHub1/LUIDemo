@@ -2,21 +2,32 @@ LRenderTextureTest = LRenderTextureTest or BaseClass(BaseTest)
 
 function LRenderTextureTest:__init(gameObject)
     local transform = gameObject.transform
-    local rootTrans = GameObject.Find("Preview").transform
-    local cameraGo = GameObject.Instantiate(AssetLoader.Instance:Load(string.format(AssetDefine.UI_PREFAB_PATH, "PreviewCamera")))
-    UtilsBase.SetParent(cameraGo.transform, rootTrans)
-    cameraGo.name = "PreviewCamera"
-    local modelGo = ModelLoader.Instance:Load(80002, 80002, 80002)
-    modelGo.name = "80002"
-    local modelTrans = modelGo.transform
-    local childTransList = modelTrans:GetComponentsInChildren(Transform)
-    for i = 1, #childTransList do
-        childTransList[i].gameObject.layer = LayerMask.NameToLayer("UIModel")
+    self.scrollPage = LScrollPage.New(transform:Find("Test1"), LRenderTextureTestItem, 1, 2, LDefine.Direction.horizontal)
+
+    local dataList = {}
+    for i = 1, 10 do
+        if i % 2 == 1 then
+            table.insert(dataList, ModelLoaderData.New(80002, 80002, 80002))
+        else
+            table.insert(dataList, ModelLoaderData.New(80003, 80003, 80003))
+        end
     end
-    modelTrans:SetParent(cameraGo.transform)
-    modelTrans.localScale = Vector3.one
-    modelTrans.localPosition = Vector3(0, 0, 20)
-    modelTrans.localRotation = Vector3(0, 180, 0)
+    self.scrollPage:SetData(dataList)
+    -- local rootTrans = GameObject.Find("Preview").transform
+    -- local cameraGo = GameObject.Instantiate(AssetLoader.Instance:Load(string.format(AssetDefine.UI_PREFAB_PATH, "PreviewCamera")))
+    -- UtilsBase.SetParent(cameraGo.transform, rootTrans)
+    -- cameraGo.name = "PreviewCamera"
+    -- local modelGo = ModelLoader.Instance:Load(80002, 80002, 80002)
+    -- modelGo.name = "80002"
+    -- local modelTrans = modelGo.transform
+    -- local childTransList = modelTrans:GetComponentsInChildren(Transform)
+    -- for i = 1, #childTransList do
+    --     childTransList[i].gameObject.layer = LayerMask.NameToLayer("UIModel")
+    -- end
+    -- modelTrans:SetParent(cameraGo.transform)
+    -- modelTrans.localScale = Vector3.one
+    -- modelTrans.localPosition = Vector3(0, 0, 20)
+    -- modelTrans.localRotation = Vector3(0, 180, 0)
 end
 
 -- function CacheNpcTpose:GetMeshNode()
