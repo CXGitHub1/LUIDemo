@@ -1,0 +1,779 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!74 &7400000
+AnimationClip:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: stand1
+  serializedVersion: 6
+  m_Legacy: 1
+  m_Compressed: 1
+  m_UseHighQualityCurve: 1
+  m_RotationCurves: []
+  m_CompressedRotationCurves:
+  - m_Path: bp_root
+    m_Times:
+      m_NumItems: 2
+      m_Data: 0032
+      m_BitSize: 7
+    m_Values:
+      m_NumItems: 2
+      m_Data: f4fbefbff4fbefbf
+    m_Slopes:
+      m_NumItems: 8
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  - m_Path: bp_root/Bone_M_Hair_01
+    m_Times:
+      m_NumItems: 2
+      m_Data: 0032
+      m_BitSize: 7
+    m_Values:
+      m_NumItems: 2
+      m_Data: aeefec7caeefec7c
+    m_Slopes:
+      m_NumItems: 8
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  - m_Path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02
+    m_Times:
+      m_NumItems: 8
+      m_Data: c0c40da922
+      m_BitSize: 5
+    m_Values:
+      m_NumItems: 8
+      m_Data: f3e7df7cf3e79f81f3e75f8ef3e75f8ff3e71f82f3e71f78f3e7df79f3e71f7c
+    m_Slopes:
+      m_NumItems: 32
+      m_Range: 1.2579999
+      m_Start: -0.631
+      m_Data: 20988320f87f2078771f888820088020d87d201883204883
+      m_BitSize: 6
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  - m_Path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03
+    m_Times:
+      m_NumItems: 9
+      m_Data: c03808d73604
+      m_BitSize: 5
+    m_Values:
+      m_NumItems: 9
+      m_Data: f3e75f70f3e75f6ef3e79f72f3e71f81f3e75f8cf3e7df8cf3e71f78f3e7df72f3e71f71
+    m_Slopes:
+      m_NumItems: 36
+      m_Range: 1.334
+      m_Start: -0.655
+      m_Data: df3775dfb779df8787dff77fdfd77adf5781df0774df7774df8774
+      m_BitSize: 6
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  - m_Path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03/Bone_M_Hair_04
+    m_Times:
+      m_NumItems: 9
+      m_Data: 40b506656b04
+      m_BitSize: 5
+    m_Values:
+      m_NumItems: 9
+      m_Data: f3e7df83f3e7df76f3e7df6af3e79f6cf3e75f7ef3e7df92f3e75f95f3e71f8af3e75f86
+    m_Slopes:
+      m_NumItems: 36
+      m_Range: 2.0900002
+      m_Start: -1.038
+      m_Data: df0780df2774df6779dff78adff783df2777df6785df4788df2784
+      m_BitSize: 6
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  - m_Path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03/Bone_M_Hair_04/Bone_M_Hair_05
+    m_Times:
+      m_NumItems: 11
+      m_Data: 30edddea3d04
+      m_BitSize: 4
+    m_Values:
+      m_NumItems: 11
+      m_Data: f3e75f9df3e7df9af3e71f89f3e71f72f3e7df66f3e71f6cf3e71f7af3e7df91f3e71f9ef3e75f9ef3e71f9e
+    m_Slopes:
+      m_NumItems: 44
+      m_Range: 2.7189999
+      m_Start: -1.36
+      m_Data: 20488920188d1f08882068741fb87d20288b20f88720b8731f587ae0f781e0c781
+      m_BitSize: 6
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  - m_Path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03/Bone_Other1_01
+    m_Times:
+      m_NumItems: 9
+      m_Data: a0a906a58204
+      m_BitSize: 5
+    m_Values:
+      m_NumItems: 9
+      m_Data: 30e89f7f20e79f7fa8e69f7fc0e69f7fe0e79f7f28e99f7f58e99f7f98e89f7f60e89f7f
+    m_Slopes:
+      m_NumItems: 36
+      m_Range: 2.1
+      m_Start: -1.048
+      m_Data: 20f07d5df17d9ef57de2fb7de0ff7d5dfc7d60f77d22f17de1f07d
+      m_BitSize: 6
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  - m_Path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03/Bone_Other1_01/Bone_Other1_02
+    m_Times:
+      m_NumItems: 11
+      m_Data: 6034a7a852ca10
+      m_BitSize: 5
+    m_Values:
+      m_NumItems: 11
+      m_Data: f3e71f62f3e75f64f3e75f76f3e75f8df3e79f97f3e79f8ff3e71f7ff3e79f6df3e7df62f3e71f61f3e79f61
+    m_Slopes:
+      m_NumItems: 44
+      m_Range: 2.791
+      m_Start: -1.434
+      m_Data: 20b88e20e88e20f88f20a87b20a87e20a88c200880206874206879201886204886
+      m_BitSize: 6
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  - m_Path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03/Bone_Other2_01
+    m_Times:
+      m_NumItems: 8
+      m_Data: a0352d5b23
+      m_BitSize: 5
+    m_Values:
+      m_NumItems: 8
+      m_Data: f3e7df83f3e79f72f3e71f6af3e75f7ef3e7df92f3e75f95f3e71f8af3e75f86
+    m_Slopes:
+      m_NumItems: 32
+      m_Range: 2.099
+      m_Start: -1.048
+      m_Data: df0780df5774dfd77ddff783e02777df6785df4788df3784
+      m_BitSize: 6
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  - m_Path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03/Bone_Other2_01/Bone_Other2_02
+    m_Times:
+      m_NumItems: 10
+      m_Data: 6034d722548a00
+      m_BitSize: 5
+    m_Values:
+      m_NumItems: 10
+      m_Data: f3e75f9df3e7df9af3e71f89f3e71f72f3e7df66f3e7df6ff3e75f8cf3e7df99f3e75f9ef3e7df9d
+    m_Slopes:
+      m_NumItems: 40
+      m_Range: 2.697
+      m_Start: -1.364
+      m_Data: 20488920188d20088820687420c87d20888f20f87720187320f88120c885
+      m_BitSize: 6
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  - m_Path: bp_root/Bone_M_Hair_01/Bone_Ribbon_01
+    m_Times:
+      m_NumItems: 13
+      m_Data: a0a9419421a21e4800
+      m_BitSize: 5
+    m_Values:
+      m_NumItems: 13
+      m_Data: f3e75f97f3e79f98f3e79f99f3e79f99f3e75f98f3e75f89f3e75f80f3e75f7ef3e79f7ef3e79f85f3e71f89f3e79f96f3e75f97
+    m_Slopes:
+      m_NumItems: 52
+      m_Range: 1.878
+      m_Start: -1.305
+      m_Data: 2cdbb22cfbae2cdbae2c6bb62c7bc12c0bbc2c6bb12c7bb22cfbb22c8baf2cfbab2c6bab2c1baf
+      m_BitSize: 6
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  - m_Path: bp_root/Bone_M_Hair_01/bp_body
+    m_Times:
+      m_NumItems: 2
+      m_Data: 0032
+      m_BitSize: 7
+    m_Values:
+      m_NumItems: 2
+      m_Data: 2088b67c2088b67c
+    m_Slopes:
+      m_NumItems: 8
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  m_EulerCurves: []
+  m_PositionCurves:
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: 0, y: 0, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: 0, y: 0, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: -0.953, y: 0, z: 1.397}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5
+        value: {x: -0.953, y: 0, z: 0.929}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: -0.953, y: 0, z: 1.397}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: -0.771, y: 0, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: -0.771, y: 0, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: -0.716, y: 0, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: -0.716, y: 0, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: -0.533, y: 0, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: -0.533, y: 0, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03/Bone_M_Hair_04
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: -0.539, y: 0, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: -0.539, y: 0, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03/Bone_M_Hair_04/Bone_M_Hair_05
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: -0.533, y: 0, z: -1.147}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: -0.533, y: 0, z: -1.147}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03/Bone_Other1_01
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: -0.539, y: 0, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: -0.539, y: 0, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03/Bone_Other1_01/Bone_Other1_02
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: -0.533, y: 0, z: 1.147}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: -0.533, y: 0, z: 1.147}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03/Bone_Other2_01
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: -0.539, y: 0, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: -0.539, y: 0, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03/Bone_Other2_01/Bone_Other2_02
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: 0.765, y: 0.233, z: 0}
+        inSlope: {x: -0.082, y: 1.621, z: 0}
+        outSlope: {x: -0.082, y: 1.621, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.06666667
+        value: {x: 0.76, y: 0.337, z: 0}
+        inSlope: {x: -0.07, y: 1.469, z: 0}
+        outSlope: {x: -0.07, y: 1.468, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.16666667
+        value: {x: 0.755, y: 0.449, z: 0}
+        inSlope: {x: -0.025, y: 0.604, z: 0}
+        outSlope: {x: -0.025, y: 0.606, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.23333335
+        value: {x: 0.754, y: 0.459, z: 0}
+        inSlope: {x: -0.001, y: -0.266, z: 0}
+        outSlope: {x: 0, y: -0.266, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.26666668
+        value: {x: 0.754, y: 0.445, z: 0}
+        inSlope: {x: 0, y: -0.558, z: 0}
+        outSlope: {x: 0, y: -0.559, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.33333334
+        value: {x: 0.758, y: 0.349, z: 0}
+        inSlope: {x: 0.101, y: -2.08, z: 0}
+        outSlope: {x: 0.101, y: -2.081, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.43333337
+        value: {x: 0.771, y: 0.114, z: 0}
+        inSlope: {x: 0.126, y: -2.251, z: 0}
+        outSlope: {x: 0.126, y: -2.251, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.4666667
+        value: {x: 0.775, y: 0.046, z: 0}
+        inSlope: {x: 0.101, y: -1.825, z: 0}
+        outSlope: {x: 0.101, y: -1.824, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5
+        value: {x: 0.777, y: -0.004, z: 0}
+        inSlope: {x: 0.058, y: -1.135, z: 0}
+        outSlope: {x: 0.058, y: -1.135, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.76666665
+        value: {x: 0.783, y: -0.122, z: 0}
+        inSlope: {x: 0, y: 0.846, z: 0}
+        outSlope: {x: 0, y: 0.846, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.8333334
+        value: {x: 0.781, y: -0.053, z: 0}
+        inSlope: {x: -0.071, y: 1.253, z: 0}
+        outSlope: {x: -0.071, y: 1.252, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.86666673
+        value: {x: 0.778, y: -0.008, z: 0}
+        inSlope: {x: -0.098, y: 1.489, z: 0}
+        outSlope: {x: -0.098, y: 1.489, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.9666667
+        value: {x: 0.768, y: 0.167, z: 0}
+        inSlope: {x: -0.094, y: 1.931, z: 0}
+        outSlope: {x: -0.094, y: 1.931, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: 0.765, y: 0.233, z: 0}
+        inSlope: {x: -0.088, y: 1.986, z: 0}
+        outSlope: {x: -0.088, y: 1.986, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/Bone_Ribbon_01
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: -0.938, y: -0.289, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: -0.938, y: -0.289, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/bp_body
+  m_ScaleCurves:
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03/Bone_M_Hair_04
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03/Bone_M_Hair_04/Bone_M_Hair_05
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03/Bone_Other1_01
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03/Bone_Other1_01/Bone_Other1_02
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03/Bone_Other2_01
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/Bone_M_Hair_02/Bone_M_Hair_03/Bone_Other2_01/Bone_Other2_02
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/Bone_Ribbon_01
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: bp_root/Bone_M_Hair_01/bp_body
+  m_FloatCurves: []
+  m_PPtrCurves: []
+  m_SampleRate: 30
+  m_WrapMode: 2
+  m_Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_ClipBindingConstant:
+    genericBindings: []
+    pptrCurveMapping: []
+  m_AnimationClipSettings:
+    serializedVersion: 2
+    m_AdditiveReferencePoseClip: {fileID: 0}
+    m_AdditiveReferencePoseTime: 0
+    m_StartTime: 0
+    m_StopTime: 1
+    m_OrientationOffsetY: 0
+    m_Level: 0
+    m_CycleOffset: 0
+    m_HasAdditiveReferencePose: 0
+    m_LoopTime: 0
+    m_LoopBlend: 0
+    m_LoopBlendOrientation: 0
+    m_LoopBlendPositionY: 0
+    m_LoopBlendPositionXZ: 0
+    m_KeepOriginalOrientation: 0
+    m_KeepOriginalPositionY: 1
+    m_KeepOriginalPositionXZ: 0
+    m_HeightFromFeet: 0
+    m_Mirror: 0
+  m_EditorCurves: []
+  m_EulerEditorCurves: []
+  m_HasGenericRootTransform: 0
+  m_HasMotionFloatCurves: 0
+  m_GenerateMotionCurves: 0
+  m_Events: []

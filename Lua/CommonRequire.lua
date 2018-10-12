@@ -23,3 +23,6 @@ end
 
 AssetLoader.New()
 ModelLoader.New()
+
+Vector3One = Vector3(1, 1, 1)
+Vector3Zero = Vector3(0, 0, 0)

@@ -5,12 +5,8 @@ function LRenderTextureTest:__init(gameObject)
     self.scrollPage = LScrollPage.New(transform:Find("Test1"), LRenderTextureTestItem, 1, 2, LDefine.Direction.horizontal)
 
     local dataList = {}
-    for i = 1, 10 do
-        if i % 2 == 1 then
-            table.insert(dataList, ModelLoaderData.New(80002, 80002, 80002))
-        else
-            table.insert(dataList, ModelLoaderData.New(80003, 80003, 80003))
-        end
+    for i = 1, 9 do
+        table.insert(dataList, ModelLoaderData.New(80002 + i, 80002 + i, 80002 + i))
     end
     self.scrollPage:SetData(dataList)
     -- local rootTrans = GameObject.Find("Preview").transform

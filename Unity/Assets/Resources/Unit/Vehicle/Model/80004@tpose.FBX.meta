@@ -1,0 +1,169 @@
+fileFormatVersion: 2
+guid: 1f9fd21f964a6804d844c187c79e019e
+timeCreated: 1523121469
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Bip_body
+    100002: Bip_Chest8
+    100004: Bip_Head8
+    100006: Bip_Hips
+    100008: Bip_L_Foot8
+    100010: Bip_L_Hand8
+    100012: Bip_L_Lower Arm
+    100014: Bip_L_Lower Leg
+    100016: Bip_L_Middle Proximal
+    100018: Bip_L_Shoulder
+    100020: Bip_L_Toes
+    100022: Bip_L_Toes1
+    100024: Bip_L_Upper Arm
+    100026: Bip_L_Upper Leg
+    100028: Bip_Neck
+    100030: Bip_R_Foot8
+    100032: Bip_R_Hand8
+    100034: Bip_R_Lower Arm
+    100036: Bip_R_Lower Leg
+    100038: Bip_R_Middle Proximal
+    100040: Bip_R_Shoulder
+    100042: Bip_R_Toes
+    100044: Bip_R_Toes1
+    100046: Bip_R_Upper Arm
+    100048: Bip_R_Upper Leg
+    100050: Bip_Spine8
+    100052: Bone_L_Wing_01
+    100054: Bone_L_Wing_02
+    100056: Bone_L_Wing_03
+    100058: Bone_L_Wing_04
+    100060: Bone_Other1_01
+    100062: Bone_R_Wing_01
+    100064: Bone_R_Wing_02
+    100066: Bone_R_Wing_03
+    100068: Bone_R_Wing_04
+    100070: Bone_Tail_01
+    100072: Bone_Tail_02
+    100074: Bone_Tail_03
+    100076: Bone_Tail_04
+    100078: Bone_Tail_05
+    100080: bp_body
+    100082: bp_root
+    100084: Mesh_body
+    100086: //RootNode
+    400000: Bip_body
+    400002: Bip_Chest8
+    400004: Bip_Head8
+    400006: Bip_Hips
+    400008: Bip_L_Foot8
+    400010: Bip_L_Hand8
+    400012: Bip_L_Lower Arm
+    400014: Bip_L_Lower Leg
+    400016: Bip_L_Middle Proximal
+    400018: Bip_L_Shoulder
+    400020: Bip_L_Toes
+    400022: Bip_L_Toes1
+    400024: Bip_L_Upper Arm
+    400026: Bip_L_Upper Leg
+    400028: Bip_Neck
+    400030: Bip_R_Foot8
+    400032: Bip_R_Hand8
+    400034: Bip_R_Lower Arm
+    400036: Bip_R_Lower Leg
+    400038: Bip_R_Middle Proximal
+    400040: Bip_R_Shoulder
+    400042: Bip_R_Toes
+    400044: Bip_R_Toes1
+    400046: Bip_R_Upper Arm
+    400048: Bip_R_Upper Leg
+    400050: Bip_Spine8
+    400052: Bone_L_Wing_01
+    400054: Bone_L_Wing_02
+    400056: Bone_L_Wing_03
+    400058: Bone_L_Wing_04
+    400060: Bone_Other1_01
+    400062: Bone_R_Wing_01
+    400064: Bone_R_Wing_02
+    400066: Bone_R_Wing_03
+    400068: Bone_R_Wing_04
+    400070: Bone_Tail_01
+    400072: Bone_Tail_02
+    400074: Bone_Tail_03
+    400076: Bone_Tail_04
+    400078: Bone_Tail_05
+    400080: bp_body
+    400082: bp_root
+    400084: Mesh_body
+    400086: //RootNode
+    4300000: Mesh_body
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: Mesh_body
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 1
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 2
+    animationRotationError: 0.05
+    animationPositionError: 0.05
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 2
+    tangentImportMode: 2
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

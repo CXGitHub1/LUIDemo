@@ -11,6 +11,7 @@ end
 function ModelLoader:Load(loaderData)
     local prefab = AssetLoader.Instance:Load(loaderData:GetModelPath())
     local go = GameObject.Instantiate(prefab)
+    go.name = loaderData.modelId
     self:SetSkin(loaderData, go.transform)
     self:SetAnimation(loaderData, go)
     return go
