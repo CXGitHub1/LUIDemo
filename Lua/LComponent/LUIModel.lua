@@ -22,7 +22,8 @@ function LUIModel:__init(transform)
     local rawImageGo = GameObject("RawImage")
     rawImageGo:AddComponent(RectTransform)
     local rawImageTrans = rawImageGo.transform
-    UtilsBase.SetParent(rawImageTrans, transform)
+    self.rawImageTrans = rawImageTrans
+    UtilsBase.UISetParent(rawImageTrans, transform)
     self.rawImage = rawImageGo:AddComponent(RawImage)
     self.width = transform.sizeDelta.x
     self.height = transform.sizeDelta.y
@@ -64,7 +65,7 @@ function LUIModel:InitRenderTexture()
         return
     end
     local camera = self.cameraGo:GetComponent(Camera)
-    self.renderTexture = RenderTexture.GetTemporary(self.width, self.height, 24)
+    self.renderTexture = RenderTexture.GetTemporary(self.width * 1.5, self.height * 1.5, 24)
     self.rawImage.texture = self.renderTexture
     camera.targetTexture = self.renderTexture
 end
@@ -84,6 +85,9 @@ function LUIModel:SetData(loaderData, offsetPosition, scale)
     modelTrans:SetParent(LUIModel.rootTrans)
     modelTrans.localScale = scale or Vector3One
     modelTrans.localEulerAngles = Vector3(0, 180, 0)
-    local position = offsetPosition or Vector3Zero
-    modelTrans.localPosition = position + self.cameraTrans.localPosition + Vector3(0, 0, 10)
+    local offsetY = -ModelConfigHelper.GetModelStandHeight(loaderData.modelId) / 2
+    modelTrans.localPosition = self.cameraTrans.localPosition + Vector3(0, offsetY, 10)
+    if offsetPosition then
+        self.rawImageTrans.anchoredPosition = offsetPosition
+    end
 end

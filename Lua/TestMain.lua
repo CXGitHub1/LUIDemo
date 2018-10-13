@@ -1,7 +1,22 @@
 require("CommonRequire")
 
-for i = 1, #TestFileConfig do
-    require(TestFileConfig[i])
+TestMain.GetPriorPathArray = function()
+    local priorPathList = {
+        "LComponent/LItem",
+        "LComponent/LTrreNode",
+        "LComponent/LTrreNodeData",
+        "Demo/BaseDemo",
+        "Test/BaseTest",
+    }
+    local result = {}
+    for i = 1, #priorPathList do
+        local path = priorPathList[i]
+        require(path)
+        local className = string.match(path, "%w")
+        pError(className)
+        table.insert(result, className)
+    end
+    return result
 end
 
 local root = GameObject.Find("UIRoot")
@@ -13,7 +28,7 @@ local root = GameObject.Find("UIRoot")
 -- local imageMeshTest = ImageMeshTest.New(root.transform:Find("ImageMeshTest").gameObject)
 -- local scrollViewTest = LMIScrollViewTest.New(root.transform:Find("LMIScrollViewTest").gameObject)
 -- local scrollViewTest = LSIScrollViewTest.New(root.transform:Find("LSIScrollViewTest").gameObject)
-local rtTest = LRenderTextureTest.New(root.transform:Find("LRenderTextureTest").gameObject)
+-- local rtTest = LRenderTextureTest.New(root.transform:Find("LRenderTextureTest").gameObject)
 
 function Update()
     if Input.GetKeyDown(KeyCode.H) and Input.GetKey(KeyCode.LeftControl) then

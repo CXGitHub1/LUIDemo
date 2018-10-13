@@ -143,6 +143,16 @@ function UtilsBase.SetParent(childTrans, parentTrans)
     childTrans.localRotation = Quaternion.identity
 end
 
+function UtilsBase.UISetParent(childRect, parentTrans, anchoredPosition, scale, rotation)
+    childRect:SetParent(parentTrans)
+    childRect.pivot = Vector2Up
+    childRect.anchorMin = Vector2Up
+    childRect.anchorMax = Vector2Up
+    childRect.anchoredPosition = anchoredPosition or Vector2Zero
+    childRect.localScale = scale or Vector3One
+    childRect.localEulerAngles = rotation or Vector3Zero
+end
+
 function UtilsBase.SetLayer(transform, layerName)
     local childTransList = transform:GetComponentsInChildren(Transform)
     for i = 1, #childTransList do

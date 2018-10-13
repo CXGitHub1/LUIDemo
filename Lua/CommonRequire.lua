@@ -24,5 +24,13 @@ end
 AssetLoader.New()
 ModelLoader.New()
 
+
+Vector2One = Vector3(1, 1)
+Vector2Zero = Vector3(0, 0)
+Vector2Down = Vector3(0, -1)
+Vector2Left = Vector3(-1, 0)
+Vector2Up = Vector3(0, 1)
+Vector2Right = Vector3(1, 0)
+
 Vector3One = Vector3(1, 1, 1)
 Vector3Zero = Vector3(0, 0, 0)
