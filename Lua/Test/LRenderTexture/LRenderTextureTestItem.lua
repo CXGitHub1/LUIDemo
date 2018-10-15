@@ -12,5 +12,5 @@ end
 
 function LRenderTextureTestItem:SetData(data, commonData)
     self.text.text = data.modelId
-    self.uiModel:SetData(data, Vector2(0, -150))
+    self.uiModel:SetData(data, Vector3(0, -80, 0), 3, Vector3(0, 135, 0))
 end

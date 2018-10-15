@@ -1,8 +1,15 @@
 --camera参数设置
 --fieldOfView有所改动 因为scale为1，而不是游戏中的配置 z轴也因此有所调整
+--透视效果不好处理，模型以脚为锚点，透视还要计算模型的偏移，让摄像机对准模型中点
+--否则效果不好，我决定类型改为正交
+
 --rotate参考游戏
---model放在root节点，不放在camera节点是为了让camera rotation生效
--- 模型的大小通过读取配置获取 可以设置offsetPosition 和 scale
+--model放在root节点，不放在camera节点是为了让camera rotation生效 不然模型跟着camera一起旋转，始终只能看到模型正面
+--模型默认播放的动作是stand动作，因为模型坐标固定在脚底，所以为了让摄像机能正面对准模型中心，而不是对准脚底
+--所以需要一个stand动作的高度，让模型根据standHeigt向下偏移，摄像机能对准模型中间
+
+--模型大小 参数配置个展示模型大小
+
 
 --StaticInit 就是c#的静态构造函数
 --SetData只会重新加载模型 摄像机 RenderTexture都在初始化构造
@@ -54,7 +61,7 @@ function LUIModel:InitCamera()
     cameraGo.name = "PreviewCamera"
     local cameraTrans = cameraGo.transform
     cameraTrans:SetParent(LUIModel.rootTrans)
-    cameraTrans.localEulerAngles = Vector3(5, 0, 0)
+    cameraTrans.localEulerAngles = Vector3One
     cameraTrans.localScale = Vector3One
     cameraTrans.localPosition = Vector3(LUIModel.X, 0, 0)
     LUIModel.X = LUIModel.X + 20
@@ -70,7 +77,7 @@ function LUIModel:InitRenderTexture()
     camera.targetTexture = self.renderTexture
 end
 
-function LUIModel:SetData(loaderData, offsetPosition, scale)
+function LUIModel:SetData(loaderData, anchoredPosition, scale, rotation)
     self.loaderData = loaderData
     self:InitCamera()
     self:InitRenderTexture()
@@ -85,11 +92,14 @@ function LUIModel:SetData(loaderData, offsetPosition, scale)
     local modelTrans = modelGo.transform
     UtilsBase.SetLayer(modelTrans, "UIModel")
     modelTrans:SetParent(LUIModel.rootTrans)
-    modelTrans.localScale = scale or Vector3One
-    modelTrans.localEulerAngles = Vector3(0, 180, 0)
-    local offsetY = -ModelConfigHelper.GetModelStandHeight(loaderData.modelId) / 2
+    local config = ModelConfigHelper.GetConfig(loaderData.modelId)
+    -- print(tostring(scale))
+    -- print(config.uiScale)
+    modelTrans.localScale = Vector3One -- * scale / config.uiScale
+    modelTrans.localEulerAngles = rotation or Vector3(0, 180, 0)
+    local offsetY = 0 --  -config.standHeight / 2
     modelTrans.localPosition = self.cameraTrans.localPosition + Vector3(0, offsetY, 10)
-    if offsetPosition then
-        self.rawImageTrans.anchoredPosition = offsetPosition
+    if anchoredPosition then
+        self.rawImageTrans.anchoredPosition3D = Vector3(0, -self.height / 2, 0)
     end
 end
