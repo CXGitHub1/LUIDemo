@@ -181,6 +181,9 @@ function LScrollPage:SetData(dataList, commonData)
     end
     self:_Layout()
     self:_CalculateSize()
+    if initPage then
+        self:SetCurrentPage(self.currentPage)
+    end
     if self:_PageHorizontalLayout() then
         if (math.abs(self.contentTrans.localPosition.x)) > math.abs(self:_GetTargetPosition(self.totalPage).x) then
             UtilsUI.SetAnchoredX(self.contentTrans, self:_GetTargetPosition(self.totalPage).x)

@@ -75,6 +75,8 @@ function LUIModel:SetData(loaderData, offsetPosition, scale)
     self:InitCamera()
     self:InitRenderTexture()
     if self.modelGo then
+        -- 如果卡顿的原因是TempAlloc.Overflow，试试开启下面这句
+        -- self.modelGo:GetComponent(Animation).enabled = false
         GameObject.Destroy(self.modelGo)
         self.modelGo = nil
     end
