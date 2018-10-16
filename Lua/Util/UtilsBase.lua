@@ -156,6 +156,6 @@ end
 function UtilsBase.SetLayer(transform, layerName)
     local childTransList = transform:GetComponentsInChildren(Transform)
     for i = 1, #childTransList do
-        childTransList[i].gameObject.layer = LayerMask.NameToLayer("UIModel")
+        childTransList[i].gameObject.layer = LayerMask.NameToLayer(layerName)
     end
 end

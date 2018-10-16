@@ -6,15 +6,6 @@ function LUIModel:__init(transform)
         self:StaticInit()
     end
     self.transform = transform
-    local rawImageGo = GameObject("RawImage")
-    rawImageGo:AddComponent(RectTransform)
-    local rawImageTrans = rawImageGo.transform
-    self.rawImageTrans = rawImageTrans
-    UtilsBase.UISetParent(rawImageTrans, transform)
-    self.rawImage = rawImageGo:AddComponent(RawImage)
-    self.width = transform.sizeDelta.x
-    self.height = transform.sizeDelta.y
-    rawImageTrans.sizeDelta = Vector2(self.width, self.height)
 end
 
 function LUIModel:__release()
@@ -23,7 +14,6 @@ end
 function LUIModel:StaticInit()
     local rootTrans = GameObject.Find("Preview").transform
     LUIModel.rootTrans = rootTrans
-    LUIModel.X = 0
     LUIModel.cameraTemplate = AssetLoader.Instance:Load(string.format(AssetDefine.UI_PREFAB_PATH, "PreviewCamera"))
 end
 
@@ -45,20 +35,14 @@ end
 
 function LUIModel:SetData(loaderData, offsetY, scale, rotation)
     self.loaderData = loaderData
-    self:InitCamera()
-    if self.modelGo then
-        -- 如果卡顿的原因是TempAlloc.Overflow，试试开启下面这句
-        -- self.modelGo:GetComponent(Animation).enabled = false
-        GameObject.Destroy(self.modelGo)
-        self.modelGo = nil
-    end
+    -- self:InitCamera()
     local modelGo = ModelLoader.Instance:Load(loaderData)
     self.modelGo = modelGo
     local modelTrans = modelGo.transform
-    UtilsBase.SetLayer(modelTrans, "UIModel")
-    modelTrans:SetParent(LUIModel.rootTrans)
+    modelTrans:SetParent(self.transform)
+    UtilsBase.SetLayer(modelTrans, "UI")
     local config = ModelConfigHelper.GetConfig(loaderData.modelId)
-    modelTrans.localScale = Vector3One * scale / config.uiScale
+    modelTrans.localScale = Vector3One * 50
     modelTrans.localEulerAngles = rotation or Vector3(0, 180, 0)
-    modelTrans.localPosition = self.cameraTrans.localPosition + Vector3(0, offsetY, LUIModel.MODEL_Z)
+    modelTrans.localPosition = Vector3(150, -50, LUIModel.MODEL_Z)
 end

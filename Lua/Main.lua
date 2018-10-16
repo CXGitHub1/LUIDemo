@@ -60,7 +60,8 @@ function TestMain()
     -- local imageMeshTest = ImageMeshTest.New(root.transform:Find("ImageMeshTest").gameObject)
     -- local scrollViewTest = LMIScrollViewTest.New(root.transform:Find("LMIScrollViewTest").gameObject)
     -- local scrollViewTest = LSIScrollViewTest.New(root.transform:Find("LSIScrollViewTest").gameObject)
-    local rtTest = LRenderTextureTest.New(root.transform:Find("LRenderTextureTest").gameObject)
+    -- local rtModelTest = LRTModelTest.New(root.transform:Find("LRTModelTest").gameObject)
+    local uiModelTest = LUIModelTest.New(root.transform:Find("LUIModelTest").gameObject)
 end
 
 function DemoMain()
