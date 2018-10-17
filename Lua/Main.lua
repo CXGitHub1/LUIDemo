@@ -62,7 +62,8 @@ function TestMain()
     -- local scrollViewTest = LMIScrollViewTest.New(root.transform:Find("LMIScrollViewTest").gameObject)
     -- local scrollViewTest = LSIScrollViewTest.New(root.transform:Find("LSIScrollViewTest").gameObject)
     -- local rtModelTest = LRTModelTest.New(root.transform:Find("LRTModelTest").gameObject)
-    local uiModelTest = LUIModelTest.New(root.transform:Find("LUIModelTest").gameObject)
+    -- local uiModelTest = LUIModelTest.New(root.transform:Find("LUIModelTest").gameObject)
+    local layerTest = LLayerTest.New(root.transform:Find("LLayerTest").gameObject)
 end
 
 function DemoMain()
@@ -74,6 +75,7 @@ function Init()
     Tween.New()
     AssetLoader.New()
     ModelLoader.New()
+    UIEffectLoader.New()
 end
 
 function Update()

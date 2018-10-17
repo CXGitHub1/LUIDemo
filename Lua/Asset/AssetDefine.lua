@@ -1,8 +1,10 @@
 AssetDefine = AssetDefine or {}
 
-AssetDefine.PREFAB_PATH = "Unit/Vehicle/Prefab/%s"
-AssetDefine.SKIN_PATH = "Unit/Vehicle/Skin/%s"
-AssetDefine.ANIMATION_PATH = "Unit/Vehicle/Animation/%s"
+AssetDefine.VEHICLE_PREFAB_PATH = "Unit/Vehicle/Prefab/%s"
+AssetDefine.VEHICLE_SKIN_PATH = "Unit/Vehicle/Skin/%s"
+AssetDefine.VEHICLE_ANIMATION_PATH = "Unit/Vehicle/Animation/%s"
+
+AssetDefine.EFFECT_PREFAB_PATH = "Effect/Prefab/%s"
 
 AssetDefine.UI_PREFAB_PATH = "UI/%s"
 

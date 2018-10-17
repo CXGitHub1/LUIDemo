@@ -7,17 +7,17 @@ function ModelLoaderData:__init(modelId, skinId, animationId)
 end
 
 function ModelLoaderData:GetModelPath()
-    return string.format(AssetDefine.PREFAB_PATH, self.modelId)
+    return string.format(AssetDefine.VEHICLE_PREFAB_PATH, self.modelId)
 end
 
 function ModelLoaderData:GetSkinPath()
-    return string.format(AssetDefine.SKIN_PATH, self.skinId)
+    return string.format(AssetDefine.VEHICLE_SKIN_PATH, self.skinId)
 end
 
 function ModelLoaderData:GetAnimationPathList()
     local result = {}
     for _, name in pairs(AssetDefine.ANIMATION_NAME_DICT) do
-        local path = string.format(AssetDefine.ANIMATION_PATH, self.animationId .. "/" .. name)
+        local path = string.format(AssetDefine.VEHICLE_ANIMATION_PATH, self.animationId .. "/" .. name)
         table.insert(result, path)
     end
     return result
