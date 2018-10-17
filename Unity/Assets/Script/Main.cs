@@ -9,9 +9,7 @@ public class Main : MonoBehaviour
     public string MainFunName;
     private LuaFunction _luaUpdate = null;
 
-    //一般不以Dictionary为参数，目前项目规模小，所以怎么方便怎么来
-    //如果lua文件太多，再考虑如何优化
-    public delegate void LoadLuaClassDelegate(Dictionary<string, string> dict);
+    public delegate void LoadLuaClassDelegate(string[] classPathArray);
 
     public static LoadLuaClassDelegate LoadLuaClass;
 
@@ -24,22 +22,17 @@ public class Main : MonoBehaviour
 
         svr.init(null, () =>
         {
-            Dictionary<string, string> luaClassNameDict = GetLuaClassNameDict();
             svr.start("Main");
-            LoadLuaClass.Invoke(luaClassNameDict);
+            LoadLuaClass.Invoke(GetLuaClassPathArray());
             _luaUpdate = LuaSvr.mainState.getFunction("Update");
             LuaFunction main = LuaSvr.mainState.getFunction(MainFunName);
             main.call();
         });
     }
 
-    /// <summary>
-    /// Dictionary key:lua name value:lua relative path
-    /// </summary>
-    /// <returns></returns>
-    private Dictionary<string, string> GetLuaClassNameDict()
+    private string[] GetLuaClassPathArray()
     {
-        Dictionary<string, string> result = new Dictionary<string, string>();
+        List<string> result = new List<string>();
         List<string> pathList = FileUtils.GetFilesRecursive(FileUtils.LUA_ROOT);
         for (int i = 0; i < pathList.Count; i++)
         {
@@ -50,9 +43,9 @@ public class Main : MonoBehaviour
             }
             string fileName = FileUtils.GetFileName(path);
             path = path.Replace(FileUtils.LUA_ROOT, string.Empty);
-            result.Add(fileName, path.Replace(".lua", string.Empty));
+            result.Add(path.Replace(".lua", string.Empty));
         }
-        return result;
+        return result.ToArray();
     }
 
     private byte[] LoadFile(string name)

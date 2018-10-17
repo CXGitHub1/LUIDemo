@@ -36,14 +36,14 @@ PriorClassPathArray = {
     "Test/TestDefine",
 }
 
-Main.LoadLuaClass = function(tb)
+Main.LoadLuaClass = function(classPathArray)
     for _, classPath in ipairs(PriorClassPathArray) do
         require(classPath)
     end
     local loadedClassPathDict = UtilsTable.ArrayToTable(PriorClassPathArray)
     loadedClassPathDict["Main"] = true
-    for t in Slua.iter(tb.Keys) do
-        local classPath = tb[t]
+
+    for classPath in Slua.iter(classPathArray) do
         if not loadedClassPathDict[classPath] then
             require(classPath)
         end
