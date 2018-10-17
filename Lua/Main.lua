@@ -23,30 +23,31 @@ Vector2Right = Vector3(1, 0)
 Vector3One = Vector3(1, 1, 1)
 Vector3Zero = Vector3(0, 0, 0)
 
-Main.LoadPriorClass = function()
-    local priorPathList = {
-        "Base/BaseClass",
-        "LComponent/LDefine",
-        "LComponent/LItem",
-        "LComponent/LTreeNode",
-        "LComponent/LTreeNodeData",
-        "Demo/BaseDemo",
-        "Test/BaseTest",
-        "Test/TestDefine",
-    }
-    local result = {}
-    for i = 1, #priorPathList do
-        local path = priorPathList[i]
-        require(path)
-        local className
-        if string.find(path, "/") then
-            className = string.match(path, ".+/(.+)$")
-        else
-            className = path
-        end
-        table.insert(result, className)
+--优先加载的类路径数组
+PriorClassPathArray = {
+    "Base/BaseClass",
+    "LComponent/LDefine",
+    "LComponent/LItem",
+    "LComponent/LTreeNode",
+    "LComponent/LTreeNodeData",
+    "Util/UtilsTable",
+    "Demo/BaseDemo",
+    "Test/BaseTest",
+    "Test/TestDefine",
+}
+
+Main.LoadLuaClass = function(tb)
+    for _, classPath in ipairs(PriorClassPathArray) do
+        require(classPath)
     end
-    return result
+    local loadedClassPathDict = UtilsTable.ArrayToTable(PriorClassPathArray)
+    loadedClassPathDict["Main"] = true
+    for t in Slua.iter(tb.Keys) do
+        local classPath = tb[t]
+        if not loadedClassPathDict[classPath] then
+            require(classPath)
+        end
+    end
 end
 
 function TestMain()

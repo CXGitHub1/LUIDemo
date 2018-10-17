@@ -9,9 +9,11 @@ public class Main : MonoBehaviour
     public string MainFunName;
     private LuaFunction _luaUpdate = null;
 
-    public delegate string[] LoadPriorClassDelegate();
+    //一般不以Dictionary为参数，目前项目规模小，所以怎么方便怎么来
+    //如果lua文件太多，再考虑如何优化
+    public delegate void LoadLuaClassDelegate(Dictionary<string, string> dict);
 
-    public static LoadPriorClassDelegate LoadPriorClass;
+    public static LoadLuaClassDelegate LoadLuaClass;
 
     void Awake()
     {
@@ -24,30 +26,11 @@ public class Main : MonoBehaviour
         {
             Dictionary<string, string> luaClassNameDict = GetLuaClassNameDict();
             svr.start("Main");
-            HashSet<string> LoadedPriorClassHash = GetLoadedClassNameHash();
-            foreach (string fileName in luaClassNameDict.Keys)
-            {
-                if (!LoadedPriorClassHash.Contains(fileName))
-                {
-                    luaState.doString(string.Format("require('{0}')", luaClassNameDict[fileName]));
-                }
-            }
+            LoadLuaClass.Invoke(luaClassNameDict);
             _luaUpdate = LuaSvr.mainState.getFunction("Update");
             LuaFunction main = LuaSvr.mainState.getFunction(MainFunName);
             main.call();
         });
-    }
-
-    private HashSet<string> GetLoadedClassNameHash()
-    {
-        HashSet<string> result = new HashSet<string>();
-        string[] LoadedClassNameArray = LoadPriorClass.Invoke();
-        for (int i = 0; i < LoadedClassNameArray.Length; i++)
-        {
-            result.Add(LoadedClassNameArray[i]);
-        }
-        result.Add("Main");
-        return result;
     }
 
     /// <summary>
