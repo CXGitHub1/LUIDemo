@@ -514,6 +514,15 @@
 			}
 		},
 		{
+			"file": "Asset/AssetLoader.lua",
+			"settings":
+			{
+				"buffer_size": 299,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "Asset/ModelLoader.lua",
 			"settings":
 			{
@@ -841,7 +850,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -857,8 +866,8 @@
 						"selection":
 						[
 							[
-								612,
-								612
+								522,
+								522
 							]
 						],
 						"settings":
@@ -872,6 +881,34 @@
 					},
 					"stack_index": 1,
 					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Asset/AssetLoader.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 299,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
 				}
 			]
 		},
@@ -880,7 +917,7 @@
 			"sheets":
 			[
 				{
-					"buffer": 1,
+					"buffer": 2,
 					"file": "Asset/ModelLoader.lua",
 					"semi_transient": false,
 					"settings":
@@ -906,11 +943,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 3,
 					"file": "LComponent/LUIModel.lua",
 					"semi_transient": false,
 					"settings":
@@ -936,7 +973,7 @@
 						"translation.y": 285.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -997,6 +1034,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"asset",
+				"Asset\\AssetLoader.lua"
+			],
 			[
 				"utls",
 				"Util\\UtilsBase.lua"

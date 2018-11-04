@@ -63,7 +63,8 @@ function TestMain()
     -- local scrollViewTest = LSIScrollViewTest.New(root.transform:Find("LSIScrollViewTest").gameObject)
     -- local rtModelTest = LRTModelTest.New(root.transform:Find("LRTModelTest").gameObject)
     -- local uiModelTest = LUIModelTest.New(root.transform:Find("LUIModelTest").gameObject)
-    local layerTest = LLayerTest.New(root.transform:Find("LLayerTest").gameObject)
+    -- local layerTest = LLayerTest.New(root.transform:Find("LLayerTest").gameObject)
+    local emojiTextTest = LEmojiTextTest.New(root.transform:Find("LEmojiTextTest").gameObject)
 end
 
 function DemoMain()
