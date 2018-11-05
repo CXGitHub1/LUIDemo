@@ -334,7 +334,7 @@ namespace EmojiText
                     int stringIndex = Mathf.FloorToInt(i / 4);
                     if (hyperlinkTagData != null)
                     {
-                        CalculateHyperlinkBound(hyperlinkTagData, ref buttonBound, buttonBoundInit, lastCharMinY, xOffset, yOffset, stringIndex);
+                        CalculateHyperlinkBound(hyperlinkTagData, ref buttonBound, ref buttonBoundInit, ref lastCharMinY, xOffset, yOffset, stringIndex);
                     }
                     else if (_tagDict != null && _tagDict.ContainsKey(stringIndex))
                     {
@@ -375,7 +375,7 @@ namespace EmojiText
             _dirty = true;
         }
 
-        private void CalculateHyperlinkBound(TagData hyperlinkTagData, ref Vector4 buttonBound, bool buttonBoundInit, float lastCharMinY, float xOffset, float yOffset, int stringIndex)
+        private void CalculateHyperlinkBound(TagData hyperlinkTagData, ref Vector4 buttonBound, ref bool buttonBoundInit, ref float lastCharMinY, float xOffset, float yOffset, int stringIndex)
         {
             if (IsTempVertexValid())
             {
