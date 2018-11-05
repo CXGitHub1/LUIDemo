@@ -5,13 +5,22 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CacheDummyImage : CacheItem
+namespace EmojiText
 {
-    public Button Button;
-
-    public override void Init(GameObject go, Transform parent)
+    public class CacheDummyImage : CacheItem
     {
-        base.Init(go, parent);
-        this.Button = go.GetComponent<Button>();
+        public Button Button;
+
+        public override string GetPoolPath()
+        {
+            return "EmojiTextPool/DummyImage";
+        }
+
+        public override void Init(GameObject go, Transform parent)
+        {
+            base.Init(go, parent);
+            this.Button = go.GetComponent<Button>();
+        }
     }
 }
+

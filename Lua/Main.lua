@@ -89,4 +89,8 @@ function Update()
         -- scrollViewTest.scrollView:Release()
         -- meshTest:DrawTriangle()
     end
+
+    if Input.GetKeyDown(KeyCode.E) and Input.GetKey(KeyCode.LeftControl) then
+        print("E")
+    end
 end

@@ -4,18 +4,27 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class CacheEmoji : CacheItem
+namespace EmojiText
 {
-    public int Key;
-
-    public override void InitFromPool(Transform parent)
+    public class CacheEmoji : CacheItem
     {
-        base.InitFromPool(parent);
-        SetActive(true);
-    }
+        public int Key;
 
-    public override void SetActive(bool active)
-    {
-        Go.SetActive(active);
+        public override string GetPoolPath()
+        {
+            return "EmojiTextPool/Emoji";
+        }
+
+        public override void InitFromPool(Transform parent)
+        {
+            base.InitFromPool(parent);
+            SetActive(true);
+        }
+
+        public override void SetActive(bool active)
+        {
+            base.SetActive(active);
+            Go.SetActive(active);
+        }
     }
 }

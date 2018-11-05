@@ -4,42 +4,64 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class CacheItem
+namespace EmojiText
 {
-    public static readonly Vector3 HIDE_POSITION = new Vector3(10000, 10000, 0);
-    public bool Used = false;
-    public GameObject Go;
-    public RectTransform RectTrans;
-
-    public CacheItem() { }
-
-    public virtual void Init(GameObject go, Transform parent)
+    public class CacheItem
     {
-        this.Go = go;
-        this.RectTrans = go.GetComponent<RectTransform>();
-        this.RectTrans.SetParent(parent);
-        this.RectTrans.localScale = Vector3.one;
-        this.RectTrans.localRotation = Quaternion.identity;
-        this.RectTrans.pivot = Vector2.zero;
-        this.RectTrans.anchorMin = Vector2.zero;
-        this.RectTrans.anchorMax = Vector2.zero;
-    }
+        public static readonly Vector3 HIDE_POSITION = new Vector3(0, 0, 0);
+        public bool Used = false;
+        public GameObject Go;
+        public RectTransform RectTrans;
 
-    public virtual void SetActive(bool active)
-    {
-        if(!active)
+        private Transform _poolTransform;
+        protected Transform poolTransform
         {
-            this.RectTrans.anchoredPosition = HIDE_POSITION;
+            get
+            {
+                if (_poolTransform == null)
+                {
+                    _poolTransform = GameObject.Find(GetPoolPath()).transform;
+                }
+                return _poolTransform;
+            }
         }
-    }
 
-    public virtual void InitFromPool(Transform parent)
-    {
-        this.RectTrans.SetParent(parent);
-        this.RectTrans.localScale = Vector3.one;
-        this.RectTrans.localRotation = Quaternion.identity;
-        this.RectTrans.pivot = Vector2.zero;
-        this.RectTrans.anchorMin = Vector2.zero;
-        this.RectTrans.anchorMax = Vector2.zero;
+        public CacheItem() { }
+
+        public virtual void Init(GameObject go, Transform parent)
+        {
+            this.Go = go;
+            this.RectTrans = go.GetComponent<RectTransform>();
+            this.RectTrans.SetParent(parent);
+            this.RectTrans.localScale = Vector3.one;
+            this.RectTrans.localRotation = Quaternion.identity;
+            this.RectTrans.pivot = Vector2.zero;
+            this.RectTrans.anchorMin = Vector2.zero;
+            this.RectTrans.anchorMax = Vector2.zero;
+        }
+
+        public virtual string GetPoolPath()
+        {
+            return string.Empty;
+        }
+
+        public virtual void SetActive(bool active)
+        {
+            if (!active)
+            {
+                this.RectTrans.SetParent(poolTransform);
+                this.RectTrans.anchoredPosition = HIDE_POSITION;
+            }
+        }
+
+        public virtual void InitFromPool(Transform parent)
+        {
+            this.RectTrans.SetParent(parent);
+            this.RectTrans.localScale = Vector3.one;
+            this.RectTrans.localRotation = Quaternion.identity;
+            this.RectTrans.pivot = Vector2.zero;
+            this.RectTrans.anchorMin = Vector2.zero;
+            this.RectTrans.anchorMax = Vector2.zero;
+        }
     }
 }
