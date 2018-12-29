@@ -11,6 +11,10 @@ function EventLib:__init()
     self.handlerList = {}
 end
 
+function EventLib:__release()
+    self:RemoveAll()
+end
+
 function EventLib:AddListener(handler)
     self:Add(handler)
 end
@@ -25,7 +29,6 @@ function EventLib:Add(handler)
     end
     for k,v in _pairs(self.handlers) do
         if v == handler then
-            -- print("重复添加事件监听"..debug.traceback())
             return
         end
     end
@@ -66,8 +69,4 @@ function EventLib:Fire(args1, args2, args3, args4, args5)
             end)
         end
     end
-end
-
-function EventLib:__release()
-    self:RemoveAll()
 end

@@ -30,6 +30,7 @@ PriorClassPathArray = {
     "LComponent/LItem",
     "LComponent/LTreeNode",
     "LComponent/LTreeNodeData",
+    "LComponent/LPanel",
     "Util/UtilsTable",
     "Demo/BaseDemo",
     "Test/BaseTest",
@@ -77,6 +78,7 @@ function Init()
     AssetLoader.New()
     ModelLoader.New()
     UIEffectLoader.New()
+    PanelManager.New()
 end
 
 function Update()
@@ -93,4 +95,5 @@ function Update()
     if Input.GetKeyDown(KeyCode.E) and Input.GetKey(KeyCode.LeftControl) then
         print("E")
     end
+    PanelManager.Instance:Update()
 end
