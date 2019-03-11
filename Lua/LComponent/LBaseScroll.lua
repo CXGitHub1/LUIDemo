@@ -126,8 +126,8 @@ end
 
 function LBaseScroll:_PushPool(item)
     item:SetActive(false)
-    --TODO
-    self.orderDict[item.index] = nil
+    local orderIndex = self:_GetOrderIndex(item.index)
+    self.orderDict[orderIndex] = nil
     if self.itemPoolList == nil then
         self.itemPoolList = {}
     end

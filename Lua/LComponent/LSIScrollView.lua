@@ -252,3 +252,7 @@ function LSIScrollView:_GetColumnIndex(x)
     local result = math.ceil((x - self.paddingLeft) / (self.itemWidth + self.gapHorizontal))
     return result < 1 and 1 or result
 end
+
+function LSIScrollView:_GetOrderIndex(index)
+    return index
+end

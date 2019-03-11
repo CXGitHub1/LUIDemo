@@ -94,16 +94,6 @@ function LScrollPage:_OnEndDragEvent()
     self:_TweenMove(page)
 end
 
-function LScrollPage:_OnValueChanged()
-    if self:_IsDataListEmpty() then
-        return
-    end
-    if self.startIndex ~= self:_GetStartIndex() or
-        self.endIndex ~= self:_GetEndIndex() then
-        self:_Update()
-    end
-end
-
 -- public function
 function LScrollPage:SetGap(gapHorizontal, gapVertical)
     self.gapHorizontal = gapHorizontal or 0
@@ -163,7 +153,6 @@ function LScrollPage:SetData(dataList, commonData)
         self.totalPage = 0
     end
 
-    self:
         --TODO
     if initPage then
         self.currentPage = initPage
@@ -177,7 +166,8 @@ function LScrollPage:SetData(dataList, commonData)
 
     self:_PushUnUsedItem()
     for index = self.startIndex, self.endIndex do
-        local item = self:_GetItem(index)
+        local orderIndex = self:_GetOrderIndex(index)
+        local item = self:_GetItem(index, orderIndex)
         item:SetActive(true)
         item:SetData(dataList[index], commonData)
         item:SetPosition(self:_GetPosition(index))
@@ -221,25 +211,6 @@ function LScrollPage:_GetTargetPosition(page)
         return Vector2(-(page - 1) * self.maskWidth, 0)
     else
         return Vector2(0, (page - 1) * self.maskHeight)
-    end
-end
-
-function LScrollPage:_PushPool(item)
-    item:SetActive(false)
-    self.itemDict[item.index] = nil
-    if self.itemPoolList == nil then
-        self.itemPoolList = {}
-    end
-    table.insert(self.itemPoolList, item)
-end
-
-function LScrollPage:_PushUnUsedItem()
-    if self.itemDict then
-        for index, item in pairs(self.itemDict) do
-            if index < self.startIndex or index > self.endIndex then
-                self:_PushPool(item)
-            end
-        end
     end
 end
 
@@ -403,21 +374,64 @@ function LScrollPage:_GetDataLength()
     return self.dataList and #self.dataList or 0
 end
 
+--vertical
+1 2
+3 4
+5 6
+
 
 --Add
-function LScrollPage:_GetOrderIndex()
-
-    if self:_PageHorizontalLayout() then
-        page = math.ceil((-self.contentTrans.anchoredPosition.x + self.maskWidth / 2) / self.maskWidth)
-    else
-        page = math.ceil((self.contentTrans.anchoredPosition.y + self.maskHeight / 2) / self.maskHeight)
-    end
-
-    
+function LScrollPage:_OrderIndexToIndex(orderIndex)
     if self:_IsVerticalScroll() then
-        local rowIndex = self:_GetStartRowIndex()
-        return (rowIndex - 1) * self.column + 1
+        --垂直滚动
+        if self.itemLayoutDirection == LDefine.Direction.horizontal then
+            return index
+        else
+            local page = math.floor(orderIndex / self.perPageCount)
+            local pageOrderIndex = orderIndex - page * self.perPageCount
+            local row = pageOrderIndex % self.row
+            local column = math.ceil(pageOrderIndex / self.row)
+            return page * self.perPageCount + (row - 1) * self.row + column
+        end
     else
+        --水平滚动
+        if self.itemLayoutDirection == LDefine.Direction.horizontal then
+            local page = math.floor(index / self.perPageCount)
+            local pageIndex = index - page * self.perPageCount
+            local column = pageIndex % self.column
+            local row = math.ceil(pageIndex / self.column)
+            return page * self.perPageCount + (column - 1) * self.column + row
+        else
+            return index
+        end
+        local columnIndex = self:_GetStartColumnIndex()
+        return (columnIndex - 1) * self.row + 1
+    end
+end
+
+function LScrollPage:_GetOrderIndex(index)
+    if self:_IsVerticalScroll() then
+        --垂直滚动
+        if self.itemLayoutDirection == LDefine.Direction.horizontal then
+            return index
+        else
+            local page = math.floor(index / self.perPageCount)
+            local pageIndex = index - page * self.perPageCount
+            local row = pageIndex % self.row
+            local column = math.ceil(pageIndex / self.row)
+            return page * self.perPageCount + (row - 1) * self.row + column
+        end
+    else
+        --水平滚动
+        if self.itemLayoutDirection == LDefine.Direction.horizontal then
+            local page = math.floor(index / self.perPageCount)
+            local pageIndex = index - page * self.perPageCount
+            local column = pageIndex % self.column
+            local row = math.ceil(pageIndex / self.column)
+            return page * self.perPageCount + (column - 1) * self.column + row
+        else
+            return index
+        end
         local columnIndex = self:_GetStartColumnIndex()
         return (columnIndex - 1) * self.row + 1
     end
