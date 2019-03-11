@@ -33,7 +33,7 @@ function LTree:__release()
 end
 
 function LTree:_InitComponent(transform)
-     local scrollRect = transform:GetComponent(ScrollRect)
+    local scrollRect = transform:GetComponent(ScrollRect)
     self.scrollRect = scrollRect
     self.scrollRect.onValueChanged:AddListener(function(value) self:_OnValueChanged(value) end)
     local maskTrans = transform:Find(LDefine.MASK_NAME)

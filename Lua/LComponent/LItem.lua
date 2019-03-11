@@ -4,6 +4,8 @@ function LItem:__init(gameObject)
     self.gameObject = gameObject
     local transform = gameObject.transform
     self.transform = transform
+    self.pivot = transform.pivot
+    self.sizeDelta = transform.sizeDelta
 
     self.ItemSelectEvent = EventLib.New()
     local button = transform:GetComponent(Button)
@@ -21,7 +23,11 @@ function LItem:InitFromCache(index)
 end
 
 function LItem:SetActive(active)
-    self.gameObject:SetActive(active)
+    if active then
+        self.transform.localScale = Vector3One
+    else
+        self.transform.localScale = Vector3Zero
+    end
 end
 
 --MultiVericalScrollView 所使用的类型
@@ -47,9 +53,10 @@ function LItem:GetSize()
 end
 
 function LItem:GetPosition()
-    local pivot = self.transform.pivot
-    local sizeDelta = self.transform.sizeDelta
-    return self.transform.anchoredPosition - Vector2(pivot.x * sizeDelta.x, (pivot.y - 1) * sizeDelta.y)
+    return Vector2(self.transform.anchoredPosition.x - (self.pivot.x * self.sizeDelta.x),
+        self.transform.anchoredPosition.y - ((self.pivot.y - 1) * self.sizeDelta.y))
+    -- return self.transform.anchoredPosition -
+    -- Vector2(pivot.x * sizeDelta.x, (pivot.y - 1) * sizeDelta.y)
 end
 
 function LItem:SetPosition(position)

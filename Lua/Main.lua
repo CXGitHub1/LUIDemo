@@ -28,6 +28,7 @@ PriorClassPathArray = {
     "Base/BaseClass",
     "LComponent/LDefine",
     "LComponent/LItem",
+    "LComponent/LBaseScroll",
     "LComponent/LTreeNode",
     "LComponent/LTreeNodeData",
     "LComponent/LPanel",
@@ -61,11 +62,11 @@ function TestMain()
     -- local meshTest = MeshTest.New(root.transform:Find("MeshTest").gameObject)
     -- local imageMeshTest = ImageMeshTest.New(root.transform:Find("ImageMeshTest").gameObject)
     -- local scrollViewTest = LMIScrollViewTest.New(root.transform:Find("LMIScrollViewTest").gameObject)
-    -- local scrollViewTest = LSIScrollViewTest.New(root.transform:Find("LSIScrollViewTest").gameObject)
+    local scrollViewTest = LSIScrollViewTest.New(root.transform:Find("LSIScrollViewTest").gameObject)
     -- local rtModelTest = LRTModelTest.New(root.transform:Find("LRTModelTest").gameObject)
     -- local uiModelTest = LUIModelTest.New(root.transform:Find("LUIModelTest").gameObject)
     -- local layerTest = LLayerTest.New(root.transform:Find("LLayerTest").gameObject)
-    local emojiTextTest = LEmojiTextTest.New(root.transform:Find("LEmojiTextTest").gameObject)
+    -- local emojiTextTest = LEmojiTextTest.New(root.transform:Find("LEmojiTextTest").gameObject)
 end
 
 function DemoMain()
@@ -88,6 +89,30 @@ function Update()
 
     if Input.GetKeyDown(KeyCode.W) and Input.GetKey(KeyCode.LeftControl) then
         print("W")
+        local position = Vector2(1, 1)
+        local c
+        local count = 10000
+
+        local go = GameObject.Find("UIRoot/LScrollPageTest").gameObject
+        local pivot = go.transform.pivot
+        local sizeDelta = go.transform.sizeDelta
+        Profiling.Profiler.BeginSample("BBB")
+        for i = 1, count do
+            -- local pivot = go.transform.pivot
+            -- local sizeDelta = go.transform.sizeDelta
+            go.transform.anchoredPosition = position + Vector2(pivot.x * sizeDelta.x, (pivot.y - 1) * sizeDelta.y)
+        end
+        Profiling.Profiler.EndSample()
+
+        Profiling.Profiler.BeginSample("AAA")
+        for i = 1, count do
+            local pivot = go.transform.pivot
+            local sizeDelta = go.transform.sizeDelta
+            go.transform.anchoredPosition = position + Vector2(pivot.x * sizeDelta.x, (pivot.y - 1) * sizeDelta.y)
+        end
+        Profiling.Profiler.EndSample()
+
+        
         -- scrollViewTest.scrollView:Release()
         -- meshTest:DrawTriangle()
     end

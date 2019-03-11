@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"mask",
+				"maskTrans"
+			],
+			[
+				"end",
+				"endIndex"
+			],
+			[
+				"Push",
+				"_PushUnUsedItem"
+			],
+			[
+				"Get",
+				"_GetStartIndex"
+			],
+			[
 				"Util",
 				"UtilsTable"
 			],
@@ -110,10 +126,6 @@
 			[
 				"padd",
 				"paddingTop"
-			],
-			[
-				"mask",
-				"maskWidth"
 			],
 			[
 				"add",
@@ -400,10 +412,6 @@
 				"startIndex"
 			],
 			[
-				"Get",
-				"_GetItemHeight"
-			],
-			[
 				"child",
 				"childLength"
 			],
@@ -504,50 +512,21 @@
 	"buffers":
 	[
 		{
-			"file": "LComponent/LPanel.lua",
+			"file": "LComponent/FSScrollPage.lua",
 			"settings":
 			{
-				"buffer_size": 91,
+				"buffer_size": 13685,
 				"encoding": "UTF-8",
-				"line_ending": "Unix",
-				"name": "LPanel ="
+				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "Config/PanelConfig.lua",
+			"file": "LComponent/LBaseScroll.lua",
 			"settings":
 			{
-				"buffer_size": 326,
+				"buffer_size": 4908,
 				"encoding": "UTF-8",
-				"line_ending": "Unix",
-				"name": "PanelConfig"
-			}
-		},
-		{
-			"file": "Manager/PanelManager.lua",
-			"settings":
-			{
-				"buffer_size": 194,
-				"encoding": "UTF-8",
-				"line_ending": "Unix",
-				"name": "PanelManager"
-			}
-		},
-		{
-			"file": "LComponent/LDefine.lua",
-			"settings":
-			{
-				"buffer_size": 277,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "LComponent/LRadarChart.lua",
-			"settings":
-			{
-				"buffer_size": 478,
-				"line_ending": "Unix"
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -584,13 +563,28 @@
 	"expanded_folders":
 	[
 		"/D/code/unity/LUIDemo/Lua",
+		"/D/code/unity/LUIDemo/Lua/Base",
+		"/D/code/unity/LUIDemo/Lua/Config",
 		"/D/code/unity/LUIDemo/Lua/ConfigHelper",
 		"/D/code/unity/LUIDemo/Lua/LComponent",
-		"/D/code/unity/LUIDemo/Lua/Manager"
+		"/D/code/unity/LUIDemo/Lua/Manager",
+		"/D/code/unity/LUIDemo/Lua/Test",
+		"/D/code/unity/LUIDemo/Lua/Util"
 	],
 	"file_history":
 	[
+		"/D/code/unity/LUIDemo/Lua/LComponent/LScrollPage.lua",
+		"/D/code/unity/LUIDemo/Lua/Test/LSIScrollViewTest.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/FSScrollPage.lua",
+		"/D/code/unity/LUIDemo/Lua/Test/LScrollPageTest.lua",
 		"/D/code/unity/LUIDemo/Lua/Main.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LTree.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LItem.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LDefine.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LRadarChart.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LPanel.lua",
+		"/D/code/unity/LUIDemo/Lua/Config/PanelConfig.lua",
+		"/D/code/unity/LUIDemo/Lua/Manager/PanelManager.lua",
 		"/D/code/unity/LUIDemo/Lua/Asset/ModelLoader.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LUIModel.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LLayerTest.lua",
@@ -618,7 +612,6 @@
 		"/D/code/unity/LUIDemo/Lua/Test/PreviewComposite.lua",
 		"/d/Documents/WXWork/1688850709317594/Cache/File/2018-10/_hotswap.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LScrollPageDemo.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LScrollPage.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LScrollViewDemoItem1.lua",
 		"/D/code/unity/LUIDemo/Lua/TestMain.lua",
 		"/D/code/unity/LUIDemo/Lua/DemoMain.lua",
@@ -633,7 +626,6 @@
 		"/D/code/unity/LUIDemo/Lua/Config.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LRenderTextureTest.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/PreviewmodelComposite.lua",
-		"/D/code/unity/LUIDemo/Lua/Test/LScrollPageTest.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LListTest.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LScrollView.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LSIScrollViewDemo.lua",
@@ -641,15 +633,11 @@
 		"/D/code/unity/LUIDemo/Lua/Demo/LDemoItem.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LSIScrollView.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LRadarChartDemo.lua",
-		"/D/code/unity/LUIDemo/Lua/Test/LSIScrollViewTest.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LTestItem.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LScrollViewDemo.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/MeshTest.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LMIScrollView.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LMIScrollView/LMIScrollViewDemo.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LItem.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LRadarChart.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LTree.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LList.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LMIScrollView/LMIScrollViewTest.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LScrollViewTest.lua",
@@ -664,7 +652,6 @@
 		"/D/code/unity/LUIDemo/Lua/Test/BaseTest.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LMIScrollView/LMIScrollViewTestItem1.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LMultiVerticalScrollView.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LDefine.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/ImageMeshTest.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LTree/LTreeDemo1.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LTreeTestItem.lua",
@@ -696,7 +683,7 @@
 	],
 	"find":
 	{
-		"height": 28.0
+		"height": 36.0
 	},
 	"find_in_files":
 	{
@@ -712,134 +699,134 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"ModelConfig",
-			"iconId",
-			"AssetDefine.ANIMATION_PATH",
-			"AssetDefine.SKIN_PATH",
-			"AssetDefine.PREFAB_PATH",
-			"UIEffectLoader",
-			"ModelLoader",
-			"LLayerTest",
-			"LUIModelTest",
-			"classPath",
-			"array",
-			"tb",
-			"priorClassDict",
-			"className",
-			"PriorClassArray",
-			"priorClassDict",
-			"UtilsBase",
-			"priorPathList",
-			"modelTrans",
-			"uiModel",
-			"LRTModel",
-			"LRTModelTestItem",
-			"LRTModelTest",
-			"LRenderTextureTestItem",
-			"LRenderTextureTest",
-			"LUIModel",
-			"rawImageTrans",
-			"anchoredPosition",
-			"height",
-			"config",
-			"GetModelStandHeight",
-			"uiScals",
-			"rotation",
-			"position",
-			"offsetPosition",
-			"LUIModel",
-			"ModelConfigHelper.GetModelStandHeight",
-			"offsetPosition",
-			"scale",
-			"SetCurrentPage",
-			"initPage",
-			"priorPathList",
-			"CommonReq",
-			"Class\\(.+\\)",
-			"height",
-			"rawImageGo",
-			"cameraGo",
-			"rotation",
-			"childTrans",
-			"rawImage",
-			"InitRenderTexture",
-			"cameraTrans",
-			"offsetPosition",
-			"data",
-			"cameraGo",
-			"cameraTrans",
-			"cameraGo",
-			"cameraTrans",
-			"data",
-			"Data",
-			"data",
-			"loaderData",
-			"renderTexture",
-			"camera",
-			"Camera",
-			"camera",
-			"renderTexture",
-			"cameraGoTemplate",
-			"Camera",
-			"rootTrans",
-			"UtilsUI.CalculateSize",
-			"GetComponent",
-			"result",
-			"stand",
-			"transform",
-			"renderer",
-			"AssetLoader",
-			"ModelLoader",
-			"LRenderTextureText",
-			"scrollView",
-			"reachBottomFire",
-			"LTestItem",
-			"LSIScrollViewTest",
-			"LScrollPageDemo",
-			"print",
-			"Button3_1",
-			"_AdjustContentPosition",
-			"_FireReachBottomEvent",
-			"print",
-			"_LimitY",
-			"height",
-			"width",
-			"_LimitY",
-			"_AdjustContentPosition",
-			"_GetStartIndex",
-			"ndex()\n    if self:_IsVerticalScroll() then\n        local rowIndex = self:",
-			"_GetStartRowIndex",
-			"_GetMaskTop",
-			"_GetRowIndex",
-			"_GetStartRowIndex",
-			"_GetStartIndex",
-			"_Update",
-			"print",
-			"_GetRowIndex",
-			"_GetStartRowIndex",
-			"_GetStartIndex",
-			"print",
-			"_GetStartIndex",
-			"_GetRowIndex",
-			"_GetMaskTop",
-			"_GetStartRowIndex",
-			"_GetStartIndex",
-			"_FireReachBottomEvent",
-			"sizeDelta",
-			"SizeDelta",
-			"sizeDelta",
-			"mask",
-			"_FireReachBottomEvent",
-			"Fire",
+			"_PushPool",
+			"itemDict",
+			"_OnValueChanged",
+			"FSScrollPage",
+			"_OnValueChanged",
 			"ReachBottomEvent",
-			"selectIndex",
-			"eventNameList",
-			"Mask",
-			"mask",
-			"Mask",
-			"mask",
-			"Mask",
-			"mask"
+			"_InitTemplate",
+			"maskTrans",
+			"_InitMask",
+			"maskTrans",
+			"_OnValueChanged",
+			"_GetStartIndex",
+			"itemPoolList",
+			"itemDict",
+			"orderList",
+			"orderDict",
+			"orderList",
+			"_Update",
+			"_GetStartIndex",
+			"orderList",
+			"_PushUnUsedItem",
+			"_InitComponent",
+			"itemDict",
+			"ItemSelectEvent",
+			"LBaseScroll",
+			"_CalcSizeDelta",
+			"itemDict",
+			"_PushUnUsedItem",
+			"orderList",
+			"_GetItem",
+			"_GetContentMinX",
+			"_CalcSizeDelta",
+			"elf.orderList",
+			"_TreeToList",
+			"orderList",
+			"_UpdateTree",
+			"Update",
+			"_Update",
+			"Update",
+			"_PushUnUsedItem",
+			"_GetRowIndex",
+			"_GetStartRowIndex",
+			"_GetStartIndex",
+			"scrollDirection",
+			"_IsVerticalScroll",
+			"_PageHorizontalLayout",
+			"pageLayoutDirection",
+			"vertical",
+			"scrollDirection",
+			"return",
+			"_IsVerticalScroll",
+			"IsVerticalScroll",
+			"_IsVerticalScroll",
+			"contentTrans",
+			"tweenId",
+			"_TweenMove",
+			"_EmptyCacheItemList",
+			"_PushPool",
+			"_GetRowIndex",
+			"_GetStartRowIndex",
+			"_IsVerticalScroll",
+			"_GetEndIndex",
+			"_GetEndRowIndex",
+			"_GetRowIndex",
+			"_GetEndRowIndex",
+			"_Update",
+			"_InitTemplateItem",
+			"startIndex",
+			"_GetDataLength",
+			"LSIScrollView",
+			"_GetMaskLeft",
+			"_GetStartColumnIndex",
+			"_GetMaskLeft",
+			"_CalcMaskSize",
+			"maskTrans",
+			"SetData",
+			"_CalculateSize",
+			"_Update",
+			"_PageHorizontalLayout",
+			"_HideOutRangeList",
+			"startIndex",
+			"_GetIndexRange",
+			"_Update",
+			"OnValue",
+			"_IsDataListEmpty",
+			"LSIScrollView",
+			"_IsDataListEmpty",
+			"scrollDirection",
+			"_IsVerticalScroll",
+			"_GetStartIndex",
+			"currentPage",
+			"initPage",
+			"_HideOutRangeList",
+			"LSIScrollView",
+			"_HideOutRangeList",
+			"_Update",
+			"_InitComponent",
+			"currentPage",
+			"currentPageDynamic",
+			"_InitMask",
+			"contentTrans",
+			"transform",
+			"_InitDragEvent",
+			"_CalcMaskSize",
+			"maskImage",
+			"_Layout",
+			"_ItemHorizontalLayout",
+			"maskHeight",
+			"page",
+			"_PageHorizontalLayout",
+			"_GetPosition",
+			"GetPosition",
+			"offset",
+			"_IsVerticalScroll",
+			"_GetPosition",
+			"_Layout",
+			"SetData",
+			"_GetPosition",
+			"Layout",
+			"FSScrollPage",
+			"Layout",
+			"Update",
+			"SetData",
+			"LSIScrollView",
+			"_GetRowIndex",
+			"_GetEndColumnIndex",
+			"_GetStartColumnIndex",
+			"_GetEndRowIndex"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -861,94 +848,37 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "LComponent/LPanel.lua",
+					"file": "LComponent/FSScrollPage.lua",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 91,
+						"buffer_size": 13685,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								76,
-								76
+								13424,
+								13424
 							]
 						],
 						"settings":
 						{
-							"auto_name": "LPanel =",
-							"syntax": "Packages/Lua/Lua.sublime-syntax"
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 7787.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "Config/PanelConfig.lua",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 326,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								232,
-								232
-							]
-						],
-						"settings":
-						{
-							"auto_name": "PanelConfig",
-							"syntax": "Packages/Lua/Lua.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "Manager/PanelManager.lua",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 194,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								75,
-								75
-							]
-						],
-						"settings":
-						{
-							"auto_name": "PanelManager",
-							"syntax": "Packages/Lua/Lua.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -958,59 +888,33 @@
 			"sheets":
 			[
 				{
-					"buffer": 3,
-					"file": "LComponent/LDefine.lua",
+					"buffer": 1,
+					"file": "LComponent/LBaseScroll.lua",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 277,
+						"buffer_size": 4908,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								215,
-								215
+								3977,
+								3977
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Lua/Lua.sublime-syntax"
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2025.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "LComponent/LRadarChart.lua",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 478,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								14,
-								25
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Lua/Lua.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -1044,7 +948,7 @@
 		"cols":
 		[
 			0.0,
-			0.494680059383,
+			0.539810700714,
 			1.0
 		],
 		"rows":
@@ -1072,6 +976,22 @@
 		"selected_items":
 		[
 			[
+				"lbas",
+				"LComponent\\LBaseScroll.lua"
+			],
+			[
+				"scrollpa",
+				"LComponent\\LScrollPage.lua"
+			],
+			[
+				"fssc",
+				"LComponent\\FSScrollPage.lua"
+			],
+			[
+				"main",
+				"Main.lua"
+			],
+			[
 				"twee",
 				"Util\\Tween.lua"
 			],
@@ -1098,10 +1018,6 @@
 			[
 				"luimo",
 				"LComponent\\LUIModel.lua"
-			],
-			[
-				"main",
-				"Main.lua"
 			],
 			[
 				"bas",
@@ -1360,7 +1276,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},

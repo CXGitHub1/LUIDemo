@@ -1,9 +1,8 @@
 --LSIScrollView Is Short For Single Item Scroll View
 --单元素滚动布局组件
-LSIScrollView = LSIScrollView or BaseClass()
+LSIScrollView = LSIScrollView or BaseClass(LBaseScroll)
 
 function LSIScrollView:__init(transform, itemType, row, column)
-    self.gameObject = transform.gameObject
     self.itemType = itemType
     self.row = row or UtilsBase.INT32_MAX
     self.column = column or UtilsBase.INT32_MAX
@@ -13,39 +12,10 @@ function LSIScrollView:__init(transform, itemType, row, column)
     self.paddingRight = 0
     self.paddingTop = 0
     self.paddingBottom = 0
-    self.ItemSelectEvent = EventLib.New()
     self.ReachBottomEvent = EventLib.New()
-    self.eventNameList = nil
 
-    self.itemDict = nil
+    self.orderDict = nil
     self.itemPoolList = nil
-
-    self:_InitComponent(transform)
-    self:_InitTemplate()
-end
-
-function LSIScrollView:_InitComponent(transform)
-     local scrollRect = transform:GetComponent(ScrollRect)
-    self.scrollRect = scrollRect
-    scrollRect.onValueChanged:AddListener(function(value) self:_OnValueChanged(value) end)
-    if scrollRect.vertical then
-        self.scrollDirection = LDefine.Direction.vertical
-    else
-        self.scrollDirection = LDefine.Direction.horizontal
-    end
-    local maskTrans = transform:Find(LDefine.MASK_NAME)
-    local mask = maskTrans:GetComponent(Mask)
-    self.mask = mask
-    self.maskWidth = maskTrans.sizeDelta.x
-    self.maskHeight = maskTrans.sizeDelta.y
-    self.contentTrans = maskTrans:Find(LDefine.CONTENT_NAME)
-end
-
-function LSIScrollView:_InitTemplate()
-    local itemTrans = self.contentTrans:Find(LDefine.ITEM_NAME)
-    self.template = itemTrans.gameObject
-    self.itemWidth = itemTrans.sizeDelta.x
-    self.itemHeight = itemTrans.sizeDelta.y
 end
 
 function LSIScrollView:__release()
@@ -53,7 +23,7 @@ function LSIScrollView:__release()
     UtilsBase.ReleaseField(self, "ItemSelectEvent")
     UtilsBase.ReleaseField(self, "ReachBottomEvent")
     UtilsBase.ReleaseTable(self, "eventNameList")
-    UtilsBase.ReleaseTable(self, "itemDict")
+    UtilsBase.ReleaseTable(self, "orderDict")
     UtilsBase.ReleaseTable(self, "itemPoolList")
 end
 
@@ -70,14 +40,6 @@ function LSIScrollView:SetPadding(paddingLeft, paddingRight, paddingTop, padding
     self.paddingBottom = paddingBottom or 0
 end
 
-function LSIScrollView:AddItemEvent(eventName)
-    if self.eventNameList == nil then
-        self.eventNameList = {}
-    end
-    table.insert(self.eventNameList, eventName)
-    self[eventName] = EventLib.New()
-end
-
 function LSIScrollView:SetData(dataList, commonData)
     self.dataList = dataList
     self.commonData = commonData
@@ -85,13 +47,13 @@ function LSIScrollView:SetData(dataList, commonData)
     self.endIndex = self:_GetEndIndex()
     self:_PushUnUsedItem()
     if not self:_IsDataListEmpty() then
-        if self.itemDict == nil then self.itemDict = {} end
+        if self.orderDict == nil then self.orderDict = {} end
         for index = self.startIndex, self.endIndex do
             local item = self:_GetItem(index)
             item:SetActive(true)
             item:SetData(self.dataList[index], commonData)
             item:SetPosition(self:_GetPosition(index))
-            self.itemDict[index] = item
+            self.orderDict[index] = item
         end 
     end
     self:_CalcSizeDelta()
@@ -100,7 +62,7 @@ end
 
 function LSIScrollView:SetCommonData(commonData)
     self.commonData = commonData
-    for _, item in pairs(self.itemDict) do
+    for _, item in pairs(self.orderDict) do
         item:SetCommonData(commonData)
     end
 end
@@ -136,17 +98,14 @@ end
 -- public function end --
 
 function LSIScrollView:_OnValueChanged(value)
-    if self:_IsDataListEmpty() then
-        return
-    end
-    if self.startIndex ~= self:_GetStartIndex() or
-        self.endIndex ~= self:_GetEndIndex() then
-        self:_Update()
-    end
+    LBaseScroll._OnValueChanged(self, value)
     self:_FireReachBottomEvent(value)
 end
 
 function LSIScrollView:_FireReachBottomEvent(value)
+    if self:_IsDataListEmpty() then
+        return
+    end
     if self.endIndex == #self.dataList then
         if self:_IsVerticalScroll() then
             if self.height > self.maskHeight then
@@ -172,48 +131,6 @@ function LSIScrollView:_FireReachBottomEvent(value)
             end
         end
     end
-end
-
-function LSIScrollView:_Update()
-    self.startIndex = self:_GetStartIndex()
-    self.endIndex = self:_GetEndIndex()
-    self:_PushUnUsedItem()
-    for index = self.startIndex, self.endIndex do
-        local item, getWay = self:_GetItem(index)
-        item:SetActive(true)
-        if getWay ~= LDefine.GetItemWay.exist then
-            item:SetData(self.dataList[index], self.commonData)
-            item:SetPosition(self:_GetPosition(index))
-            self.itemDict[index] = item
-        end
-    end
-end
-
-function LSIScrollView:_IsDataListEmpty()
-    return self.dataList == nil or next(self.dataList) == nil
-end
-
-function LSIScrollView:_GetItem(index)
-    if self.itemDict and self.itemDict[index] then
-        local item = self.itemDict[index]
-        return item, LDefine.GetItemWay.exist
-    elseif self.itemPoolList and #self.itemPoolList > 0 then
-        local item = table.remove(self.itemPoolList)
-        item:InitFromCache(index) 
-        return item, LDefine.GetItemWay.cache
-    end
-    local go = GameObject.Instantiate(self.template)
-    go.transform:SetParent(self.contentTrans, false)
-    local item = self.itemType.New(go)
-    item:SetIndex(index)
-    item.ItemSelectEvent:AddListener(function(index, item) self.ItemSelectEvent:Fire(index, item) end)
-    if self.eventNameList then
-        for i = 1, #self.eventNameList do
-            local eventName = self.eventNameList[i]
-            item[eventName]:AddListener(function(...) self[eventName]:Fire(...) end)
-        end
-    end
-    return item, LDefine.GetItemWay.new
 end
 
 function LSIScrollView:_CalcSizeDelta()
@@ -245,25 +162,6 @@ function LSIScrollView:_GetPosition(index)
     local x = self.paddingLeft + columnIndex * (self.itemWidth + self.gapHorizontal)
     local y = self.paddingTop + rowIndex * (self.itemHeight + self.gapVertical)
     return Vector2(x, -y)
-end
-
-function LSIScrollView:_PushPool(item)
-    item:SetActive(false)
-    self.itemDict[item.index] = nil
-    if self.itemPoolList == nil then
-        self.itemPoolList = {}
-    end
-    table.insert(self.itemPoolList, item)
-end
-
-function LSIScrollView:_PushUnUsedItem()
-    if self.itemDict then
-        for index, item in pairs(self.itemDict) do
-            if index < self.startIndex or index > self.endIndex then
-                self:_PushPool(item)
-            end
-        end
-    end
 end
 
 function LSIScrollView:_AdjustContentPosition()
@@ -353,20 +251,4 @@ end
 function LSIScrollView:_GetColumnIndex(x)
     local result = math.ceil((x - self.paddingLeft) / (self.itemWidth + self.gapHorizontal))
     return result < 1 and 1 or result
-end
-
-function LSIScrollView:_GetMaskLeft()
-    return -self.contentTrans.anchoredPosition.x
-end
-
-function LSIScrollView:_GetMaskRight()
-    return -self.contentTrans.anchoredPosition.x + self.maskWidth
-end
-
-function LSIScrollView:_GetMaskTop()
-    return -self.contentTrans.anchoredPosition.y
-end
-
-function LSIScrollView:_GetMaskBottom()
-    return -self.contentTrans.anchoredPosition.y - self.maskHeight 
 end
