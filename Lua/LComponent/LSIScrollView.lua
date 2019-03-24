@@ -2,6 +2,9 @@
 --单元素滚动布局组件
 LSIScrollView = LSIScrollView or BaseClass(LBaseScroll)
 
+local _math_ceil = math.ceil
+local _math_floor = math.floor
+
 function LSIScrollView:__init(transform, itemType, row, column)
     self.itemType = itemType
     self.row = row or UtilsBase.INT32_MAX
@@ -13,17 +16,12 @@ function LSIScrollView:__init(transform, itemType, row, column)
     self.paddingTop = 0
     self.paddingBottom = 0
     self.ReachBottomEvent = EventLib.New()
-
-    self.orderDict = nil
-    self.itemPoolList = nil
 end
 
 function LSIScrollView:__release()
     UtilsBase.CancelTween(self, "focusTweenId")
-    UtilsBase.ReleaseField(self, "ItemSelectEvent")
     UtilsBase.ReleaseField(self, "ReachBottomEvent")
     UtilsBase.ReleaseTable(self, "eventNameList")
-    UtilsBase.ReleaseTable(self, "orderDict")
     UtilsBase.ReleaseTable(self, "itemPoolList")
 end
 
@@ -46,7 +44,7 @@ function LSIScrollView:SetData(dataList, commonData)
     self.startIndex = self:_GetStartIndex()
     self.endIndex = self:_GetEndIndex()
     self:_PushUnUsedItem()
-    if not self:_IsDataListEmpty() then
+    if not self:_DataIsEmpty() then
         if self.orderDict == nil then self.orderDict = {} end
         for index = self.startIndex, self.endIndex do
             local item = self:_GetItem(index)
@@ -79,7 +77,7 @@ function LSIScrollView:Focus(index, tweenMove)
     UtilsBase.CancelTween(self, "focusTweenId")
     self.scrollRect:StopMovement()
     local position = self:_GetPosition(index)
-    if self:_IsVerticalScroll() then
+    if self:_VerticalScroll() then
         local targetY = self:_LimitY(-position.y)
         if tweenMove then
             self.focusTweenId = Tween.Instance:MoveLocalY(self.contentTrans.gameObject, targetY, 0.3).id
@@ -103,11 +101,11 @@ function LSIScrollView:_OnValueChanged(value)
 end
 
 function LSIScrollView:_FireReachBottomEvent(value)
-    if self:_IsDataListEmpty() then
+    if self:_DataIsEmpty() then
         return
     end
     if self.endIndex == #self.dataList then
-        if self:_IsVerticalScroll() then
+        if self:_VerticalScroll() then
             if self.height > self.maskHeight then
                 if value.y * (self.height - self.maskHeight) < -5 then
                     if not self.reachBottomFire then
@@ -136,7 +134,7 @@ end
 function LSIScrollView:_CalcSizeDelta()
     local maxColumn, maxRow
     local dataLength = self:_GetDataLength()
-    if self:_IsVerticalScroll() then
+    if self:_VerticalScroll() then
         maxRow = math.ceil(dataLength / self.column)
         maxColumn = dataLength > self.column and self.column or dataLength
     else
@@ -152,7 +150,7 @@ end
 
 function LSIScrollView:_GetPosition(index)
     local columnIndex, rowIndex
-    if self:_IsVerticalScroll() then
+    if self:_VerticalScroll() then
         columnIndex = (index - 1) % self.column
         rowIndex = math.floor((index - 1) / self.column)
     else
@@ -165,7 +163,7 @@ function LSIScrollView:_GetPosition(index)
 end
 
 function LSIScrollView:_AdjustContentPosition()
-    if self:_IsVerticalScroll() then
+    if self:_VerticalScroll() then
         if self.contentTrans.anchoredPosition.y > self:_GetContentMaxY() then
             UtilsUI.SetAnchoredY(self.contentTrans, self:_GetContentMaxY())
         end
@@ -196,12 +194,8 @@ function LSIScrollView:_LimitY(y)
     return y <= maxY and y or maxY
 end
 
-function LSIScrollView:_IsVerticalScroll()
-    return self.scrollDirection == LDefine.Direction.vertical
-end
-
 function LSIScrollView:_GetStartIndex()
-    if self:_IsVerticalScroll() then
+    if self:_VerticalScroll() then
         local rowIndex = self:_GetStartRowIndex()
         return (rowIndex - 1) * self.column + 1
     else
@@ -212,7 +206,7 @@ end
 
 function LSIScrollView:_GetEndIndex()
     local result
-    if self:_IsVerticalScroll() then
+    if self:_VerticalScroll() then
         local rowIndex = self:_GetEndRowIndex()
         result = rowIndex * self.column
     else

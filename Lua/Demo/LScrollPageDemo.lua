@@ -26,7 +26,7 @@ function LScrollPageDemo:__init(transform)
         scrollPage:SetGap(config.gapHorizontal, config.gapVertical)
         scrollPage:SetPadding(config.paddingLeft, config.paddingRight, config.paddingTop, config.paddingBottom)
         if config.initPage then
-            scrollPage:InitCurrentPage(config.initPage)
+            scrollPage:SetInitPage(config.initPage)
         end
         scrollPage.ItemSelectEvent:AddListener(function(index, item)
             Debug.Log("ItemSelectEvent:" .. index)

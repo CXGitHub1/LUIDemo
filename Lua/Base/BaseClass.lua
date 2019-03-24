@@ -39,9 +39,6 @@ function BaseClass(super)
                 end
                 now_super = now_super.super
             end
-            -- for k,v in pairs(self) do
-            --     self[k] = nil
-            -- end 
         end
         return obj
     end

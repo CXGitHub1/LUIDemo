@@ -15,7 +15,7 @@ end
 
 function LTestItem:SetData(data, commonData)
     self.text.text = self.index
-    local sizeType = commonData.sizeType
+    local sizeType = commonData and commonData.sizeType
     if sizeType == TestDefine.SizeType.fix then
     elseif sizeType == TestDefine.SizeType.increase then
         local offset = math.floor((self.index - 1) / 2) * 2
@@ -51,7 +51,8 @@ function LTestItem:SetData(data, commonData)
             self.transform.sizeDelta = Vector2(40, 20)
         end
     end
-    self:SetSelectActive(commonData.selectIndex == self.index)
+    local selectIndex = commonData and commonData.selectIndex
+    self:SetSelectActive(selectIndex == self.index)
 end
 
 function LTestItem:SetSelectActive(active)

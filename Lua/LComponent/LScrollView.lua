@@ -36,7 +36,8 @@ end
 function LScrollView:_InitTemplateItem(transform)
     local template = self.contentTrans:Find(LDefine.ITEM_NAME).gameObject
     self.template = template
-    template:SetActive(false)
+    self.template:SetActive(true)
+    self.template.transform.localScale = Vector3Zero
 end
 
 function LScrollView:_InitScrollRect(transform)

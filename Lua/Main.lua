@@ -2,8 +2,13 @@ import("UnityEngine")
 import('UnityEngine.UI')
 
 _print = print
-print = function(msg)
-    Debug.LogError(msg .. "\n" .. debug.traceback())
+print = function(...)
+    local content = ""
+    local parameter = {...}
+    for _, v in pairs(parameter) do
+        content = content .. v .. "\n"
+    end
+    Debug.LogError(content .. debug.traceback())
 end
 pError = Debug.LogError
 
@@ -11,6 +16,16 @@ string.Empty = ""
 
 math.round = function(value)
     return math.floor(value + 0.5)
+end
+
+math.clamp = function(value, min, max)
+    if value < min then
+        return min
+    end
+    if value > max then
+        return max
+    end
+    return value
 end
 
 Vector2One = Vector3(1, 1)
@@ -57,12 +72,12 @@ function TestMain()
     local root = GameObject.Find("UIRoot")
     -- LListTest.New(root.transform:Find("LListTest").gameObject)
     -- LScrollViewTest.New(root.transform:Find("LScrollViewTest").gameObject)
-    -- LScrollPageTest.New(root.transform:Find("LScrollPageTest").gameObject)
+    LScrollPageTest.New(root.transform:Find("LScrollPageTest").gameObject)
     -- LTreeTest.New(root.transform:Find("LTreeTest").gameObject)
     -- local meshTest = MeshTest.New(root.transform:Find("MeshTest").gameObject)
     -- local imageMeshTest = ImageMeshTest.New(root.transform:Find("ImageMeshTest").gameObject)
     -- local scrollViewTest = LMIScrollViewTest.New(root.transform:Find("LMIScrollViewTest").gameObject)
-    local scrollViewTest = LSIScrollViewTest.New(root.transform:Find("LSIScrollViewTest").gameObject)
+    -- local scrollViewTest = LSIScrollViewTest.New(root.transform:Find("LSIScrollViewTest").gameObject)
     -- local rtModelTest = LRTModelTest.New(root.transform:Find("LRTModelTest").gameObject)
     -- local uiModelTest = LUIModelTest.New(root.transform:Find("LUIModelTest").gameObject)
     -- local layerTest = LLayerTest.New(root.transform:Find("LLayerTest").gameObject)

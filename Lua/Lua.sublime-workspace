@@ -4,6 +4,70 @@
 		"selected_items":
 		[
 			[
+				"ma",
+				"maskWidth"
+			],
+			[
+				"or",
+				"orderIndex"
+			],
+			[
+				"_o",
+				"_OrderIndexToIndex"
+			],
+			[
+				"_GEt",
+				"_GetColumnIndex"
+			],
+			[
+				"_GetOr",
+				"_GetOrderEndIndex"
+			],
+			[
+				"p",
+				"pError"
+			],
+			[
+				"colu",
+				"column"
+			],
+			[
+				"lo",
+				"local\tlocal x = 1"
+			],
+			[
+				"_",
+				"_ItemHorizontalLayout"
+			],
+			[
+				"in",
+				"initPage"
+			],
+			[
+				"for",
+				"force"
+			],
+			[
+				"ceil",
+				"ceilResult"
+			],
+			[
+				"padd",
+				"paddingLeft"
+			],
+			[
+				"pag",
+				"perPageCount"
+			],
+			[
+				"pade",
+				"pageIndex"
+			],
+			[
+				"_Pu",
+				"_PushPool"
+			],
+			[
 				"order",
 				"orderIndex"
 			],
@@ -14,10 +78,6 @@
 			[
 				"page",
 				"pageIndex"
-			],
-			[
-				"pag",
-				"page"
 			],
 			[
 				"pagen",
@@ -70,10 +130,6 @@
 			[
 				"ra",
 				"rawImageGo"
-			],
-			[
-				"lo",
-				"loaderData"
 			],
 			[
 				"local",
@@ -144,10 +200,6 @@
 				"_GetContentMaxY"
 			],
 			[
-				"padd",
-				"paddingTop"
-			],
-			[
 				"add",
 				"addStartIndex"
 			],
@@ -200,10 +252,6 @@
 				"_GetDataLength"
 			],
 			[
-				"_Pu",
-				"_PushUnUsedItem"
-			],
-			[
 				"_GetRow",
 				"_GetRowStartIndex"
 			],
@@ -242,10 +290,6 @@
 			[
 				"_GetMask",
 				"_GetMaskTop"
-			],
-			[
-				"ma",
-				"math_random"
 			],
 			[
 				"daa",
@@ -364,10 +408,6 @@
 				"childNodeData"
 			],
 			[
-				"or",
-				"orderList"
-			],
-			[
 				"_GetI",
 				"_GetItemWidth"
 			],
@@ -472,70 +512,36 @@
 				"nodeDataDict"
 			],
 			[
-				"for",
-				"forp\tfor k,v in pairs()"
-			],
-			[
 				"ro",
 				"rootNodeData"
-			],
-			[
-				"GetNO",
-				"_GetNodeX"
-			],
-			[
-				"Comm",
-				"CommonFileConfig"
-			],
-			[
-				"ord",
-				"orderList"
-			],
-			[
-				"rando",
-				"randomValue"
-			],
-			[
-				"ran",
-				"randomValue"
-			],
-			[
-				"sele",
-				"selectGo"
-			],
-			[
-				"se",
-				"selectIndex"
-			],
-			[
-				"Eve",
-				"EventLib"
-			],
-			[
-				"eve",
-				"eventName"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "LComponent/FSScrollPage.lua",
+			"file": "LComponent/LScrollPage.lua",
 			"settings":
 			{
-				"buffer_size": 14712,
+				"buffer_size": 8828,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "--把滚动复用抽象成\n--维护一个有序列表，判断mask遮罩的前后下标是否一致，如果不一致则更新\nLBaseScroll = LBaseScroll or BaseClass()\n\nfunction LBaseScroll:__init(transform)\n    self.transform = transform\n    self.gameObject = transform.gameObject\n    self.orderDict = nil\n    self.eventNameList = nil\n    self:_InitScrollRect(transform)\n    self:_InitMask(transform:Find(LDefine.MASK_NAME))\n    self:_InitContent(self.maskTrans:Find(LDefine.CONTENT_NAME))\n    self:_InitTemplate()\n\n    self.ItemSelectEvent = EventLib.New()\nend\n\nfunction LBaseScroll:__release()\n    UtilsBase.ReleaseTable(self, \"eventNameList\")\nend\n\nfunction LBaseScroll:_InitScrollRect(transform)\n    local scrollRect = transform:GetComponent(ScrollRect)\n    self.scrollRect = scrollRect\n    scrollRect.onValueChanged:AddListener(function(value) self:_OnValueChanged(value) end)\n    if scrollRect.vertical then\n        self.scrollDirection = LDefine.Direction.vertical\n    else\n        self.scrollDirection = LDefine.Direction.horizontal\n    end\nend\n\nfunction LBaseScroll:_InitMask(transform)\n    local maskTrans = transform\n    self.maskTrans = maskTrans\n    local mask = maskTrans:GetComponent(Mask)\n    self.mask = mask\n    self.maskWidth = maskTrans.sizeDelta.x\n    self.maskHeight = maskTrans.sizeDelta.y\n    self.contentTrans = maskTrans:Find(LDefine.CONTENT_NAME)\nend\n\nfunction LBaseScroll:_InitContent(transform)\n    self.contentTrans = transform\n    self.contentGo = transform.gameObject\nend\n\nfunction LBaseScroll:_InitTemplate(transform)\n    local itemTrans = self.contentTrans:Find(LDefine.ITEM_NAME)\n    self.itemWidth = itemTrans.sizeDelta.x\n    self.itemHeight = itemTrans.sizeDelta.y\n    self.template = itemTrans.gameObject\n    self.template:SetActive(true)\n    self.template.transform.localScale = Vector3Zero\nend\n\n-- public function start\nfunction LBaseScroll:SetData()\n    pError(\"重写SetData方法\")\nend\n\nfunction LBaseScroll:AddItemEvent(eventName)\n    if self.eventNameList == nil then\n        self.eventNameList = {}\n    end\n    table.insert(self.eventNameList, eventName)\n    self[eventName] = EventLib.New()\nend\n\n-- public function end\nfunction LBaseScroll:_Update()\n    self.startIndex = self:_GetStartIndex()\n    self.endIndex = self:_GetEndIndex()\n    self:_PushUnUsedItem()\n    for index = self.startIndex, self.endIndex do\n        local item, getWay = self:_GetItem(index)\n        item:SetActive(true)\n        if getWay ~= LDefine.GetItemWay.exist then\n            item:SetData(self.dataList[index], self.commonData)\n            item:SetPosition(self:_GetPosition(index))\n            self.orderDict[index] = item\n        end\n    end\nend\n\nfunction LBaseScroll:_GetItem(index, orderIndex)\n    if self.orderDict and self.orderDict[index] then\n        local item = self.orderDict[index]\n        return item, LDefine.GetItemWay.exist\n    elseif self.itemPoolList and #self.itemPoolList > 0 then\n        local item = table.remove(self.itemPoolList)\n        item:InitFromCache(index) \n        return item, LDefine.GetItemWay.cache\n    end\n    local go = GameObject.Instantiate(self.template)\n    go.transform:SetParent(self.contentTrans, false)\n    local item = self.itemType.New(go)\n    item:SetIndex(index)\n    item.ItemSelectEvent:AddListener(function(index, item) self.ItemSelectEvent:Fire(index, item) end)\n    if self.eventNameList then\n        for i = 1, #self.eventNameList do\n            local eventName = self.eventNameList[i]\n            item[eventName]:AddListener(function(...) self[eventName]:Fire(...) end)\n        end\n    end\n    return item, LDefine.GetItemWay.new\nend\n\nfunction LBaseScroll:_OnValueChanged(value)\n    if self:_IsDataListEmpty() then\n        return\n    end\n    if self.startIndex ~= self:_GetStartIndex() or\n        self.endIndex ~= self:_GetEndIndex() then\n        self:_Update()\n    end\nend\n\nfunction LBaseScroll:_GetStartIndex()\n    pError(\"重写_GetStartIndex方法\")\nend\n\nfunction LBaseScroll:_GetEndIndex()\n    pError(\"重写_GetEndIndex方法\")\nend\n\nfunction LBaseScroll:_PushPool(item)\n    item:SetActive(false)\n    local orderIndex = self:_GetOrderIndex(item.index)\n    self.orderDict[orderIndex] = nil\n    if self.itemPoolList == nil then\n        self.itemPoolList = {}\n    end\n    table.insert(self.itemPoolList, item)\nend\n\nfunction LBaseScroll:_PushUnUsedItem()\n    if self.orderDict then\n        for index, item in pairs(self.orderDict) do\n            if index < self.startIndex or index > self.endIndex then\n                self:_PushPool(item)\n            end\n        end\n    end\nend\n\nfunction LBaseScroll:_IsDataListEmpty()\n    return self.dataList == nil or next(self.dataList) == nil\nend\n\nfunction LBaseScroll:_GetMaskLeft()\n    return -self.contentTrans.anchoredPosition.x\nend\n\nfunction LBaseScroll:_GetMaskRight()\n    return -self.contentTrans.anchoredPosition.x + self.maskWidth\nend\n\nfunction LBaseScroll:_GetMaskTop()\n    return -self.contentTrans.anchoredPosition.y\nend\n\nfunction LBaseScroll:_GetMaskBottom()\n    return -self.contentTrans.anchoredPosition.y - self.maskHeight \nend\n",
-			"file": "LComponent/LBaseScroll.lua",
-			"file_size": 5219,
-			"file_write_time": 131967943304023903,
+			"file": "Test/LScrollPageTest.lua",
 			"settings":
 			{
-				"buffer_size": 4964,
+				"buffer_size": 3323,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "LComponent/LBaseScroll.lua",
+			"settings":
+			{
+				"buffer_size": 6231,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -584,14 +590,15 @@
 	],
 	"file_history":
 	[
+		"/D/code/unity/LUIDemo/Lua/LComponent/LSIScrollView.lua",
+		"/D/code/unity/LUIDemo/Lua/Main.lua",
+		"/D/code/unity/LUIDemo/Lua/LComponent/LDefine.lua",
+		"/D/code/unity/LUIDemo/Lua/Test/LScrollPageTest.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LScrollPage.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LSIScrollViewTest.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/FSScrollPage.lua",
-		"/D/code/unity/LUIDemo/Lua/Test/LScrollPageTest.lua",
-		"/D/code/unity/LUIDemo/Lua/Main.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LTree.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LItem.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LDefine.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LRadarChart.lua",
 		"/D/code/unity/LUIDemo/Lua/LComponent/LPanel.lua",
 		"/D/code/unity/LUIDemo/Lua/Config/PanelConfig.lua",
@@ -642,7 +649,6 @@
 		"/D/code/unity/LUIDemo/Lua/Demo/LSIScrollViewDemo.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/DemoManager.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LDemoItem.lua",
-		"/D/code/unity/LUIDemo/Lua/LComponent/LSIScrollView.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LRadarChartDemo.lua",
 		"/D/code/unity/LUIDemo/Lua/Test/LTestItem.lua",
 		"/D/code/unity/LUIDemo/Lua/Demo/LScrollViewDemo.lua",
@@ -694,7 +700,7 @@
 	],
 	"find":
 	{
-		"height": 36.0
+		"height": 35.0
 	},
 	"find_in_files":
 	{
@@ -710,134 +716,134 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"pageIndex",
-			"index",
-			"_GetItem",
-			"_GetStartIndex",
-			"_PushUnUsedItem",
-			"column",
-			"pageIndex",
-			"page",
-			"perPageCount",
-			"page",
-			"_PushPool",
-			"itemDict",
-			"_OnValueChanged",
-			"FSScrollPage",
-			"_OnValueChanged",
-			"ReachBottomEvent",
-			"_InitTemplate",
-			"maskTrans",
-			"_InitMask",
-			"maskTrans",
-			"_OnValueChanged",
-			"_GetStartIndex",
 			"itemPoolList",
-			"itemDict",
-			"orderList",
-			"orderDict",
-			"orderList",
-			"_Update",
-			"_GetStartIndex",
-			"orderList",
-			"_PushUnUsedItem",
-			"_InitComponent",
-			"itemDict",
-			"ItemSelectEvent",
-			"LBaseScroll",
-			"_CalcSizeDelta",
-			"itemDict",
-			"_PushUnUsedItem",
-			"orderList",
-			"_GetItem",
-			"_GetContentMinX",
-			"_CalcSizeDelta",
-			"elf.orderList",
-			"_TreeToList",
-			"orderList",
-			"_UpdateTree",
-			"Update",
-			"_Update",
-			"Update",
-			"_PushUnUsedItem",
-			"_GetRowIndex",
-			"_GetStartRowIndex",
-			"_GetStartIndex",
-			"scrollDirection",
-			"_IsVerticalScroll",
-			"_PageHorizontalLayout",
-			"pageLayoutDirection",
-			"vertical",
-			"scrollDirection",
-			"return",
-			"_IsVerticalScroll",
-			"IsVerticalScroll",
-			"_IsVerticalScroll",
-			"contentTrans",
-			"tweenId",
+			"scrollRectTrans",
+			"currentPage",
+			"CurrentPage",
+			"currentPage",
+			"CurrentPage",
+			"currentPage",
+			"_OrderIndexToIndex",
+			"index",
+			"_GetPosition",
+			"itemLayoutDirection",
 			"_TweenMove",
-			"_EmptyCacheItemList",
-			"_PushPool",
-			"_GetRowIndex",
-			"_GetStartRowIndex",
-			"_IsVerticalScroll",
-			"_GetEndIndex",
-			"_GetEndRowIndex",
-			"_GetRowIndex",
-			"_GetEndRowIndex",
+			"_GetEndColumnIndex",
+			"_GetOrderEndIndex",
+			"_GetColumnIndex",
+			"_GetEndColumnIndex",
+			"_GetOrderEndIndex",
 			"_Update",
-			"_InitTemplateItem",
-			"startIndex",
-			"_GetDataLength",
-			"LSIScrollView",
-			"_GetMaskLeft",
-			"_GetStartColumnIndex",
-			"_GetMaskLeft",
-			"_CalcMaskSize",
-			"maskTrans",
-			"SetData",
-			"_CalculateSize",
-			"_Update",
-			"_PageHorizontalLayout",
-			"_HideOutRangeList",
-			"startIndex",
-			"_GetIndexRange",
-			"_Update",
-			"OnValue",
+			"pError",
+			"_TransformIndex",
+			"_GetOrderIndex",
 			"_IsDataListEmpty",
-			"LSIScrollView",
-			"_IsDataListEmpty",
-			"scrollDirection",
+			"itemPoolList",
 			"_IsVerticalScroll",
+			"self.start",
 			"_GetStartIndex",
-			"currentPage",
-			"initPage",
-			"_HideOutRangeList",
-			"LSIScrollView",
-			"_HideOutRangeList",
-			"_Update",
-			"_InitComponent",
-			"currentPage",
-			"currentPageDynamic",
-			"_InitMask",
-			"contentTrans",
-			"transform",
-			"_InitDragEvent",
-			"_CalcMaskSize",
-			"maskImage",
-			"_Layout",
-			"_ItemHorizontalLayout",
-			"maskHeight",
+			"self.endIndex",
+			"self.startIndex",
+			"startIndex",
+			"StartIndex",
+			"startIndex",
+			"math.floor",
+			"math.ceil",
+			"table.remove",
+			"_OrderIndexToIndex",
+			"_GetEndIndex",
+			"_GetStartIndex",
+			"_GetPagePosition",
+			"Empty",
+			"_DataIsEmpty",
+			"_IsDataListEmpty",
 			"page",
-			"_PageHorizontalLayout",
-			"_GetPosition",
-			"GetPosition",
+			"pageIndex",
+			"column",
 			"offset",
+			"_SetPagePosition",
+			"_CalcMaskSize",
+			"_VerticalScroll",
+			"_HorizontalScroll",
+			"_IsHorizontalScroll",
 			"_IsVerticalScroll",
-			"_GetPosition",
-			"_Layout",
-			"SetData",
-			"_GetPosition"
+			"_GetPagePosition",
+			"_SetInitPosition",
+			"LScrollPage",
+			"page",
+			"currentPage",
+			"_TweenMove",
+			"_GetStartRowIndex",
+			"_GetStartIndex",
+			"Direction.vertical",
+			"_GetRowIndex",
+			"_SetPagePosition",
+			"_math_floor",
+			"math.floor",
+			"math.ceil",
+			"math",
+			"currentPage",
+			"CurrentPage",
+			"currentPage",
+			"_AddDragEvent",
+			"itemPoolList",
+			"_OrderIndexToIndex",
+			"_GetDynamicCurrentPage",
+			"_CalculateSize",
+			"0.3",
+			"_GetDynamicCurrentPage",
+			"_GetIndexRange",
+			"_SetPagePosition",
+			"_TweenMove",
+			"_SetPagePosition",
+			"_Update",
+			"_GetDynamicCurrentPage",
+			"DynamicCurrentPage",
+			"dynamicCurrentPage",
+			"page",
+			"_GetPagePosition",
+			"_CalculateSize",
+			"initP",
+			"_GetPagePosition",
+			"length",
+			"_GetPagePosition",
+			"_IsHorizontalScroll",
+			"_PageHorizontalLayout",
+			"_IsHorizontalScroll",
+			"_PageHorizontalLayout",
+			"_IsHorizontalScroll",
+			"_PageHorizontalLayout",
+			"_GetPagePosition",
+			"_GetTargetPosition",
+			"_TweenMove",
+			"beginDragPosition",
+			"_InitMask1",
+			"ItemSelectEvent",
+			"itemPoolList",
+			"orderDict",
+			"AddDragEvent",
+			"transform",
+			"_GetTargetPosition",
+			"_CalcMaskSize",
+			"_GetItem",
+			"_GetItem\n_GetItem",
+			"_GetItem",
+			"_Update",
+			"_GetStartRowIndex",
+			"_OrderIndexToIndex",
+			"_GetStartIndex",
+			"_GetStartColumnIndex",
+			"_GetRowIndex",
+			"_GetMaskTop",
+			"_GetStartRowIndex",
+			"_GetStartIndex",
+			"_GetTargetPosition",
+			"_GetColumnIndex",
+			"_GetStartColumnIndex",
+			"_GetColumnIndex",
+			"_GetStartColumnIndex",
+			"_GetStartIndex",
+			"Update"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -864,29 +870,30 @@
 			[
 				{
 					"buffer": 0,
-					"file": "LComponent/FSScrollPage.lua",
+					"file": "LComponent/LScrollPage.lua",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 14712,
+						"buffer_size": 8828,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								12724,
-								12734
+								5646,
+								5646
 							]
 						],
 						"settings":
 						{
+							"history_list_is_closing": true,
 							"syntax": "Packages/Lua/Lua.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 7367.0,
+						"translation.y": 2983.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -895,24 +902,24 @@
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 1,
-					"file": "LComponent/LBaseScroll.lua",
+					"file": "Test/LScrollPageTest.lua",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4964,
+						"buffer_size": 3323,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2548,
-								2553
+								2488,
+								2488
 							]
 						],
 						"settings":
@@ -922,7 +929,65 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1245.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "LComponent/LBaseScroll.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6231,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								579,
+								591
+							],
+							[
+								814,
+								826
+							],
+							[
+								3628,
+								3640
+							],
+							[
+								3651,
+								3663
+							],
+							[
+								3771,
+								3783
+							],
+							[
+								5038,
+								5050
+							],
+							[
+								5076,
+								5088
+							],
+							[
+								5124,
+								5136
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -933,7 +998,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 28.0
+		"height": 27.0
 	},
 	"input":
 	{
@@ -959,7 +1024,7 @@
 		"cols":
 		[
 			0.0,
-			0.539810700714,
+			0.378884334919,
 			1.0
 		],
 		"rows":
@@ -969,6 +1034,10 @@
 		]
 	},
 	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 124.0
+	},
 	"output.find_results":
 	{
 		"height": 0.0
@@ -977,7 +1046,7 @@
 	"project": "Lua.sublime-project",
 	"replace":
 	{
-		"height": 52.0
+		"height": 50.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -987,20 +1056,32 @@
 		"selected_items":
 		[
 			[
-				"lbas",
-				"LComponent\\LBaseScroll.lua"
+				"main",
+				"Main.lua"
 			],
 			[
-				"scrollpa",
-				"LComponent\\LScrollPage.lua"
+				"lscrop",
+				"Test\\LScrollPageTest.lua"
+			],
+			[
+				"lt",
+				"LComponent\\LTree.lua"
 			],
 			[
 				"fssc",
 				"LComponent\\FSScrollPage.lua"
 			],
 			[
-				"main",
-				"Main.lua"
+				"lsiscrollview",
+				"LComponent\\LSIScrollView.lua"
+			],
+			[
+				"lbas",
+				"LComponent\\LBaseScroll.lua"
+			],
+			[
+				"scrollpa",
+				"LComponent\\LScrollPage.lua"
 			],
 			[
 				"twee",
