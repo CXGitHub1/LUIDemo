@@ -1,6 +1,7 @@
 LDefine = LDefine or {}
 
 LDefine.ITEM_NAME = "Item"
+LDefine.EXTEND_NAME = "Extend"
 LDefine.MASK_NAME = "Mask"
 LDefine.CONTENT_NAME = "Content"
 

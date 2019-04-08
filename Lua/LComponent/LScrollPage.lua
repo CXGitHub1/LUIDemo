@@ -1,11 +1,45 @@
+--翻页组件
+
+--预设结构要求
+--  LScrollPage(带ScrollRect组件)
+--      Mask(带Mask组件)
+--          Content
+--              Item(Anchors要求为左上角，方便计算，Pivot无要求)
+
+--注意点
+--ScrollRect和Mask的大小会动态设置
+
+--关键接口
+--__init(transform, itemType, row, column, itemLayoutDirection)  初始化函数
+--SetGap(gapHorizontal, gapVertical)        设置格子与格子之间的间隔
+--SetData(dataList, commonData)             通过传入的数据创建格子并自动布局
+--SetMaskMat()                              限制特效不超过Mask范围，记得在Item中修改特效的Shader
+--Focus(index, tweenMove)                   跳转到指定下标的格子
+--ResetPosition()                           重置展示内容
+--ItemSelectEvent                           格子点击事件
+--ReachBottomEvent                          拖动到结尾事件
+--GetItem(index)                            获取下标对应的Item，如果不在显示范围内会返回空，注意判空
+
+--其它常用接口
+--SetCommonData 重新设置公共数据
+--SetStaticData 设置格子静态数据
+--AddItemEvent  扩展监听格子的派发事件
+--SetPadding    设置边界与格子的偏移值
+
+
 LScrollPage = LScrollPage or BaseClass(LBaseScroll)
 
---ScrollRect和Mask的大小会动态设置
 LScrollPage.TweenTime = 0.3
 
 local _math_ceil = math.ceil
 local _math_floor = math.floor
 
+
+--初始化函数
+--transform LScrollPage对应的节点
+--itemType  每个格子对应的类（需要继承FSItem）
+--column    表格的最大列数（默认UtilsBase.INT32_MAX）
+--row       表格的最大行数（默认UtilsBase.INT32_MAX）
 function LScrollPage:__init(transform, itemType, row, column, itemLayoutDirection)
     self.itemType = itemType
     self.row = row or 1
@@ -55,12 +89,14 @@ function LScrollPage:_OnEndDragEvent()
 end
 
 -- public function
+--设置格子与格子之间的间距
 function LScrollPage:SetGap(gapHorizontal, gapVertical)
     self.gapHorizontal = gapHorizontal or 0
     self.gapVertical = gapVertical or 0
     self:_CalcMaskSize()
 end
 
+--设置每一页边界与格子的偏移值
 function LScrollPage:SetPadding(paddingLeft, paddingRight, paddingTop, paddingBottom)
     self.paddingLeft = paddingLeft or 0
     self.paddingRight = paddingRight or 0
@@ -69,10 +105,14 @@ function LScrollPage:SetPadding(paddingLeft, paddingRight, paddingTop, paddingBo
     self:_CalcMaskSize()
 end
 
+--设置初始化时显示第几页（为了性能优化）
 function LScrollPage:SetInitPage(page)
     self.initPage = page
 end
 
+--跳转到指定页数
+--page      指定页数
+--tweenMode 是否缓动
 function LScrollPage:SetCurrentPage(page, tween)
     local page = math.clamp(page, 1, self.totalPage)
     self.currentPage = page
@@ -115,6 +155,11 @@ function LScrollPage:SetData(dataList, commonData)
             UtilsUI.SetAnchoredY(self.contentTrans, self:_GetPagePosition(self.totalPage))
         end
     end
+end
+
+--获取下标对应的Item，如果不在显示范围内会返回空，注意判空
+function LScrollPage:GetItem(index)
+    return self.itemDict and self.itemDict[index]
 end
 
 -- override function
