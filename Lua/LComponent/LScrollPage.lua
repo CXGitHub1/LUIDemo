@@ -152,7 +152,7 @@ function LScrollPage:_CalcMaskSize()
     local maskHeight = self.paddingTop + self.paddingBottom + self.row * self.itemHeight + (self.row - 1) * self.gapVertical
     self.maskWidth = maskWidth
     self.maskHeight = maskHeight
-    self.mask.transform.sizeDelta = Vector2(maskWidth, maskHeight)
+    self.maskTrans.sizeDelta = Vector2(maskWidth, maskHeight)
     self.scrollRectTrans.sizeDelta = Vector2(maskWidth, maskHeight)
 end
 

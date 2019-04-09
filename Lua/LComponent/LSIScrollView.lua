@@ -4,6 +4,7 @@ LSIScrollView = LSIScrollView or BaseClass(LBaseScroll)
 
 local _math_ceil = math.ceil
 local _math_floor = math.floor
+local _math_max = math.floor
 
 function LSIScrollView:__init(transform, itemType, row, column)
     self.itemType = itemType
@@ -15,14 +16,18 @@ function LSIScrollView:__init(transform, itemType, row, column)
     self.paddingRight = 0
     self.paddingTop = 0
     self.paddingBottom = 0
+
+    local maskSize = self.maskTrans.sizeDelta
+    local scrollSize = self.scrollRectTrans.sizeDelta
+    local maxSize = Vector2(_math_max(maxSize.x, scrollSize.x), _math_max(maxSize.y, scrollSize.y))
+    self.maskTrans.sizeDelta = maxSize
+    self.scrollRectTrans.sizeDelta = maxSize
     self.ReachBottomEvent = EventLib.New()
 end
 
 function LSIScrollView:__release()
     UtilsBase.CancelTween(self, "focusTweenId")
     UtilsBase.ReleaseField(self, "ReachBottomEvent")
-    UtilsBase.ReleaseTable(self, "eventNameList")
-    UtilsBase.ReleaseTable(self, "itemPoolList")
 end
 
 -- public function --
