@@ -38,7 +38,7 @@ function LRTModel:__init(transform)
     rawImageGo:AddComponent(RectTransform)
     local rawImageTrans = rawImageGo.transform
     self.rawImageTrans = rawImageTrans
-    UtilsBase.UISetParent(rawImageTrans, transform)
+    LRTModel.SetParent(rawImageTrans, transform)
     self.rawImage = rawImageGo:AddComponent(RawImage)
     self.width = transform.sizeDelta.x
     self.height = transform.sizeDelta.y
@@ -104,4 +104,14 @@ function LRTModel:SetData(loaderData, offsetY, scale, rotation)
     modelTrans.localScale = Vector3One * scale / config.uiScale
     modelTrans.localEulerAngles = rotation or Vector3(0, 180, 0)
     modelTrans.localPosition = self.cameraTrans.localPosition + Vector3(0, offsetY, LRTModel.MODEL_Z)
+end
+
+function LRTModel.SetParent(childRect, parentTrans, anchoredPosition, scale, rotation)
+    childRect:SetParent(parentTrans)
+    childRect.pivot = Vector2Up
+    childRect.anchorMin = Vector2Up
+    childRect.anchorMax = Vector2Up
+    childRect.anchoredPosition = anchoredPosition or Vector2Zero
+    childRect.localScale = scale or Vector3One
+    childRect.localEulerAngles = rotation or Vector3Zero
 end

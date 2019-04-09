@@ -1,5 +1,29 @@
 --LSIScrollView Is Short For Single Item Scroll View
 --单元素滚动布局组件
+
+--预设结构要求
+--  LSIScrollView(带ScrollRect组件)
+--      Mask(带Mask组件)
+--          Content
+--              Item(Anchors要求为左上角，方便计算，Pivot无要求)
+
+--关键接口
+--__init(transform, itemType, column, row)  初始化接口
+--SetGap(gapHorizontal, gapVertical)        设置格子与格子之间的间隔
+--SetData(dataList, commonData)             通过传入的数据创建格子并自动布局
+--Focus(index, tweenMove)                   跳转到指定下标的格子
+--ResetPosition()                           重置展示内容
+--ItemSelectEvent                           格子点击事件
+--ReachBottomEvent                          拖动到结尾事件
+--GetItem(index)                            获取下标对应的Item，如果不在显示范围内会返回空，注意判空
+
+--其它常用接口
+--SetCommonData 重新设置公共数据
+--SetStaticData 设置格子静态数据
+--AddItemEvent  扩展监听格子的派发事件
+--SetPadding    设置边界与格子的偏移值
+
+
 LSIScrollView = LSIScrollView or BaseClass(LBaseScroll)
 
 local _math_ceil = math.ceil
@@ -97,6 +121,11 @@ function LSIScrollView:Focus(index, tweenMove)
             UtilsUI.SetAnchoredX(self.contentTrans, targetX)
         end
     end
+end
+
+--获取下标对应的Item，如果不在显示范围内会返回空，注意判空
+function LSIScrollView:GetItem(index)
+    return self.itemDict and self.itemDict[index]
 end
 -- public function end --
 

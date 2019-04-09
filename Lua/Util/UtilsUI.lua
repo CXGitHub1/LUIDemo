@@ -128,3 +128,10 @@ function UtilsUI.SetZ(transform, z)
     local lx, ly, lz = transform.localPosition.x, transform.localPosition.y, transform.localPosition.z
     transform.localPosition = Vector3(lx, ly, z)
 end
+
+function UtilsUI.SetParent(childTrans, parentTrans, position)
+    childTrans:SetParent(parentTrans)
+    childTrans.localScale = Vector3.one
+    childTrans.localRotation = Quaternion.identity
+    childTrans.anchoredPosition3D = Vector3One or position
+end

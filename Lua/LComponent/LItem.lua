@@ -22,12 +22,27 @@ function LItem:InitFromCache(index)
     self:SetIndex(index)
 end
 
+--出于性能的考虑 SetActive调用的是transform的localScale接口
+--如果Item带有特效，而且特效无法用缩放隐藏，就重写SetActive接口
+--改为调用gameObject:SetAcitve(value)
 function LItem:SetActive(active)
     if active then
         self.transform.localScale = Vector3One
     else
         self.transform.localScale = Vector3Zero
     end
+end
+
+function LItem:SetExtendTrans(extraTrans)
+    self.extraTrans = extraTrans
+end
+
+function LItem:CloneExtendPart(name)
+    local srcTrans = self.extraTrans:Find(name)
+    local anchoredPosition3D = srcTrans.anchoredPosition3D
+    local tarTrans = GameObject.Instantiate(srcTrans.gameObject).transform
+    UtilsUI.SetParent(tarTrans, self.transform)
+    return tarTrans
 end
 
 --MultiVericalScrollView 所使用的类型
@@ -41,7 +56,9 @@ end
 
 function LItem:SetIndex(index)
     self.index = index
-    self.gameObject.name = "Item" .. index
+    if DEBUG then
+        self.gameObject.name = "Item" .. index
+    end
 end
 
 function LItem:GetIndex()
@@ -52,21 +69,10 @@ function LItem:GetSize()
     return self.transform.sizeDelta
 end
 
-function LItem:GetPosition()
-    return Vector2(self.transform.anchoredPosition.x - (self.pivot.x * self.sizeDelta.x),
-        self.transform.anchoredPosition.y - ((self.pivot.y - 1) * self.sizeDelta.y))
-    -- return self.transform.anchoredPosition -
-    -- Vector2(pivot.x * sizeDelta.x, (pivot.y - 1) * sizeDelta.y)
-end
-
 function LItem:SetPosition(position)
     local pivot = self.transform.pivot
     local sizeDelta = self.transform.sizeDelta
-    self.transform.anchoredPosition = position + Vector2(pivot.x * sizeDelta.x, (pivot.y - 1) * sizeDelta.y)
-end
-
-function LItem:Translate(position)
-    self.transform.anchoredPosition = self.transform.anchoredPosition + position
+    self.transform.anchoredPosition3D = Vector3(position.x + pivot.x * sizeDelta.x, position.y + (pivot.y - 1) * sizeDelta.y, 0)
 end
 
 function LItem:SetData(data, commonData)

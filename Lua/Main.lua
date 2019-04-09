@@ -38,6 +38,8 @@ Vector2Right = Vector3(1, 0)
 Vector3One = Vector3(1, 1, 1)
 Vector3Zero = Vector3(0, 0, 0)
 
+DEBUG = true
+
 --优先加载的类路径数组
 PriorClassPathArray = {
     "Base/BaseClass",

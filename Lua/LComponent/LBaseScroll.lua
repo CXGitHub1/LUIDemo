@@ -12,11 +12,13 @@ function LBaseScroll:__init(transform)
     self.transform = transform
     self.gameObject = transform.gameObject
     self.orderDict = nil
+    self.itemDict = nil
     self.eventNameList = nil
     self:_InitScrollRect(transform)
     self:_InitMask(transform:Find(LDefine.MASK_NAME))
     self:_InitContent(self.maskTrans:Find(LDefine.CONTENT_NAME))
     self:_InitTemplate()
+    self:_InitExtend()
 
     self.itemPoolList = nil
     self.ItemSelectEvent = EventLib.New()
@@ -66,27 +68,34 @@ function LBaseScroll:_InitTemplate(transform)
     self.template.transform.localScale = Vector3Zero
 end
 
+function LBaseScroll:_InitExtend(transform)
+    self.extendTrans = transform:Find(LDefine.EXTEND_NAME)
+end
+
 -- public function start
 function LBaseScroll:SetData()
     pError("重写SetData方法")
 end
 
-function LBaseScroll:AddItemEvent(eventName)
+function LBaseScroll:AddItemEvent(...)
     if self.eventNameList == nil then
         self.eventNameList = {}
     end
-    table.insert(self.eventNameList, eventName)
-    self[eventName] = EventLib.New()
+    local tb = {...}
+    for i = 1, #tb do
+        local eventName = tb[i]
+        _table_insert(self.eventNameList, eventName)
+        self[eventName] = EventLib.New()
+    end
 end
 -- public function end
 
-
 function LBaseScroll:_GetOrderStartIndex()
-    pError("重写_GetOrderStartIndex方法")
+    pError("需要重写_GetOrderStartIndex方法")
 end
 
 function LBaseScroll:_GetOrderEndIndex()
-    pError("重写_GetOrderEndIndex方法")
+    pError("需要重写_GetOrderEndIndex方法")
 end
 
 function LBaseScroll:_Update(force)
@@ -94,38 +103,41 @@ function LBaseScroll:_Update(force)
     self.orderEndIndex = self:_GetOrderEndIndex()
     self:_PushUnUsedItem()
     for orderIndex = self.orderStartIndex, self.orderEndIndex do
-        local item, getWay = self:_GetItem(orderIndex)
+        local index = self:_OrderIndexToIndex(orderIndex)
+        local item, getWay = self:_GetItem(index)
         item:SetActive(true)
         if force or getWay ~= LDefine.GetItemWay.exist then
-            local index = self:_OrderIndexToIndex(orderIndex)
             item:SetData(self.dataList[index], self.commonData)
             item:SetPosition(self:_GetPosition(index))
             if self.orderDict == nil then self.orderDict = {} end
+            if self.itemDict == nil then self.itemDict = {} end
             self.orderDict[orderIndex] = item
+            self.itemDict[index] = item
         end
     end
 end
 
---根据需求重写有序下标转换为实际下标
+--根据排序下标转换为实际下标
 function LBaseScroll:_OrderIndexToIndex(orderIndex)
     return orderIndex
 end
 
-function LBaseScroll:_GetItem(orderIndex)
-    if self.orderDict and self.orderDict[orderIndex] then
-        local item = self.orderDict[orderIndex]
+function LBaseScroll:_GetItem(index)
+    if self.itemDict and self.itemDict[index] then
+        local item = self.itemDict[index]
         return item, LDefine.GetItemWay.exist
     elseif self.itemPoolList and #self.itemPoolList > 0 then
-        local index = self:_OrderIndexToIndex(orderIndex)
         local item = _table_remove(self.itemPoolList)
         item:InitFromCache(index) 
         return item, LDefine.GetItemWay.cache
     end
-    local index = self:_OrderIndexToIndex(orderIndex)
     local go = GameObject.Instantiate(self.template)
     go.transform:SetParent(self.contentTrans, false)
     local item = self.itemType.New(go)
     item:SetIndex(index)
+    if self.extendTrans then
+        item:SetExtendTrans(self.extendTrans)
+    end
     item.ItemSelectEvent:AddListener(function(index, item) self.ItemSelectEvent:Fire(index, item) end)
     if self.eventNameList then
         for i = 1, #self.eventNameList do
@@ -148,7 +160,9 @@ end
 
 function LBaseScroll:_PushPool(item)
     item:SetActive(false)
-    local orderIndex = self:_OrderIndexToIndex(item.index)
+    local index = item.index
+    self.itemDict[index] = nil
+    local orderIndex = self:_OrderIndexToIndex(index)
     self.orderDict[orderIndex] = nil
     if self.itemPoolList == nil then
         self.itemPoolList = {}
