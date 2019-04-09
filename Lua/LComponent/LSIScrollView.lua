@@ -67,23 +67,19 @@ function LSIScrollView:SetPadding(paddingLeft, paddingRight, paddingTop, padding
     self.paddingBottom = paddingBottom or 0
 end
 
+--设置初始化时显示下标（为了性能优化）
+function LSIScrollView:SetInitIndex(index)
+    self.initIndex = index
+end
+
 function LSIScrollView:SetData(dataList, commonData)
     self.dataList = dataList
     self.commonData = commonData
-    self.startIndex = self:_GetStartIndex()
-    self.endIndex = self:_GetEndIndex()
-    self:_PushUnUsedItem()
-    if not self:_DataIsEmpty() then
-        if self.orderDict == nil then self.orderDict = {} end
-        for index = self.startIndex, self.endIndex do
-            local item = self:_GetItem(index)
-            item:SetActive(true)
-            item:SetData(self.dataList[index], commonData)
-            item:SetPosition(self:_GetPosition(index))
-            self.orderDict[index] = item
-        end 
-    end
-    self:_CalcSizeDelta()
+
+
+
+    self:_Update()
+    self:_CalculateSize()
     self:_AdjustContentPosition()
 end
 
@@ -100,7 +96,10 @@ function LSIScrollView:ResetPosition()
 end
 
 function LSIScrollView:Focus(index, tweenMove)
-    if self.dataList == nil and self.dataList[index] == nil then
+    if self:_DataIsEmpty() then
+        return
+    end
+    if self.dataList[index] == nil then
         return
     end
     UtilsBase.CancelTween(self, "focusTweenId")
@@ -112,6 +111,7 @@ function LSIScrollView:Focus(index, tweenMove)
             self.focusTweenId = Tween.Instance:MoveLocalY(self.contentTrans.gameObject, targetY, 0.3).id
         else
             UtilsUI.SetAnchoredY(self.contentTrans, targetY)
+            self:_Update()
         end
     else
         local targetX = self:_LimitX(-position.x)
@@ -119,6 +119,7 @@ function LSIScrollView:Focus(index, tweenMove)
             self.focusTweenId = Tween.Instance:MoveLocalX(self.contentTrans.gameObject, targetX, 0.3).id
         else
             UtilsUI.SetAnchoredX(self.contentTrans, targetX)
+            self:_Update()
         end
     end
 end
@@ -165,7 +166,7 @@ function LSIScrollView:_FireReachBottomEvent(value)
     end
 end
 
-function LSIScrollView:_CalcSizeDelta()
+function LSIScrollView:_CalculateSize()
     local maxColumn, maxRow
     local dataLength = self:_GetDataLength()
     if self:_VerticalScroll() then

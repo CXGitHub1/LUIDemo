@@ -144,17 +144,6 @@ function LScrollPage:SetData(dataList, commonData)
     self:_CalculateSize()
     self:_SetInitPosition()
     self:_Update(true)
-
-    --对之前坐标越界的情况进行处理，防止出现滚动
-    if self:_HorizontalScroll() then
-        if self.contentTrans.localPosition.x < self:_GetPagePosition(self.totalPage) then
-            UtilsUI.SetAnchoredX(self.contentTrans, self:_GetPagePosition(self.totalPage))
-        end
-    else
-        if self.contentTrans.localPosition.y > self:_GetPagePosition(self.totalPage) then
-            UtilsUI.SetAnchoredY(self.contentTrans, self:_GetPagePosition(self.totalPage))
-        end
-    end
 end
 
 --获取下标对应的Item，如果不在显示范围内会返回空，注意判空
@@ -206,6 +195,17 @@ function LScrollPage:_SetInitPosition()
         local initPage = math.clamp(self.initPage, 1, self.totalPage)
         self.initPage = nil
         self:_SetPagePosition(initPage)
+    else
+        --对之前坐标越界的情况进行处理，防止出现滚动
+        if self:_HorizontalScroll() then
+            if self.contentTrans.localPosition.x < self:_GetPagePosition(self.totalPage) then
+                UtilsUI.SetAnchoredX(self.contentTrans, self:_GetPagePosition(self.totalPage))
+            end
+        else
+            if self.contentTrans.localPosition.y > self:_GetPagePosition(self.totalPage) then
+                UtilsUI.SetAnchoredY(self.contentTrans, self:_GetPagePosition(self.totalPage))
+            end
+        end
     end
 end
 
