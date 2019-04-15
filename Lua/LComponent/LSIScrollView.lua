@@ -76,11 +76,9 @@ function LSIScrollView:SetData(dataList, commonData)
     self.dataList = dataList
     self.commonData = commonData
 
-
-
-    self:_Update()
     self:_CalculateSize()
-    self:_AdjustContentPosition()
+    self:_SetInitPosition()
+    self:_Update(true)
 end
 
 function LSIScrollView:SetCommonData(commonData)
@@ -197,14 +195,28 @@ function LSIScrollView:_GetPosition(index)
     return Vector2(x, -y)
 end
 
-function LSIScrollView:_AdjustContentPosition()
-    if self:_VerticalScroll() then
-        if self.contentTrans.anchoredPosition.y > self:_GetContentMaxY() then
-            UtilsUI.SetAnchoredY(self.contentTrans, self:_GetContentMaxY())
+function LSIScrollView:_SetInitPosition()
+    if self.initIndex then
+        local index = self.initIndex
+        self.initIndex = nil
+        if index < 1 or index > self:_GetDataLength() then
+            return
+        end
+        local position = self:_GetPosition(index)
+        if self:_VerticalScroll() then
+            UtilsUI.SetAnchoredY(self.contentTrans, self:_LimitY(-position.y))
+        else
+            UtilsUI.SetAnchoredX(self.contentTrans, self:_LimitX(-position.x))
         end
     else
-        if self.contentTrans.anchoredPosition.x < self:_GetContentMinX() then
-            UtilsUI.SetAnchoredX(self.contentTrans, self:_GetContentMinX())
+        if self:_VerticalScroll() then
+            if self.contentTrans.anchoredPosition.y > self:_GetContentMaxY() then
+                UtilsUI.SetAnchoredY(self.contentTrans, self:_GetContentMaxY())
+            end
+        else
+            if self.contentTrans.anchoredPosition.x < self:_GetContentMinX() then
+                UtilsUI.SetAnchoredX(self.contentTrans, self:_GetContentMinX())
+            end
         end
     end
 end
@@ -229,7 +241,7 @@ function LSIScrollView:_LimitY(y)
     return y <= maxY and y or maxY
 end
 
-function LSIScrollView:_GetStartIndex()
+function LSIScrollView:_GetOrderStartIndex()
     if self:_VerticalScroll() then
         local rowIndex = self:_GetStartRowIndex()
         return (rowIndex - 1) * self.column + 1
@@ -239,7 +251,7 @@ function LSIScrollView:_GetStartIndex()
     end
 end
 
-function LSIScrollView:_GetEndIndex()
+function LSIScrollView:_GetOrderEndIndex()
     local result
     if self:_VerticalScroll() then
         local rowIndex = self:_GetEndRowIndex()
@@ -257,19 +269,19 @@ function LSIScrollView:_GetDataLength()
 end
 
 function LSIScrollView:_GetStartRowIndex()
-    return self:_GetRowIndex(self:_GetMaskTop())
+    return self:_GetRowIndex(self:_GetMaskTop() - 0.1)
 end
 
 function LSIScrollView:_GetEndRowIndex()
-    return self:_GetRowIndex(self:_GetMaskBottom()) 
+    return self:_GetRowIndex(self:_GetMaskBottom() + 0.1) 
 end
 
 function LSIScrollView:_GetStartColumnIndex()
-    return self:_GetColumnIndex(self:_GetMaskLeft())
+    return self:_GetColumnIndex(self:_GetMaskLeft() + 0.1)
 end
 
 function LSIScrollView:_GetEndColumnIndex()
-    return self:_GetColumnIndex(self:_GetMaskRight()) 
+    return self:_GetColumnIndex(self:_GetMaskRight() - 0.1)
 end
 
 function LSIScrollView:_GetRowIndex(y)
@@ -280,8 +292,4 @@ end
 function LSIScrollView:_GetColumnIndex(x)
     local result = math.ceil((x - self.paddingLeft) / (self.itemWidth + self.gapHorizontal))
     return result < 1 and 1 or result
-end
-
-function LSIScrollView:_GetOrderIndex(index)
-    return index
 end
