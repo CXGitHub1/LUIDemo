@@ -4,16 +4,16 @@
 --  LScrollPage(带ScrollRect组件)
 --      Mask(带Mask组件)
 --          Content
---              Item(Anchors要求为左上角，方便计算，Pivot无要求)
+--              Item
 
 --注意点
 --ScrollRect和Mask的大小会动态设置
+--为了方便计算，所有预设的pivot和anchored都设置为左上角，只有Item会保留原来的pivot
 
 --关键接口
 --__init(transform, itemType, row, column, itemLayoutDirection)  初始化函数
 --SetGap(gapHorizontal, gapVertical)        设置格子与格子之间的间隔
 --SetData(dataList, commonData)             通过传入的数据创建格子并自动布局
---SetMaskMat()                              限制特效不超过Mask范围，记得在Item中修改特效的Shader
 --Focus(index, tweenMove)                   跳转到指定下标的格子
 --ResetPosition()                           重置展示内容
 --ItemSelectEvent                           格子点击事件
@@ -83,9 +83,12 @@ function LScrollPage:_OnEndDragEvent()
             page = page + 1
         end
     end
+    local needTween = 1 <= page and page <= self.totalPage
     page = math.clamp(page, 1, self.totalPage)
     self.currentPage = page
-    self:_TweenMove(page)
+    if needTween then
+        self:_TweenMove(page)
+    end
 end
 
 -- public function
@@ -113,13 +116,13 @@ end
 --跳转到指定页数
 --page      指定页数
 --tweenMode 是否缓动
-function LScrollPage:SetCurrentPage(page, tween)
+function LScrollPage:SetCurrentPage(page, tweenMode)
     local page = math.clamp(page, 1, self.totalPage)
     self.currentPage = page
-    if tween then
+    if tweenMode then
         self:_TweenMove(page)
     else
-        self:_SetPagePosition(page)
+        self:_SetPageNormalizedPosition(page)
         self:_Update()
     end
 end
@@ -194,44 +197,51 @@ function LScrollPage:_SetInitPosition()
     if self.initPage then
         local initPage = math.clamp(self.initPage, 1, self.totalPage)
         self.initPage = nil
-        self:_SetPagePosition(initPage)
+        self:_SetPageNormalizedPosition(initPage)
     else
         --对之前坐标越界的情况进行处理，防止出现滚动
         if self:_HorizontalScroll() then
-            if self.contentTrans.localPosition.x < self:_GetPagePosition(self.totalPage) then
-                UtilsUI.SetAnchoredX(self.contentTrans, self:_GetPagePosition(self.totalPage))
+            if self.contentTrans.anchoredPosition.x < self:_GetPagePosition(self.totalPage) then
+                self.scrollRect.horizontalNormalizedPosition = 1
             end
         else
-            if self.contentTrans.localPosition.y > self:_GetPagePosition(self.totalPage) then
-                UtilsUI.SetAnchoredY(self.contentTrans, self:_GetPagePosition(self.totalPage))
+            if self.contentTrans.anchoredPosition.y > self:_GetPagePosition(self.totalPage) then
+                self.scrollRect.verticalNormalizedPosition = 1
             end
         end
     end
 end
 
-function LScrollPage:_SetPagePosition(page)
-    if self:_HorizontalScroll() then
-        UtilsUI.SetAnchoredX(self.contentTrans, self:_GetPagePosition(page))
-    else
-        UtilsUI.SetAnchoredY(self.contentTrans, self:_GetPagePosition(page))
-    end
+function LScrollPage:_SetPageNormalizedPosition(page)
+    self:_SetNormalizedPosition(self:_GetPageNormalizedPosition(page))
 end
 
 function LScrollPage:_TweenMove(page)
     UtilsBase.CancelTween(self, "tweenId")
     if self:_HorizontalScroll() then
-        self.tweenId = Tween.Instance:MoveLocalX(self.contentTrans.gameObject, self:_GetPagePosition(page), LScrollPage.TweenTime).id
+        local startValue = self:GetHorizontalNormalizedPosition(-self.contentTrans.anchoredPosition.x)
+        local endValue = self:_GetPageNormalizedPosition(page)
+        self.tweenId = Tween.Instance:ValueChange(startValue, endValue, LScrollPage.TweenTime, nil, LeanTweenType.linear, function(value)
+            self.scrollRect.horizontalNormalizedPosition = value
+        end).id
     else
-        self.tweenId = Tween.Instance:MoveLocalY(self.contentTrans.gameObject, self:_GetPagePosition(page), LScrollPage.TweenTime).id
+        local startValue = self:GetVerticalNormalizedPosition(self.contentTrans.anchoredPosition.y)
+        local endValue = self:_GetPageNormalizedPosition(page)
+        self.tweenId = Tween.Instance:ValueChange(startValue, endValue, LScrollPage.TweenTime, nil, LeanTweenType.linear, function(value)
+            self.scrollRect.verticalNormalizedPosition = value
+        end).id
     end
 end
 
 function LScrollPage:_CalculateSize()
     if self:_HorizontalScroll() then
-        self.contentTrans.sizeDelta = Vector2(self.totalPage * self.maskWidth, self.maskHeight)
+        self.width = self.totalPage * self.maskWidth
+        self.height = self.maskHeight
     else
-        self.contentTrans.sizeDelta = Vector2(self.maskWidth, self.totalPage * self.maskHeight)
+        self.width = self.maskWidth
+        self.height = self.totalPage * self.maskHeight
     end
+    self.contentTrans.sizeDelta = Vector2(self.width, self.height)
 end
 
 
@@ -244,6 +254,22 @@ function LScrollPage:_GetPagePosition(page)
         return -(page - 1) * self.maskWidth
     else
         return (page - 1) * self.maskHeight
+    end
+ end
+
+function LScrollPage:_GetPageNormalizedPosition(page)
+    if self:_HorizontalScroll() then
+        return self:GetHorizontalNormalizedPosition((page - 1) * self.maskWidth)
+    else
+        return self:GetVerticalNormalizedPosition((page - 1) * self.maskHeight)
+    end
+end
+
+function LScrollPage:_SetNormalizedPosition(normalizedPosition)
+    if self:_HorizontalScroll() then
+        self.scrollRect.horizontalNormalizedPosition = normalizedPosition
+    else
+        self.scrollRect.verticalNormalizedPosition = normalizedPosition
     end
 end
 

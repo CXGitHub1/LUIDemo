@@ -68,8 +68,8 @@ function LBaseScroll:_InitTemplate(transform)
     self.template.transform.localScale = Vector3Zero
 end
 
-function LBaseScroll:_InitExtend(transform)
-    self.extendTrans = transform:Find(LDefine.EXTEND_NAME)
+function LBaseScroll:_InitExtend()
+    self.extendTrans = self.contentTrans:Find(LDefine.EXTEND_NAME)
 end
 
 -- public function start
@@ -87,6 +87,28 @@ function LBaseScroll:AddItemEvent(...)
         _table_insert(self.eventNameList, eventName)
         self[eventName] = EventLib.New()
     end
+end
+
+function LBaseScroll:GetHorizontalNormalizedPosition(x)
+    local result = 0
+    if self.width > self.maskWidth then
+        result = x / (self.width - self.maskWidth)
+        if result > 1 then
+            result = 1
+        end
+    end
+    return result
+end
+
+function LBaseScroll:GetVerticalNormalizedPosition(y)
+    local result = 0
+    if self.height > self.maskHeight then
+        result = y / (self.height - self.maskHeight)
+        if result > 1 then
+            result = 1
+        end
+    end
+    return 1 - result
 end
 -- public function end
 
@@ -107,8 +129,8 @@ function LBaseScroll:_Update(force)
         local item, getWay = self:_GetItem(index)
         item:SetActive(true)
         if force or getWay ~= LDefine.GetItemWay.exist then
-            item:SetData(self.dataList[index], self.commonData)
             item:SetPosition(self:_GetPosition(index))
+            item:SetData(self.dataList[index], self.commonData)
             if self.orderDict == nil then self.orderDict = {} end
             if self.itemDict == nil then self.itemDict = {} end
             self.orderDict[orderIndex] = item

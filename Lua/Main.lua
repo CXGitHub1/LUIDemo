@@ -6,7 +6,7 @@ print = function(...)
     local content = ""
     local parameter = {...}
     for _, v in pairs(parameter) do
-        content = content .. v .. "\n"
+        content = content .. tostring(v) .. "\n"
     end
     Debug.LogError(content .. debug.traceback())
 end

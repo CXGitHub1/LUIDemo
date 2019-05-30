@@ -523,7 +523,16 @@
 			"file": "LComponent/LScrollPage.lua",
 			"settings":
 			{
-				"buffer_size": 11491,
+				"buffer_size": 11534,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Test/LEmojiTextTest.lua",
+			"settings":
+			{
+				"buffer_size": 2309,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -568,7 +577,7 @@
 			"file": "LComponent/LSIScrollView.lua",
 			"settings":
 			{
-				"buffer_size": 8949,
+				"buffer_size": 9312,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -619,7 +628,6 @@
 		"/D/code/unity/LUIDemo/Lua/Base",
 		"/D/code/unity/LUIDemo/Lua/Config",
 		"/D/code/unity/LUIDemo/Lua/ConfigHelper",
-		"/D/code/unity/LUIDemo/Lua/LComponent",
 		"/D/code/unity/LUIDemo/Lua/Manager",
 		"/D/code/unity/LUIDemo/Lua/Test",
 		"/D/code/unity/LUIDemo/Lua/Util"
@@ -901,7 +909,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -910,15 +918,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 11491,
+						"buffer_size": 11534,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3202,
-								3202
+								10955,
+								10955
 							]
 						],
 						"settings":
@@ -929,14 +937,44 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1350.0,
+						"translation.y": 6024.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Test/LEmojiTextTest.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2309,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								933,
+								947
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 285.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
+					"buffer": 2,
 					"file": "LComponent/LBaseScroll.lua",
 					"semi_transient": false,
 					"settings":
@@ -962,11 +1000,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 3,
 					"file": "LComponent/FSListView.lua",
 					"semi_transient": false,
 					"settings":
@@ -992,17 +1030,17 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 7,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 2,
+			"selected": 3,
 			"sheets":
 			[
 				{
-					"buffer": 3,
+					"buffer": 4,
 					"file": "LComponent/LItem.lua",
 					"semi_transient": false,
 					"settings":
@@ -1028,11 +1066,11 @@
 						"translation.y": 324.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 5,
 					"file": "LComponent/LDefine.lua",
 					"semi_transient": false,
 					"settings":
@@ -1056,24 +1094,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 6,
 					"file": "LComponent/LSIScrollView.lua",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8949,
+						"buffer_size": 9312,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3756,
-								3756
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1086,11 +1124,11 @@
 						"translation.y": 1890.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 7,
 					"file": "Main.lua",
 					"semi_transient": false,
 					"settings":
@@ -1102,8 +1140,8 @@
 						"selection":
 						[
 							[
-								778,
-								778
+								1460,
+								1460
 							]
 						],
 						"settings":
@@ -1113,10 +1151,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 270.0,
+						"translation.y": 1125.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -1181,6 +1219,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"lemojitexttest",
+				"Test\\LEmojiTextTest.lua"
+			],
 			[
 				"utilsb",
 				"Util\\UtilsBase.lua"
