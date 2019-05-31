@@ -93,9 +93,6 @@ function LBaseScroll:GetHorizontalNormalizedPosition(x)
     local result = 0
     if self.width > self.maskWidth then
         result = x / (self.width - self.maskWidth)
-        if result > 1 then
-            result = 1
-        end
     end
     return result
 end
@@ -104,9 +101,6 @@ function LBaseScroll:GetVerticalNormalizedPosition(y)
     local result = 0
     if self.height > self.maskHeight then
         result = y / (self.height - self.maskHeight)
-        if result > 1 then
-            result = 1
-        end
     end
     return 1 - result
 end

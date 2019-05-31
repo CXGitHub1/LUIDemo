@@ -6,7 +6,7 @@ print = function(...)
     local content = ""
     local parameter = {...}
     for _, v in pairs(parameter) do
-        content = content .. tostring(v) .. "\n"
+        content = content .. tostring(v) .. "\t"
     end
     Debug.LogError(content .. debug.traceback())
 end
@@ -102,6 +102,7 @@ end
 function Update()
     if Input.GetKeyDown(KeyCode.H) and Input.GetKey(KeyCode.LeftControl) then
         print("热更完毕")
+
     end
 
     if Input.GetKeyDown(KeyCode.W) and Input.GetKey(KeyCode.LeftControl) then

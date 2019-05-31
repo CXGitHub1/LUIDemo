@@ -41,9 +41,8 @@ function LSIScrollView:__init(transform, itemType, row, column)
     self.paddingTop = 0
     self.paddingBottom = 0
 
-    local maskSize = self.maskTrans.sizeDelta
     local scrollSize = self.scrollRectTrans.sizeDelta
-    local maxSize = Vector2(_math_max(maxSize.x, scrollSize.x), _math_max(maxSize.y, scrollSize.y))
+    local maxSize = Vector2(_math_max(self.maskWidth, scrollSize.x), _math_max(self.maskHeight, scrollSize.y))
     self.maskTrans.sizeDelta = maxSize
     self.scrollRectTrans.sizeDelta = maxSize
     self.ReachBottomEvent = EventLib.New()

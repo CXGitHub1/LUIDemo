@@ -10,7 +10,7 @@ function UtilsUI.SetPivot(rect, newPivot)
     local oldPosition = rect.anchoredPosition
     local newX = oldPosition.x + sizeDelta.x * (newPivot.x - oldPivot.x)
     local newY = oldPosition.y + sizeDelta.y * (newPivot.y - oldPivot.y)
-    rect.anchoredPosition = Vector2(newX, newY)
+    rect.anchoredPosition3D = Vector2(newX, newY, 0)
 end
 
 function UtilsUI.GetRectTransform(transform, path)

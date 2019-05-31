@@ -3,12 +3,11 @@
 --预设结构要求
 --  LScrollPage(带ScrollRect组件)
 --      Mask(带Mask组件)
---          Content
---              Item
+--          Content(要求anchored设置为左上角)
+--              Item(要求anchored设置为左上角)
 
---注意点
---ScrollRect和Mask的大小会动态设置
---为了方便计算，所有预设的pivot和anchored都设置为左上角，只有Item会保留原来的pivot
+--注意
+--为了方便计算，初始化会把Mask和Content的Pivot设置为左上角
 
 --关键接口
 --__init(transform, itemType, row, column, itemLayoutDirection)  初始化函数
@@ -55,6 +54,7 @@ function LScrollPage:__init(transform, itemType, row, column, itemLayoutDirectio
 
     self.scrollRect.inertia = false
     self:_AddDragEvent(transform)
+    self:_InitComponent()
     self:_CalcMaskSize()
 
     self.currentPage = 1
@@ -83,12 +83,9 @@ function LScrollPage:_OnEndDragEvent()
             page = page + 1
         end
     end
-    local needTween = 1 <= page and page <= self.totalPage
     page = math.clamp(page, 1, self.totalPage)
     self.currentPage = page
-    if needTween then
-        self:_TweenMove(page)
-    end
+    self:_TweenMove(page)
 end
 
 -- public function
@@ -184,13 +181,18 @@ function LScrollPage:_AddDragEvent(transform)
     dragEvent.onEndDrag:AddListener(function(value) self:_OnEndDragEvent() end)
 end
 
+function LScrollPage:_InitComponent()
+    self.scrollRect.viewport = self.maskTrans
+    UtilsUI.SetPivot(self.maskTrans, Vector2(0, 1))
+    UtilsUI.SetPivot(self.contentTrans, Vector2(0, 1))
+end
+
 function LScrollPage:_CalcMaskSize()
     local maskWidth = self.paddingLeft + self.paddingRight + self.column * self.itemWidth + (self.column - 1) * self.gapHorizontal
     local maskHeight = self.paddingTop + self.paddingBottom + self.row * self.itemHeight + (self.row - 1) * self.gapVertical
     self.maskWidth = maskWidth
     self.maskHeight = maskHeight
     self.maskTrans.sizeDelta = Vector2(maskWidth, maskHeight)
-    self.scrollRectTrans.sizeDelta = Vector2(maskWidth, maskHeight)
 end
 
 function LScrollPage:_SetInitPosition()

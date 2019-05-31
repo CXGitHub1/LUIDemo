@@ -69,10 +69,12 @@ function LItem:GetSize()
     return self.transform.sizeDelta
 end
 
+function LItem:GetPosition()
+    return self.transform.anchoredPosition3D - Vector3(self.pivot.x * self.sizeDelta.x, (self.pivot.y - 1) * self.sizeDelta.y, 0)
+end
+
 function LItem:SetPosition(position)
-    local pivot = self.transform.pivot
-    local sizeDelta = self.transform.sizeDelta
-    self.transform.anchoredPosition3D = Vector3(position.x + pivot.x * sizeDelta.x, position.y + (pivot.y - 1) * sizeDelta.y, 0)
+    self.transform.anchoredPosition3D = Vector3(position.x + self.pivot.x * self.sizeDelta.x, position.y + (self.pivot.y - 1) * self.sizeDelta.y, 0)
 end
 
 function LItem:SetData(data, commonData)
