@@ -65,7 +65,8 @@ function LBaseScroll:_InitTemplate(transform)
     self.itemHeight = itemTrans.sizeDelta.y
     self.template = itemTrans.gameObject
     self.template:SetActive(true)
-    self.template.transform.localScale = Vector3Zero
+    self.templateTrans = self.template.transform
+    self.templateTrans.localScale = Vector3Zero
 end
 
 function LBaseScroll:_InitExtend()
@@ -114,6 +115,10 @@ function LBaseScroll:_GetOrderEndIndex()
     pError("需要重写_GetOrderEndIndex方法")
 end
 
+function LBaseScroll:_GetPosition()
+    pError("需要重写_GetPosition方法")
+end
+
 function LBaseScroll:_Update(force)
     self.orderStartIndex = self:_GetOrderStartIndex()
     self.orderEndIndex = self:_GetOrderEndIndex()
@@ -123,7 +128,7 @@ function LBaseScroll:_Update(force)
         local item, getWay = self:_GetItem(index)
         item:SetActive(true)
         if force or getWay ~= LDefine.GetItemWay.exist then
-            item:SetPosition(self:_GetPosition(index))
+            item:SetPosition(self:_GetPosition(orderIndex))
             item:SetData(self.dataList[index], self.commonData)
             if self.orderDict == nil then self.orderDict = {} end
             if self.itemDict == nil then self.itemDict = {} end
@@ -174,11 +179,10 @@ function LBaseScroll:_OnValueChanged(value)
     end
 end
 
-function LBaseScroll:_PushPool(item)
+function LBaseScroll:_PushPool(item, orderIndex)
     item:SetActive(false)
     local index = item.index
     self.itemDict[index] = nil
-    local orderIndex = self:_OrderIndexToIndex(index)
     self.orderDict[orderIndex] = nil
     if self.itemPoolList == nil then
         self.itemPoolList = {}
@@ -188,9 +192,9 @@ end
 
 function LBaseScroll:_PushUnUsedItem()
     if self.orderDict then
-        for index, item in pairs(self.orderDict) do
-            if index < self.orderStartIndex or index > self.orderEndIndex then
-                self:_PushPool(item)
+        for orderIndex, item in pairs(self.orderDict) do
+            if orderIndex < self.orderStartIndex or orderIndex > self.orderEndIndex then
+                self:_PushPool(item, orderIndex)
             end
         end
     end
@@ -226,4 +230,13 @@ end
 
 function LBaseScroll:_GetDataLength()
     return self.dataList and #self.dataList or 0
+end
+
+function LBaseScroll:_FormatPrefab(rect, setPosition)
+    rect.pivot = Vector2Up
+    rect.anchorMin = Vector2Up
+    rect.anchorMax = Vector2Up
+    if setPosition then
+        rect.anchoredPosition3D = Vector3Zero
+    end
 end

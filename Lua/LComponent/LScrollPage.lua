@@ -3,17 +3,19 @@
 --预设结构要求
 --  LScrollPage(带ScrollRect组件)
 --      Mask(带Mask组件)
---          Content(要求anchored设置为左上角)
---              Item(要求anchored设置为左上角)
+--          Content
+--              Item(Anchors设置左上角,Pivot无要求)
 
 --注意
---为了方便计算，初始化会把Mask和Content的Pivot设置为左上角
+--初始化时会对预设做一些初始化设置，详见_InitComponent
+--会设置LScrollPage和Mask预设的大小相等，详见_CalcMaskSize
+
 
 --关键接口
 --__init(transform, itemType, row, column, itemLayoutDirection)  初始化函数
 --SetGap(gapHorizontal, gapVertical)        设置格子与格子之间的间隔
 --SetData(dataList, commonData)             通过传入的数据创建格子并自动布局
---Focus(index, tweenMove)                   跳转到指定下标的格子
+--SetCurrentPage(index, useTween)           跳转到指定下标的格子
 --ResetPosition()                           重置展示内容
 --ItemSelectEvent                           格子点击事件
 --ReachBottomEvent                          拖动到结尾事件
@@ -52,10 +54,9 @@ function LScrollPage:__init(transform, itemType, row, column, itemLayoutDirectio
     self.paddingBottom = 0
     self.perPageCount = self.row * self.column
 
-    self.scrollRect.inertia = false
-    self:_AddDragEvent(transform)
     self:_InitComponent()
     self:_CalcMaskSize()
+    self:_AddDragEvent(transform)
 
     self.currentPage = 1
 end
@@ -112,11 +113,11 @@ end
 
 --跳转到指定页数
 --page      指定页数
---tweenMode 是否缓动
-function LScrollPage:SetCurrentPage(page, tweenMode)
+--useTween  是否缓动
+function LScrollPage:SetCurrentPage(page, useTween)
     local page = math.clamp(page, 1, self.totalPage)
     self.currentPage = page
-    if tweenMode then
+    if useTween then
         self:_TweenMove(page)
     else
         self:_SetPageNormalizedPosition(page)
@@ -159,14 +160,14 @@ function LScrollPage:_OrderIndexToIndex(orderIndex)
         if self:_ItemHorizontalLayout() then
             return orderIndex
         else
-            local pageIndex, row, column = self:_TransformIndex(orderIndex)
-            return pageIndex * self.perPageCount + (row - 1) * self.column + column
+            local pageIndex, row, column = self:_TransformOrderIndex(orderIndex)
+            return pageIndex * self.perPageCount + (column - 1) * self.row + row
         end
     else
         --水平滚动
         if self:_ItemHorizontalLayout() then
-            local pageIndex, row, column = self:_TransformIndex(orderIndex)
-            return pageIndex * self.perPageCount + (column - 1) * self.row + row
+            local pageIndex, row, column = self:_TransformOrderIndex(orderIndex)
+            return pageIndex * self.perPageCount + (row - 1) * self.column + column
         else
             return orderIndex
         end
@@ -182,9 +183,13 @@ function LScrollPage:_AddDragEvent(transform)
 end
 
 function LScrollPage:_InitComponent()
+    self.scrollRect.inertia = false
+    self:_FormatPrefab(self.scrollRectTrans, false)
+    self:_FormatPrefab(self.maskTrans, true)
+    self:_FormatPrefab(self.contentTrans, true)
     self.scrollRect.viewport = self.maskTrans
-    UtilsUI.SetPivot(self.maskTrans, Vector2(0, 1))
-    UtilsUI.SetPivot(self.contentTrans, Vector2(0, 1))
+    self.templateTrans.anchorMin = Vector2Up
+    self.templateTrans.anchorMax = Vector2Up
 end
 
 function LScrollPage:_CalcMaskSize()
@@ -193,6 +198,7 @@ function LScrollPage:_CalcMaskSize()
     self.maskWidth = maskWidth
     self.maskHeight = maskHeight
     self.maskTrans.sizeDelta = Vector2(maskWidth, maskHeight)
+    self.scrollRectTrans.sizeDelta = Vector2(maskWidth, maskHeight)
 end
 
 function LScrollPage:_SetInitPosition()
@@ -276,22 +282,22 @@ function LScrollPage:_SetNormalizedPosition(normalizedPosition)
 end
 
 --把下标转换为 pageIndex, row, column
-function LScrollPage:_TransformIndex(index)
-    local indexInPage = (index - 1) % self.perPageCount + 1
+function LScrollPage:_TransformOrderIndex(orderIndex)
+    local indexInPage = (orderIndex - 1) % self.perPageCount + 1
     local row, column
-    if self:_ItemHorizontalLayout() then
-        column = (indexInPage - 1) % self.column + 1
-        row = _math_floor((indexInPage - 1) / self.column) + 1
-    else
+    if self:_HorizontalScroll() then
         row = (indexInPage - 1) % self.row + 1
         column = _math_floor((indexInPage - 1) / self.row) + 1
+    else
+        column = (indexInPage - 1) % self.column + 1
+        row = _math_floor((indexInPage - 1) / self.column) + 1
     end
-    local pageIndex = _math_floor((index - 1) / self.perPageCount)
+    local pageIndex = _math_floor((orderIndex - 1) / self.perPageCount)
     return pageIndex, row, column
 end
 
-function LScrollPage:_GetPosition(index)
-    local pageIndex, row, column = self:_TransformIndex(index)
+function LScrollPage:_GetPosition(orderIndex)
+    local pageIndex, row, column = self:_TransformOrderIndex(orderIndex)
     local x = self.paddingLeft + (column - 1) * (self.itemWidth + self.gapHorizontal)
     local y = self.paddingTop + (row - 1) * (self.itemHeight + self.gapVertical)
     if self:_HorizontalScroll() then
