@@ -7,23 +7,23 @@ LScrollPageTest.Config = {
     {column = 1, row = 1, direction = LDefine.Direction.horizontal, dataLength = 5},
     --多个垂直滚动 带gap
     {column = 2, row = 2, gapVertical = 15, gapHorizontal = 15, 
-        paddingLeft = 15, paddingRight = 15, paddingTop = 15, paddingBottom = 15, direction = LDefine.Direction.horizontal, dataLength = 20},
-    -- --多个水平滚动 元素水平布局 带padding 带gap 测initPage
-    -- {column = 3, row = 2, direction = LDefine.Direction.horizontal,
-    --     gapVertical = 5, gapHorizontal = 5,
-    --     paddingLeft = 5, paddingRight = 5, paddingTop = 5, paddingBottom = 5,
-    --     initPage = 3,
-    --     dataLength = 100},
-    -- --多个垂直滚动 元素垂直布局 带padding 带gap 测initPage
-    -- {column = 2, row = 2, direction = LDefine.Direction.vertical,
-    --     gapVertical = 1, gapHorizontal = 3,
-    --     paddingLeft = 5, paddingRight = 7, paddingTop = 9, paddingBottom = 0,
-    --     initPage = 30,
-    --     dataLength = 200},
-    -- --多个水平滚动 元素垂直布局 测频繁SetData 带initPage SetData把数据清空 测释放
-    -- {column = 3, row = 3, initPage = 2, direction = LDefine.Direction.vertical, dataLength = 20},
-    -- --多个垂直滚动 元素水平布局 测频繁SetCurrentPage
-    -- {column = 3, row = 3, direction = LDefine.Direction.horizontal, dataLength = 100},
+        paddingLeft = 15, paddingRight = 15, paddingTop = 15, paddingBottom = 15, direction = LDefine.Direction.horizontal, dataLength = 21},
+    --多个水平滚动 元素水平布局 带padding 带gap 测initPage
+    {column = 3, row = 3, direction = LDefine.Direction.horizontal,
+        gapVertical = 5, gapHorizontal = 5,
+        paddingLeft = 5, paddingRight = 5, paddingTop = 5, paddingBottom = 5,
+        -- initPage = 3,
+        dataLength = 2},
+    --多个垂直滚动 元素垂直布局 带padding 带gap 测initPage
+    {column = 2, row = 2, direction = LDefine.Direction.vertical,
+        gapVertical = 1, gapHorizontal = 3,
+        paddingLeft = 5, paddingRight = 7, paddingTop = 9, paddingBottom = 0,
+        initPage = 30,
+        dataLength = 200},
+    --多个水平滚动 元素垂直布局 测频繁SetData 带initPage SetData把数据清空 测释放
+    {column = 3, row = 3, initPage = 2, direction = LDefine.Direction.vertical, dataLength = 20},
+    --多个垂直滚动 元素水平布局 测频繁SetCurrentPage
+    {column = 3, row = 3, direction = LDefine.Direction.horizontal, dataLength = 100},
 }
 
 function LScrollPageTest:__init(gameObject)
@@ -33,7 +33,7 @@ function LScrollPageTest:__init(gameObject)
         local config
         local scrollPage
         if singleTest then
-            i = 3
+            i = 4
         end
         config = LScrollPageTest.Config[i]
         scrollPage = LScrollPage.New(transform:Find("Test" .. i), LTestItem, config.row, config.column, config.direction)

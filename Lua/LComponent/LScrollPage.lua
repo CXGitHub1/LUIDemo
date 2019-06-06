@@ -27,6 +27,10 @@
 --AddItemEvent  扩展监听格子的派发事件
 --SetPadding    设置边界与格子的偏移值
 
+-- 1、FSScrollPage加了翻页事件
+-- 2、FSScrollPage爆炸
+-- 3、StaticData
+
 
 LScrollPage = LScrollPage or BaseClass(LBaseScroll)
 
@@ -144,6 +148,7 @@ function LScrollPage:SetData(dataList, commonData)
     end
     self:_CalculateSize()
     self:_SetInitPosition()
+    self:_SetMax()
     self:_Update(true)
 end
 
@@ -220,6 +225,33 @@ function LScrollPage:_SetInitPosition()
     end
 end
 
+function LScrollPage:_SetMax()
+    local dataLength = self:_GetDataLength()
+    local pageIndex = _math_floor((dataLength - 1) / self.perPageCount)
+    local indexInPage = (dataLength - 1) % self.perPageCount
+    if self:_HorizontalScroll() then
+        if self:_ItemHorizontalLayout() then
+            if (indexInPage + 1) > self.column then
+                self.columnMax = (pageIndex + 1) * self.column
+            else
+                self.columnMax = pageIndex * self.column + indexInPage + 1
+            end
+        else
+            self.columnMax = _math_ceil(dataLength / self.row)
+        end
+    else
+        if self:_ItemHorizontalLayout() then
+            self.rowMax = _math_ceil(dataLength / self.column)
+        else
+            if (indexInPage + 1) > self.row then
+                self.rowMax = (pageIndex + 1) * self.row
+            else
+                self.rowMax = pageIndex * self.row + indexInPage + 1
+            end
+        end
+    end
+end
+
 function LScrollPage:_SetPageNormalizedPosition(page)
     self:_SetNormalizedPosition(self:_GetPageNormalizedPosition(page))
 end
@@ -283,14 +315,14 @@ end
 
 --把下标转换为 pageIndex, row, column
 function LScrollPage:_TransformOrderIndex(orderIndex)
-    local indexInPage = (orderIndex - 1) % self.perPageCount + 1
+    local indexInPage = (orderIndex - 1) % self.perPageCount
     local row, column
     if self:_HorizontalScroll() then
-        row = (indexInPage - 1) % self.row + 1
-        column = _math_floor((indexInPage - 1) / self.row) + 1
+        row = indexInPage % self.row + 1
+        column = _math_floor(indexInPage / self.row) + 1
     else
-        column = (indexInPage - 1) % self.column + 1
-        row = _math_floor((indexInPage - 1) / self.column) + 1
+        column = indexInPage % self.column + 1
+        row = _math_floor(indexInPage / self.column) + 1
     end
     local pageIndex = _math_floor((orderIndex - 1) / self.perPageCount)
     return pageIndex, row, column
@@ -321,15 +353,19 @@ function LScrollPage:_GetOrderEndIndex()
     local result
     if self:_HorizontalScroll() then
         local endColumn = self:_GetEndColumn()
+        if endColumn > self.columnMax then
+            endColumn = self.columnMax
+        end
         result = endColumn * self.row
     else
         local endRow = self:_GetEndRow()
+        if endRow > self.rowMax then
+            endRow = self.rowMax
+        end
         result = endRow * self.column
     end
-    local dataLength = self:_GetDataLength()
-    return result <= dataLength and result or dataLength
+    return result
 end
-
 
 --越大越好
 function LScrollPage:_GetStartRow()

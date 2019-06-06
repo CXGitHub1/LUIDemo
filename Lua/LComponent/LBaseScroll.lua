@@ -26,7 +26,12 @@ end
 
 function LBaseScroll:__release()
     UtilsBase.ReleaseField(self, "ItemSelectEvent")
-    UtilsBase.ReleaseTable(self, "eventNameList")
+    if self.eventNameList then
+        for i = 1, #self.eventNameList do
+            local eventName = self.eventNameList[i]
+            UtilsBase.FieldDeleteMe(self, eventName)
+        end
+    end
     UtilsBase.ReleaseTable(self, "itemPoolList")
     UtilsBase.ReleaseTable(self, "orderDict")
 end
@@ -125,15 +130,19 @@ function LBaseScroll:_Update(force)
     self:_PushUnUsedItem()
     for orderIndex = self.orderStartIndex, self.orderEndIndex do
         local index = self:_OrderIndexToIndex(orderIndex)
-        local item, getWay = self:_GetItem(index)
-        item:SetActive(true)
-        if force or getWay ~= LDefine.GetItemWay.exist then
-            item:SetPosition(self:_GetPosition(orderIndex))
-            item:SetData(self.dataList[index], self.commonData)
-            if self.orderDict == nil then self.orderDict = {} end
-            if self.itemDict == nil then self.itemDict = {} end
-            self.orderDict[orderIndex] = item
-            self.itemDict[index] = item
+        --因为翻页组件的存在，index所对应的orderIndex并不连续，会出现部分冗余的orderIndex
+        --例子是 水平滚动，水平布局的翻页组件，每页3*3，当数据长度为3，就会出现不连续的orderIndex
+        if self.dataList[index] then
+            local item, getWay = self:_GetItem(index)
+            item:SetActive(true)
+            if force or getWay ~= LDefine.GetItemWay.exist then
+                item:SetPosition(self:_GetPosition(orderIndex))
+                item:SetData(self.dataList[index], self.commonData)
+                if self.orderDict == nil then self.orderDict = {} end
+                if self.itemDict == nil then self.itemDict = {} end
+                self.orderDict[orderIndex] = item
+                self.itemDict[index] = item
+            end
         end
     end
 end
