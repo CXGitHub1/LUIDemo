@@ -12,8 +12,7 @@ LScrollPageTest.Config = {
     {column = 3, row = 3, direction = LDefine.Direction.horizontal,
         gapVertical = 5, gapHorizontal = 5,
         paddingLeft = 5, paddingRight = 5, paddingTop = 5, paddingBottom = 5,
-        -- initPage = 3,
-        dataLength = 2},
+        dataLength = 20},
     --多个垂直滚动 元素垂直布局 带padding 带gap 测initPage
     {column = 2, row = 2, direction = LDefine.Direction.vertical,
         gapVertical = 1, gapHorizontal = 3,
@@ -24,6 +23,10 @@ LScrollPageTest.Config = {
     {column = 3, row = 3, initPage = 2, direction = LDefine.Direction.vertical, dataLength = 20},
     --多个垂直滚动 元素水平布局 测频繁SetCurrentPage
     {column = 3, row = 3, direction = LDefine.Direction.horizontal, dataLength = 100},
+    --水平滚动 水平翻页 测不超过一页的布局
+    {column = 2, row = 3, direction = LDefine.Direction.horizontal, dataLength = 3},
+    --垂直滚动 垂直翻页 测不超过一页的布局
+    {column = 3, row = 3, direction = LDefine.Direction.vertical, dataLength = 7},
 }
 
 function LScrollPageTest:__init(gameObject)
@@ -65,6 +68,18 @@ function LScrollPageTest:__init(gameObject)
             transform:Find("Test7/SetCurrentPage"):GetComponent(Button).onClick:AddListener(function()
                 local randomValue = math.random(1, 10)
                 scrollPage:SetCurrentPage(randomValue, true)
+            end)
+        end
+        if i == 8 then
+            transform:Find("Test8/SetData"):GetComponent(Button).onClick:AddListener(function()
+                local randomValue = math.random(0, 6)
+                scrollPage:SetData(self:CreateDataList(randomValue))
+            end)
+        end
+        if i == 9 then
+            transform:Find("Test9/SetData"):GetComponent(Button).onClick:AddListener(function()
+                local randomValue = math.random(0, 20)
+                scrollPage:SetData(self:CreateDataList(randomValue))
             end)
         end
     end

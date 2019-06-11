@@ -131,7 +131,8 @@ function LBaseScroll:_Update(force)
     for orderIndex = self.orderStartIndex, self.orderEndIndex do
         local index = self:_OrderIndexToIndex(orderIndex)
         --因为翻页组件的存在，index所对应的orderIndex并不连续，会出现部分冗余的orderIndex
-        --例子是 水平滚动，水平布局的翻页组件，每页3*3，当数据长度为3，就会出现不连续的orderIndex
+        --比如一个水平滚动，水平布局的翻页组件，每页3*3，当数据长度为3
+        --index是1、2、3 对应的orderIndex是1、4、7
         if self.dataList[index] then
             local item, getWay = self:_GetItem(index)
             item:SetActive(true)
@@ -142,6 +143,11 @@ function LBaseScroll:_Update(force)
                 if self.itemDict == nil then self.itemDict = {} end
                 self.orderDict[orderIndex] = item
                 self.itemDict[index] = item
+            end
+        else
+            local item = self:_GetOrderItem(orderIndex)
+            if item then
+                item:SetActive(false)
             end
         end
     end
@@ -176,6 +182,10 @@ function LBaseScroll:_GetItem(index)
         end
     end
     return item, LDefine.GetItemWay.new
+end
+
+function LBaseScroll:_GetOrderItem(orderIndex)
+    return self.orderDict and self.orderDict[orderIndex]
 end
 
 function LBaseScroll:_OnValueChanged(value)
