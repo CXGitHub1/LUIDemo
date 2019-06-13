@@ -16,9 +16,7 @@
 --SetGap(gapHorizontal, gapVertical)        设置格子与格子之间的间隔
 --SetData(dataList, commonData)             通过传入的数据创建格子并自动布局
 --SetCurrentPage(index, useTween)           跳转到指定下标的格子
---ResetPosition()                           重置展示内容
 --ItemSelectEvent                           格子点击事件
---ReachBottomEvent                          拖动到结尾事件
 --GetItem(index)                            获取下标对应的Item，如果不在显示范围内会返回空，注意判空
 
 --其它常用接口
@@ -43,8 +41,8 @@ local _math_floor = math.floor
 --初始化函数
 --transform LScrollPage对应的节点
 --itemType  每个格子对应的类（需要继承FSItem）
---column    表格的最大列数（默认UtilsBase.INT32_MAX）
 --row       表格的最大行数（默认UtilsBase.INT32_MAX）
+--column    表格的最大列数（默认UtilsBase.INT32_MAX）
 function LScrollPage:__init(transform, itemType, row, column, itemLayoutDirection)
     self.itemType = itemType
     self.row = row or 1
