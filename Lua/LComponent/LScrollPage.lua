@@ -368,7 +368,7 @@ end
 --越大越好
 function LScrollPage:_GetStartRow()
     local y = self:_GetMaskTop() - 0.1  -- 0.1的偏移是为了解决边界点的归属问题
-    local pageIndex = math.floor(-y / self.maskHeight)
+    local pageIndex = _math_floor(-y / self.maskHeight)
     local pageY = y + pageIndex * self.maskHeight
     local result = pageIndex * self.row
     if -pageY < (self.paddingTop + self.itemHeight) then
@@ -384,7 +384,7 @@ end
 --越小越好
 function LScrollPage:_GetEndRow()
     local y = self:_GetMaskBottom() + 0.1  -- 0.1的偏移是为了解决边界点的归属问题
-    local pageIndex = math.floor(-y / self.maskHeight)
+    local pageIndex = _math_floor(-y / self.maskHeight)
     local pageY = y + pageIndex * self.maskHeight
     local result = pageIndex * self.row
     if -pageY < self.paddingTop then
@@ -399,7 +399,7 @@ end
 --越大越好
 function LScrollPage:_GetStartColumn()
     local x = self:_GetMaskLeft() + 0.1  -- 0.1的偏移是为了解决边界点的归属问题
-    local pageIndex = math.floor(x / self.maskWidth)
+    local pageIndex = _math_floor(x / self.maskWidth)
     local pageX = x - pageIndex * self.maskWidth
     local result = pageIndex * self.column
     if pageX < (self.paddingLeft + self.itemWidth) then
@@ -415,7 +415,7 @@ end
 --越小越好
 function LScrollPage:_GetEndColumn()
     local x = self:_GetMaskRight() - 0.1  -- 0.1的偏移是为了解决边界点的归属问题
-    local pageIndex = math.floor(x / self.maskWidth)
+    local pageIndex = _math_floor(x / self.maskWidth)
     local pageX = x - pageIndex * self.maskWidth
     local result = pageIndex * self.column
     if pageX < self.paddingLeft then
